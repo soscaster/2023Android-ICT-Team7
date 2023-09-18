@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <!-- Set the tab text appearance to control text size and case -->
+        <item name="tabTextAppearance">@style/CustomTabText</item>
+    </style>
+
+    <!-- Customize the appearance of the tab text -->
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <!-- Set the text size to a smaller value -->
+        <item name="android:textSize">14sp</item>
+        <!-- Turn off textAllCaps to prevent uppercase text -->
+        <item name="textAllCaps">false</item>
+    </style>
+
+</resources>
