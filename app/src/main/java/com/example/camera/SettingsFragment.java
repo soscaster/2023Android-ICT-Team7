@@ -23,6 +23,9 @@ public class SettingsFragment extends Fragment {
 
     private Spinner spinnerVideoQuality;
     private SeekBar seekBarAudio;
+    private SeekBar seekBarSensitivity;
+
+    private String SensivityText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,12 +34,27 @@ public class SettingsFragment extends Fragment {
         Switch switchMotionDetection = view.findViewById(R.id.switchMotionDetection);
         spinnerVideoQuality = view.findViewById(R.id.spinnerVideoQuality);
         seekBarAudio = view.findViewById(R.id.seekBarAudio);
-        Button btnAddCamera = view.findViewById(R.id.btnAddCamera);
+        seekBarSensitivity = view.findViewById(R.id.seekBarSensitivity);
+
+        SensivityText = getResources().getString(R.string.sensitivity);
+        TextView sensitivity = view.findViewById(R.id.SensitivityText);
+        sensitivity.setText(SensivityText);
+        sensitivity.setVisibility(View.GONE);
+        seekBarSensitivity.setVisibility(View.GONE);
 
         switchMotionDetection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 handleMotionDetectionSetting(isChecked);
+
+                // Show or hide sensitivity bar based on switch state
+                if (isChecked) {
+                    sensitivity.setVisibility(View.VISIBLE);
+                    seekBarSensitivity.setVisibility(View.VISIBLE);
+                } else {
+                    sensitivity.setVisibility(View.GONE);
+                    seekBarSensitivity.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -58,16 +76,9 @@ public class SettingsFragment extends Fragment {
                 // Do nothing
             }
         });
-
-        btnAddCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleAddCameraButtonClick();
-            }
-        });
-
         return view;
     }
+
 
     private void setupSpinner() {
         // Existing code for setting up the spinner
@@ -85,41 +96,4 @@ public class SettingsFragment extends Fragment {
         // Existing code for handling motion detection setting
     }
 
-    private void handleAddCameraButtonClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Add Camera");
-
-        // Inflate the layout for the dialog
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_camera, null);
-        builder.setView(dialogView);
-
-        final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
-        final TextView editTextIpAddress = dialogView.findViewById(R.id.editTextIpAddress);
-        final TextView editTextPort = dialogView.findViewById(R.id.editTextPort);
-
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String cameraName = editTextCameraName.getText().toString();
-                String ipAddress = editTextIpAddress.getText().toString();
-                String port = editTextPort.getText().toString();
-
-                // Handle saving camera or any desired action
-                Toast.makeText(requireContext(), "Camera added: " + cameraName + ", " + ipAddress + ", " + port, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.create().show();
-    }
 }
-
-
-

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,20 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import androidx.fragment.app.Fragment;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CamerasFragment extends Fragment {
-    private LinearLayout camerasContainer;
+    private CameraListManager cameraListManager;
     private boolean isFullscreen = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cameraListManager = new CameraListManager(requireContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,7 +39,9 @@ public class CamerasFragment extends Fragment {
 
         LinearLayout camerasContainer = view.findViewById(R.id.camerasContainer);
 
-        for (int i = 0; i < 4; i++) {
+        String[] cameraNames = cameraListManager.getCameraNamesArray();
+
+        for (int i = 0; i < cameraNames.length; i++) {
             // Create a new instance of camera_items.xml for each camera
             View cameraItemView = inflater.inflate(R.layout.camera_items, null);
 
@@ -41,7 +55,7 @@ public class CamerasFragment extends Fragment {
             int videoId = res.getIdentifier(videoName, "raw", getActivity().getPackageName());
 
             // Set camera name
-            cameraName.setText("Camera " + (i + 1));
+            cameraName.setText(cameraNames[i]);
 
             // Set video source and start playing (same video for all cameras)
             String videoPath = "android.resource://" + requireActivity().getPackageName() + "/" + videoId;
@@ -53,13 +67,13 @@ public class CamerasFragment extends Fragment {
             });
 
             // Add click behavior for each camera
-            final int cameraIndex = i+1; // Capture the current camera index for the click listener
+            final int cameraIndex = i; // Capture the current camera index for the click listener
             cameraItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
-                    cameraActivityIntent.putExtra("cameraIndex", "Camera " + cameraIndex);
-                    cameraActivityIntent.putExtra("videoIndex",  "sample"+(((cameraIndex -1)%2)+1));
+                    cameraActivityIntent.putExtra("cameraIndex", cameraNames[cameraIndex]);
+                    cameraActivityIntent.putExtra("videoIndex",  "sample"+((cameraIndex%2)+1));
                     startActivity(cameraActivityIntent);
                 }
             });

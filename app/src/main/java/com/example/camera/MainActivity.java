@@ -22,16 +22,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
+    private CameraListManager cameraListManager;
     private String [] titles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        cameraListManager = new CameraListManager(this);
 
         titles = getResources().getStringArray(R.array.tab_titles);
         PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void handleAddCameraButtonClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Camera");
@@ -77,8 +82,18 @@ public class MainActivity extends AppCompatActivity {
                 String ipAddress = editTextIpAddress.getText().toString();
                 String port = editTextPort.getText().toString();
 
+                // Get the existing camera names
+                Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
+
+                // Add the new camera name to the existing list
+                existingCameraNames.add(cameraName);
+
                 // Handle saving camera or any desired action
-                Toast.makeText(MainActivity.this, "Camera added: " + cameraName + ", " + ipAddress + ", " + port, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Camera added successfully", Toast.LENGTH_SHORT).show();
+                // Save the updated camera names list
+                cameraListManager.saveCameraNames(existingCameraNames);
+
+                recreate();
                 dialog.dismiss();
             }
         });
@@ -92,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
         builder.create().show();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_bar, menu);
+        getMenuInflater().inflate(R.menu.menu_bar1, menu);
         return true;
     }
     @Override

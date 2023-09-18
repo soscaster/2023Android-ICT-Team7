@@ -8,4 +8,6 @@
     </string-array>
     <string name="camera1">Camera1</string>
     <string name="addCamera">Add Camera</string>
+    <string name="deleteCamera">Delete Camera</string>
+    <string name="sensitivity">Sensitivity: </string>
 </resources>
