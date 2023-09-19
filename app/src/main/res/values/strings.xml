@@ -18,4 +18,6 @@
     <string name="OK_text">OK</string>
     <string name="cancel_text">Cancel</string>
     <string name="check_Internet">Please check the Internet connection!</string>
+    <string name="snapFailed">"Failed to save snapshot: "</string>
+    <string name="frameNo">No frame available to capture</string>
 </resources>

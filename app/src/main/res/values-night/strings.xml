@@ -3,4 +3,6 @@
     <string name="addSnapshot">Add Snapshot</string>
     <string name="savedToDir">"Snapshot saved to "</string>
     <string name="check_Internet">Please check the Internet connection!</string>
+    <string name="snapFailed">"Failed to save snapshot: "</string>
+    <string name="frameNo">No frame available to capture</string>
 </resources>
