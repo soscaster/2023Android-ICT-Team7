@@ -30,7 +30,7 @@ In order for the members not to create many structurally different pieces of cod
 |`BI12-257`|Ngô Thế Long|ICT|longnt.bi12-257@st.usth.edu.vn|
 |`BI12-286`|Nguyễn Nhật Minh|ICT|minhnn.bi12-286@st.usth.edu.vn|
 |`BI12-264`|Đặng Vũ Minh|ICT|minhdv.bi12-264@st.usth.edu.vn|
-|`BI12-044`|Nguyễn Vũ Bách|ICT|longnt.bi12-257@st.usth.edu.vn|
+|`BI12-044`|Nguyễn Vũ Bách|ICT|BachNV.BI12-044@st.usth.edu.vn|
 
 ## ©️ 2023 - BI12 - ICT Team 7.
 This project is licensed under the
