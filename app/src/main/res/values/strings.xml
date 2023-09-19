@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Security Camera</string>
+    <string name="app_name">Team 7 Security Camera</string>
     <string-array name="tab_titles">
         <item>Cameras</item>
         <item>Events</item>
@@ -10,4 +10,6 @@
     <string name="addCamera">Add Camera</string>
     <string name="deleteCamera">Delete Camera</string>
     <string name="sensitivity">Sensitivity: </string>
+    <string name="addSnapshot">Add Snapshot</string>
+    <string name="savedToDir">"Snapshot saved to "</string>
 </resources>

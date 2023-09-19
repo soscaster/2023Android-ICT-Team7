@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Camera"
+rootProject.name = "Team 7 Camera"
 include ':app'

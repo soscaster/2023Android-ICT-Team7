@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.camera'
+    namespace 'vn.usth.team7camera'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.camera"
+        applicationId "vn.usth.team7camera"
         minSdk 24
         targetSdk 33
         versionCode 1

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
+        android:name="vn.usth.team7camera"
+        android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -19,7 +19,7 @@
         android:theme="@style/Theme.Camera"
         tools:targetApi="31">
     <activity
-        android:name=".MainActivity"
+        android:name="vn.usth.team7camera.MainActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,8 @@
 
     </activity>
     <activity
-        android:name=".CameraActivity"
-        android:parentActivityName=".MainActivity"
+        android:name="vn.usth.team7camera.CameraActivity"
+        android:parentActivityName="vn.usth.team7camera.MainActivity"
         android:exported="true">
     </activity>
     </application>

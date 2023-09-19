@@ -7,7 +7,13 @@
         android:title="@string/deleteCamera"
         android:icon="@drawable/baseline_delete_24"
         app:showAsAction="always"
-
         />
+
+    <item
+        android:id="@+id/snapshot"
+        android:icon="@drawable/ic_snapshot"
+        android:title="@string/addSnapshot"
+        app:showAsAction="always"/>
+
 
 </menu>
