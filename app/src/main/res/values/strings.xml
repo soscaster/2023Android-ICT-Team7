@@ -12,4 +12,10 @@
     <string name="sensitivity">Sensitivity: </string>
     <string name="addSnapshot">Add Snapshot</string>
     <string name="savedToDir">"Snapshot saved to "</string>
+    <string name="granted_notice">Permission Granted for the app!</string>
+    <string name="ask_permission_text">Please allow me to read/write SAFE files to your external storage.</string>
+    <string name="ask_permission_title">Permission Required!</string>
+    <string name="OK_text">OK</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="check_Internet">Please check the Internet connection!</string>
 </resources>

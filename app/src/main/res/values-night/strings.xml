@@ -2,4 +2,5 @@
 <resources>
     <string name="addSnapshot">Add Snapshot</string>
     <string name="savedToDir">"Snapshot saved to "</string>
+    <string name="check_Internet">Please check the Internet connection!</string>
 </resources>

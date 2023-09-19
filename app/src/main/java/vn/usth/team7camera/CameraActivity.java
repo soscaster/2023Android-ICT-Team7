@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -70,7 +71,8 @@ public class CameraActivity extends AppCompatActivity {
             deleteCamera();
             return true;
         } else if (id == R.id.snapshot) {
-            captureSnapshot();
+//            captureSnapshot();
+            new CaptureSnapshotTask().execute();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,6 +118,15 @@ public class CameraActivity extends AppCompatActivity {
             Toast.makeText(this, "Camera '" + cameraName + "' not found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private class CaptureSnapshotTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            captureSnapshot();
+            return null;
+        }
+    }
+
     private void captureSnapshot() {
         // Get the current position of the video
         int currentPosition = videoView.getCurrentPosition();
@@ -130,13 +141,18 @@ public class CameraActivity extends AppCompatActivity {
         // Get the bitmap of the current frame
         Bitmap bitmap = retriever.getFrameAtTime(currentPosition * 1000, MediaMetadataRetriever.OPTION_CLOSEST); // timeUs is in microseconds
 
+        String toastMessage = "";
+
         // Check if the bitmap is not null
         if (bitmap != null) {
             // Create a file name based on the current time
             String fileName = "snapshot_" + System.currentTimeMillis() + ".jpg";
 
-            // Get the external storage directory
-            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
+            if (!storageDir.exists())
+            {
+                storageDir.mkdirs();
+            }
 
             // Create a file object for the snapshot
             File file = new File(storageDir, fileName);
@@ -148,15 +164,22 @@ public class CameraActivity extends AppCompatActivity {
                 out.close();
 
                 // Show a toast message to indicate success
-                Toast.makeText(this, getString(R.string.savedToDir) + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                toastMessage = getString(R.string.savedToDir) + file.getAbsolutePath();
             } catch (IOException e) {
                 // Show a toast message to indicate failure
                 Toast.makeText(this, "Failed to save snapshot: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
             // Show a toast message to indicate no frame available
-            Toast.makeText(this, "No frame available to capture", Toast.LENGTH_SHORT).show();
+            toastMessage = "No frame available to capture";
         }
+        final String finalToastMessage = toastMessage;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(CameraActivity.this, finalToastMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

@@ -1,7 +1,11 @@
 package vn.usth.team7camera;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,8 +14,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,38 +29,72 @@ import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final int PERMISSION_CODE = 100;
     private CameraListManager cameraListManager;
     private String [] titles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cameraListManager = new CameraListManager(this);
 
-        titles = getResources().getStringArray(R.array.tab_titles);
-        PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
-        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.setOffscreenPageLimit(1);
-        pager.setAdapter(adapter);
+        requestRuntimePermission();
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            cameraListManager = new CameraListManager(this);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(pager);
+            titles = getResources().getStringArray(R.array.tab_titles);
+            PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
+            ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+            pager.setOffscreenPageLimit(1);
+            pager.setAdapter(adapter);
 
-        int[] tabIcons = { R.drawable.baseline_videocam_24, R.drawable.baseline_event_24,
-                            R.drawable.baseline_image_24, R.drawable.baseline_settings_24 };
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            tabLayout.setupWithViewPager(pager);
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(R.layout.custom_tab);
-                ImageView tabIcon = tab.getCustomView().findViewById(R.id.tabIcon);
-                TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
+            int[] tabIcons = { R.drawable.baseline_videocam_24, R.drawable.baseline_event_24,
+                    R.drawable.baseline_image_24, R.drawable.baseline_settings_24 };
 
-                // Set icon and text for the tab
-                tabIcon.setImageResource(tabIcons[i]);
-                tabText.setText(titles[i]); // titles is an array of your tab text
+            for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                TabLayout.Tab tab = tabLayout.getTabAt(i);
+                if (tab != null) {
+                    tab.setCustomView(R.layout.custom_tab);
+                    ImageView tabIcon = tab.getCustomView().findViewById(R.id.tabIcon);
+                    TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
+
+                    // Set icon and text for the tab
+                    tabIcon.setImageResource(tabIcons[i]);
+                    tabText.setText(titles[i]); // titles is an array of your tab text
+                }
             }
+        } else {
+            TextView textView = new TextView(this);
+            textView.setText(R.string.check_Internet);
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            setContentView(textView);
+        }
+
+
+    }
+
+    private void requestRuntimePermission(){
+        if (ActivityCompat.checkSelfPermission(this, PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this, R.string.granted_notice, Toast.LENGTH_SHORT).show();
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_STORAGE)){
+            AlertDialog.Builder reqbuild = new AlertDialog.Builder(this);
+            reqbuild.setMessage(R.string.ask_permission_text)
+                    .setTitle(R.string.ask_permission_title)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.OK_text, (dialog, which) ->{
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{PERMISSION_STORAGE}, PERMISSION_CODE);
+                    })
+                    .setNegativeButton(R.string.cancel_text, ((dialog, which) -> dialog.dismiss()));
+            reqbuild.show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_STORAGE}, PERMISSION_CODE);
         }
     }
 
