@@ -29,6 +29,16 @@ public class CameraListManager {
         return cameraNames.toArray(new String[0]);
     }
 
+    public String[] getCameraIPsArray() {
+        Set<String> cameraIPs = getCameraIPs();
+        return cameraIPs.toArray(new String[0]);
+    }
+
+    public String[] getCameraPortsArray() {
+        Set<String> cameraPorts = getCameraPorts();
+        return cameraPorts.toArray(new String[0]);
+    }
+
     Set<String> getCameraNames() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return preferences.getStringSet(CAMERA_NAMES_KEY, new HashSet<>());
