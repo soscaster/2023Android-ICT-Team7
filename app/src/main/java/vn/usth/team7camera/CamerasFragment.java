@@ -38,6 +38,8 @@ public class CamerasFragment extends Fragment {
         LinearLayout camerasContainer = view.findViewById(R.id.camerasContainer);
 
         String[] cameraNames = cameraListManager.getCameraNamesArray();
+        String[] cameraIPs = cameraListManager.getCameraIPsArray();
+        String[] cameraPorts = cameraListManager.getCameraPortsArray();
 
         addCameraText1 = getResources().getString(R.string.addCameraText1);
         TextView addCamera1 = view.findViewById(R.id.noCamera1);
@@ -92,6 +94,8 @@ public class CamerasFragment extends Fragment {
                 public void onClick(View v) {
                     Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
                     cameraActivityIntent.putExtra("cameraIndex", cameraNames[cameraIndex]);
+                    cameraActivityIntent.putExtra("cameraIP", cameraIPs[cameraIndex]);
+                    cameraActivityIntent.putExtra("cameraPort", cameraPorts[cameraIndex]);
                     cameraActivityIntent.putExtra("videoIndex",  "sample"+((cameraIndex%2)+1));
                     startActivity(cameraActivityIntent);
                 }
