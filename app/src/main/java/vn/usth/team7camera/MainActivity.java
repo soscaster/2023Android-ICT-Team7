@@ -23,6 +23,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import vn.usth.team7camera.R;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashSet;
@@ -42,6 +44,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//
+//        TextView username =(TextView) findViewById(R.id.username);
+//        TextView password =(TextView) findViewById(R.id.password);
+//
+//        MaterialButton loginbtn = (MaterialButton) findViewById(R.id.loginbtn);
+//
+//        //admin and admin
+//
+//        loginbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+//                    //correct
+//                    Toast.makeText(MainActivity.this,"LOGIN SUCCESSFUL",Toast.LENGTH_SHORT).show();
+//                }else
+//                    //incorrect
+//                    Toast.makeText(MainActivity.this,"LOGIN FAILED !!!",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         requestRuntimePermission();
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
