@@ -35,6 +35,8 @@ public class SnapshotsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_snapshots, container, false);
         gridView = view.findViewById(R.id.gridView);
 
+        imagePaths.clear();
+
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
         // Check if directory exists and is not empty
         if (storageDir.exists() && storageDir.listFiles() != null && storageDir.listFiles().length > 0) {
@@ -82,6 +84,9 @@ public class SnapshotsFragment extends Fragment {
             }
             ImageView imageView = convertView.findViewById(R.id.imageView);
             Picasso.get().load("file://" + imagePaths.get(position)).into(imageView);
+            int numColumns = gridView.getNumColumns();
+            int itemHeight = gridView.getHeight() / numColumns / 2;
+            convertView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, itemHeight));
             return convertView;
         }
     }
