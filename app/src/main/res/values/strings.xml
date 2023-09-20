@@ -9,7 +9,7 @@
     <string name="camera1">Camera1</string>
     <string name="addCamera">Add Camera</string>
     <string name="addCameraText1">No camera found</string>
-    <string name="addCameraText2">Click on the top right icon to add camera</string>
+    <string name="addCameraText2">Tap on the top right icon to add camera</string>
     <string name="deleteCamera">Delete Camera</string>
     <string name="sensitivity">Sensitivity: </string>
     <string name="addSnapshot">Add Snapshot</string>
