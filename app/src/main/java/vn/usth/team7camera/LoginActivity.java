@@ -45,22 +45,19 @@ public class LoginActivity extends AppCompatActivity {
 
             //admin and admin
 
-            loginbtn.setOnClickListener(new View.OnClickListener( v-> {
-                Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(MainIntent);
+            loginbtn.setOnClickListener(new View.OnClickListener( )
+            {
+                @Override
+                public void onClick(View v) {
+                    if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+                        //correct
+                        Toast.makeText(LoginActivity.this,"LOGIN SUCCESSFUL",Toast.LENGTH_SHORT).show();
+
+                    }else
+                        //incorrect
+                        Toast.makeText(LoginActivity.this,"LOGIN FAILED !!!",Toast.LENGTH_SHORT).show();
+                }
             });
-//            {
-//                @Override
-//                public void onClick(View v) {
-//                    if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
-//                        //correct
-//                        Toast.makeText(LoginActivity.this,"LOGIN SUCCESSFUL",Toast.LENGTH_SHORT).show();
-//
-//                    }else
-//                        //incorrect
-//                        Toast.makeText(LoginActivity.this,"LOGIN FAILED !!!",Toast.LENGTH_SHORT).show();
-//                }
-//            });
         }
     }
 }
