@@ -18,6 +18,7 @@ import android.Manifest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,6 +32,8 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
     private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final int PERMISSION_CODE = 100;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+
     private CameraListManager cameraListManager;
     private String [] titles;
 
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         requestRuntimePermission();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
@@ -110,28 +117,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView editTextIpAddress = dialogView.findViewById(R.id.editTextIpAddress);
         final TextView editTextPort = dialogView.findViewById(R.id.editTextPort);
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String cameraName = editTextCameraName.getText().toString();
-                String ipAddress = editTextIpAddress.getText().toString();
-                String port = editTextPort.getText().toString();
-
-                // Get the existing camera names
-                Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
-
-                // Add the new camera name to the existing list
-                existingCameraNames.add(cameraName);
-
-                // Handle saving camera or any desired action
-                Toast.makeText(MainActivity.this, "Camera added successfully", Toast.LENGTH_SHORT).show();
-                // Save the updated camera names list
-                cameraListManager.saveCameraNames(existingCameraNames);
-
-                recreate();
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton("Save", null); // Set to null. We override the onclick
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -140,7 +126,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.create().show();
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cameraName = editTextCameraName.getText().toString();
+                String ipAddress = editTextIpAddress.getText().toString();
+                String port = editTextPort.getText().toString();
+
+                if (cameraName.isEmpty() || ipAddress.isEmpty() || port.isEmpty()) {
+                    Toast.makeText(MainActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Get the existing camera names, IPs and ports
+                Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
+                Set<String> existingCameraIPs = new HashSet<>(cameraListManager.getCameraIPs());
+                Set<String> existingCameraPorts = new HashSet<>(cameraListManager.getCameraPorts());
+
+                // Check if the new camera name already exists
+                if (existingCameraNames.contains(cameraName)) {
+                    Toast.makeText(MainActivity.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if a camera with the same IP already exists
+                if (existingCameraIPs.contains(ipAddress)) {
+                    // If a camera with the same IP exists, check if the port is also the same
+                    if (existingCameraPorts.contains(port)) {
+                        Toast.makeText(MainActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                // Add the new camera name, IP and port to the existing list
+                existingCameraNames.add(cameraName);
+                existingCameraIPs.add(ipAddress);
+                existingCameraPorts.add(port);
+
+                // Save the updated camera names, IPs and ports list
+                cameraListManager.saveCameraNames(existingCameraNames);
+                cameraListManager.saveCameraIPs(existingCameraIPs);
+                cameraListManager.saveCameraPorts(existingCameraPorts);
+                Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
+
+
+                recreate();
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override

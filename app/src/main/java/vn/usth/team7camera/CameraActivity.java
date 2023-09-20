@@ -128,6 +128,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void captureSnapshot() {
+        String cameraName = getIntent().getStringExtra("cameraIndex");
         // Get the current position of the video
         int currentPosition = videoView.getCurrentPosition();
 
@@ -146,7 +147,7 @@ public class CameraActivity extends AppCompatActivity {
         // Check if the bitmap is not null
         if (bitmap != null) {
             // Create a file name based on the current time
-            String fileName = "snapshot_" + System.currentTimeMillis() + ".jpg";
+            String fileName = "snapshot_" + cameraName + "_" + System.currentTimeMillis() + ".jpg";
 
             File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
             if (!storageDir.exists())
@@ -167,11 +168,11 @@ public class CameraActivity extends AppCompatActivity {
                 toastMessage = getString(R.string.savedToDir) + file.getAbsolutePath();
             } catch (IOException e) {
                 // Show a toast message to indicate failure
-                Toast.makeText(this, "Failed to save snapshot: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.snapFailed) + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
             // Show a toast message to indicate no frame available
-            toastMessage = "No frame available to capture";
+            toastMessage = getString(R.string.frameNo);
         }
         final String finalToastMessage = toastMessage;
         runOnUiThread(new Runnable() {

@@ -86,7 +86,20 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="color" value="ed1c24" />
+                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\baseline_camera_outdoor_24.xml" />
+                                                <entry key="scalingPercent" value="95" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="foregroundClipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="file:/D:/AndroidSDK/icons/material/materialicons/camera_outdoor/baseline_camera_outdoor_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -108,7 +121,9 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="000000" />
+                                                <entry key="color" value="ff595d" />
+                                                <entry key="fontFamily" value="SVN-Aguda" />
+                                                <entry key="text" value="ICT Team 7" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -119,12 +134,22 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="000000" />
+                                                <entry key="color" value="ff595d" />
+                                                <entry key="fontFamily" value="SVN-Aguda" />
+                                                <entry key="text" value="ICT Team 7" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="273896" />
+                                      <entry key="foregroundAssetType" value="TEXT" />
+                                      <entry key="outputName" value="ic_launcher2" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -295,17 +320,17 @@
                             </entry>
                           </map>
                         </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
-                          </map>
-                        </option>
                       </PersistentState>
                     </value>
                   </entry>
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>
