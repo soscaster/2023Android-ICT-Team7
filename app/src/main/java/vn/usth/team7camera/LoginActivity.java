@@ -21,6 +21,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+//        startActivity(MainIntent);
+
+
         SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
         if (pref.getBoolean(LOGIN_KEY,false)) {
             //has login
@@ -41,17 +45,22 @@ public class LoginActivity extends AppCompatActivity {
 
             //admin and admin
 
-            loginbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
-                        //correct
-                        Toast.makeText(LoginActivity.this,"LOGIN SUCCESSFUL",Toast.LENGTH_SHORT).show();
-                    }else
-                        //incorrect
-                        Toast.makeText(LoginActivity.this,"LOGIN FAILED !!!",Toast.LENGTH_SHORT).show();
-                }
+            loginbtn.setOnClickListener(new View.OnClickListener( v-> {
+                Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(MainIntent);
             });
+//            {
+//                @Override
+//                public void onClick(View v) {
+//                    if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+//                        //correct
+//                        Toast.makeText(LoginActivity.this,"LOGIN SUCCESSFUL",Toast.LENGTH_SHORT).show();
+//
+//                    }else
+//                        //incorrect
+//                        Toast.makeText(LoginActivity.this,"LOGIN FAILED !!!",Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
     }
 }
