@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="addCamera">Thêm Camera</string>
-    <string name="addCameraText1">Không tìm thấy camera</string>
+    <string name="addCameraText1">Không có camera</string>
     <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm camera</string>
     <string name="deleteCamera">Xoá Camera</string>
     <string name="sensitivity">Độ nhạy:</string>
     <string name="addSnapshot">Tạo Ảnh chụp</string>
-    <string name="savedToDir">Ảnh chụp đã lưu vào</string>
+    <string name="savedToDir">"Ảnh chụp đã lưu vào "</string>
     <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
     <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
     <string name="ask_permission_title">Cần được cấp quyền!</string>
@@ -24,4 +24,11 @@
     <string name="modifyCamera">Tuỳ chỉnh Camera</string>
     <string name="events">Sự kiện</string>
     <string name="snapshots">Ảnh chụp</string>
+    <string name="camera_name">Tên Camera</string>
+    <string name="address">Địa chỉ</string>
+    <string name="save_text">Lưu</string>
+    <string name="yes_text">Có</string>
+    <string name="delete_camera">Xoá Camera</string>
+    <string name="deleted_toast">\' đã được xoá</string>
+    <string name="not_found">\' không tìm thấy</string>
 </resources>

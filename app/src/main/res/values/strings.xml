@@ -24,4 +24,11 @@
     <string name="modifyCamera">Modify Camera</string>
     <string name="events">Events</string>
     <string name="snapshots">Snapshots</string>
+    <string name="camera_name">Camera Name</string>
+    <string name="address">Address</string>
+    <string name="save_text">Save</string>
+    <string name="yes_text">Yes</string>
+    <string name="delete_camera">Delete Camera</string>
+    <string name="deleted_toast">\' deleted</string>
+    <string name="not_found">\' not found</string>
 </resources>

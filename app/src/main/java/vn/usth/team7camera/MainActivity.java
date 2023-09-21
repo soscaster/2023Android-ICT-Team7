@@ -116,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
-        builder.setPositiveButton("Save", null); // Set to null. We override the onclick
+        builder.setPositiveButton(R.string.save_text, null); // Set to null. We override the onclick
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
