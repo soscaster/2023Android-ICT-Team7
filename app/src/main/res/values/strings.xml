@@ -24,7 +24,8 @@
     <string name="frameNo">No frame available to capture</string>
     <string name="antiEmpty">All fields must be filled</string>
     <string name="camNameExist">A camera with this name already exists</string>
-    <string name="camPortIPExist">A camera with this IP address and port number already exists</string>
+    <string name="camPortIPExist">A camera with this address already exists</string>
     <string name="camAdded">Camera added successfully</string>
     <string name="deleteCamConfirm">Are you sure you want to delete this camera?</string>
+    <string name="modifyCamera">Modify Camera</string>
 </resources>

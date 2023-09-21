@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\baseline_camera_alt_24.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/0t/jfth_hyj0qq3rbfjg97zy53m0000gn/T/baseline_create_24.xml" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/D:/AndroidSDK/icons/material/materialicons/camera_alt/baseline_camera_alt_24.xml" />
+                                                <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/create/baseline_create_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,7 +68,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_snapshot" />
+                                      <entry key="outputName" value="ic_modify" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
@@ -87,19 +87,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="ed1c24" />
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\baseline_camera_outdoor_24.xml" />
+                                                <entry key="imagePath" value="$USER_HOME$" />
                                                 <entry key="scalingPercent" value="95" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="foregroundClipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="file:/D:/AndroidSDK/icons/material/materialicons/camera_outdoor/baseline_camera_outdoor_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -122,7 +111,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="ff595d" />
-                                                <entry key="fontFamily" value="SVN-Aguda" />
                                                 <entry key="text" value="ICT Team 7" />
                                               </map>
                                             </option>
@@ -135,7 +123,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="ff595d" />
-                                                <entry key="fontFamily" value="SVN-Aguda" />
                                                 <entry key="text" value="ICT Team 7" />
                                               </map>
                                             </option>
@@ -166,7 +153,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/0t/jfth_hyj0qq3rbfjg97zy53m0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -210,7 +197,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/0t/jfth_hyj0qq3rbfjg97zy53m0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -274,7 +261,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\NGUYEN~1\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/0t/jfth_hyj0qq3rbfjg97zy53m0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -318,6 +305,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

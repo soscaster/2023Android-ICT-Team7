@@ -72,10 +72,14 @@ public class CameraActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.deleteCamera) {
+        if (id == R.id.modifyCamera) {
+            modifyCamera();
+            return true;
+        } else if (id == R.id.deleteCamera) {
             deleteCamera();
             return true;
-        } else if (id == R.id.snapshot) {
+        }
+        else if (id == R.id.snapshot) {
 //            captureSnapshot();
             new CaptureSnapshotTask().execute();
             return true;
@@ -121,24 +125,20 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cameraName = getIntent().getStringExtra("cameraIndex");
-                String cameraIP = getIntent().getStringExtra("cameraIP");
-                String cameraPort = getIntent().getStringExtra("cameraPort");
+                String cameraAddress = getIntent().getStringExtra("cameraLinks");
 
                 Set<String> cameraList = new HashSet<>(cameraListManager.getCameraNames());
-                Set<String> existingCameraIPs = new HashSet<>(cameraListManager.getCameraIPs());
-                Set<String> existingCameraPorts = new HashSet<>(cameraListManager.getCameraPorts());
+                Set<String> cameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
 
                 // Check if the camera name, IP, and port exist in the list
-                if (cameraList.contains(cameraName) && existingCameraIPs.contains(cameraIP) && existingCameraPorts.contains(cameraPort)) {
+                if (cameraList.contains(cameraName) && cameraLinks.contains(cameraAddress)) {
                     // Remove the camera from the list
                     cameraList.remove(cameraName);
-                    existingCameraIPs.remove(cameraIP);
-                    existingCameraPorts.remove(cameraPort);
+                    cameraLinks.remove(cameraAddress);
 
                     // Save the updated camera list
                     cameraListManager.saveCameraNames(cameraList);
-                    cameraListManager.saveCameraIPs(existingCameraIPs);
-                    cameraListManager.saveCameraPorts(existingCameraPorts);
+                    cameraListManager.saveCameraLinks(cameraLinks);
 
                     // Display a message indicating the camera was deleted
                     Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' deleted", Toast.LENGTH_SHORT).show();
@@ -154,9 +154,92 @@ public class CameraActivity extends AppCompatActivity {
                 recreate();
                 dialog.dismiss();
             }
-
         });
     }
+
+
+    private void modifyCamera() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Modify Camera");
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
+        builder.setView(dialogView);
+
+        final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
+        final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
+
+        builder.setPositiveButton("OK", null); // Set to null. We override the onclick
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cameraName = getIntent().getStringExtra("cameraIndex");
+                String cameraAddress = getIntent().getStringExtra("cameraLinks");
+
+                String cameraNewName = editTextCameraName.getText().toString();
+                String cameraNewAddress = editTextAddress.getText().toString();
+
+                Set<String> cameraList = new HashSet<>(cameraListManager.getCameraNames());
+                Set<String> cameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
+
+                if (cameraNewName.isEmpty() || cameraNewAddress.isEmpty()) {
+                    Toast.makeText(CameraActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if the camera name and address exist in the list
+                if (cameraList.contains(cameraName) && cameraLinks.contains(cameraAddress)) {
+                    if (cameraList.contains(cameraNewName)) {
+                        Toast.makeText(CameraActivity.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (cameraLinks.contains(cameraNewAddress)) {
+                        Toast.makeText(CameraActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else {
+                        // Temporary remove the camera from the list
+                        cameraList.remove(cameraName);
+                        cameraLinks.remove(cameraAddress);
+                        // Save the updated camera list
+                        cameraListManager.saveCameraNames(cameraList);
+                        cameraListManager.saveCameraLinks(cameraLinks);
+                        // Re-add the camera to the list
+                        cameraList.add(cameraNewName);
+                        cameraLinks.add(cameraNewAddress);
+
+                        // Save the updated camera list
+                        cameraListManager.saveCameraNames(cameraList);
+                        cameraListManager.saveCameraLinks(cameraLinks);
+
+                        // Display a message indicating the camera was deleted
+                        Toast.makeText(getApplicationContext(), "Changed information to camera '" + cameraNewName + "'.", Toast.LENGTH_SHORT).show();
+                        // Create an Intent to return to MainActivity
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    // If the camera name, IP, or port is not found in the list, show an error message
+                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' not found", Toast.LENGTH_SHORT).show();
+                }
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                finish();
+                startActivity(intent);
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+
 
     private class CaptureSnapshotTask extends AsyncTask<Void, Void, Void> {
         @Override

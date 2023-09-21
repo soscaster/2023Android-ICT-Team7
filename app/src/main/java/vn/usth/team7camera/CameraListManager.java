@@ -9,8 +9,7 @@ import java.util.Set;
 public class CameraListManager {
     private static final String PREFS_NAME = "CameraPrefs";
     private static final String CAMERA_NAMES_KEY = "cameraNames";
-    private static final String CAMERA_PORTS_KEY = "cameraPorts";
-    private static final String CAMERA_IPS_KEY = "cameraIPs";
+    private static final String CAMERA_LINKS_KEY = "cameraLinks";
 
     private final Context context;
 
@@ -29,14 +28,9 @@ public class CameraListManager {
         return cameraNames.toArray(new String[0]);
     }
 
-    public String[] getCameraIPsArray() {
-        Set<String> cameraIPs = getCameraIPs();
-        return cameraIPs.toArray(new String[0]);
-    }
-
-    public String[] getCameraPortsArray() {
-        Set<String> cameraPorts = getCameraPorts();
-        return cameraPorts.toArray(new String[0]);
+    public String[] getCameraLinksArray() {
+        Set<String> cameraLinks = getCameraLinks();
+        return cameraLinks.toArray(new String[0]);
     }
 
     Set<String> getCameraNames() {
@@ -51,27 +45,15 @@ public class CameraListManager {
         editor.apply();
     }
 
-    Set<String> getCameraPorts() {
+    Set<String> getCameraLinks() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return preferences.getStringSet(CAMERA_PORTS_KEY, new HashSet<>());
+        return preferences.getStringSet(CAMERA_LINKS_KEY, new HashSet<>());
     }
 
-    void saveCameraPorts(Set<String> cameraNames) {
+    void saveCameraLinks(Set<String> cameraNames) {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putStringSet(CAMERA_PORTS_KEY, cameraNames);
-        editor.apply();
-    }
-
-    Set<String> getCameraIPs() {
-        SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return preferences.getStringSet(CAMERA_IPS_KEY, new HashSet<>());
-    }
-
-    void saveCameraIPs(Set<String> cameraNames) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putStringSet(CAMERA_IPS_KEY, cameraNames);
+        editor.putStringSet(CAMERA_LINKS_KEY, cameraNames);
         editor.apply();
     }
 }
