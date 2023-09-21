@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="addCamera">Thêm Camera</string>
+    <string name="addCameraText1">Không tìm thấy camera</string>
+    <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm camera</string>
+    <string name="deleteCamera">Xoá Camera</string>
+    <string name="sensitivity">Độ nhạy:</string>
+    <string name="addSnapshot">Tạo Ảnh chụp</string>
+    <string name="savedToDir">Ảnh chụp đã lưu vào</string>
+    <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
+    <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
+    <string name="ask_permission_title">Cần được cấp quyền!</string>
+    <string name="cancel_text">Huỷ bỏ</string>
+    <string name="check_Internet">Xin hãy kiểm tra kết nối Internet!</string>
+    <string name="snapFailed">Lỗi tạo ảnh chụp:</string>
+    <string name="frameNo">Không thu được khung hình để chụp</string>
+    <string name="antiEmpty">Không được để trống các trường</string>
+    <string name="camNameExist">Một camera với tên này đã tồn tại</string>
+    <string name="camPortIPExist">Một camera với địa chỉ này đã tồn tại</string>
+    <string name="camAdded">Thêm camera thành công</string>
+    <string name="deleteCamConfirm">Bạn có chắc chắn xoá camera này không?</string>
+    <string name="modifyCamera">Tuỳ chỉnh Camera</string>
+</resources>

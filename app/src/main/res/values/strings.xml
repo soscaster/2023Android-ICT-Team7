@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Team 7 Security Camera</string>
+    <string name="app_name" translatable="false">Team 7 Security Camera</string>
     <string-array name="tab_titles">
         <item>Cameras</item>
         <item>Events</item>
         <item>Snapshots</item>
         <item>Settings</item>
     </string-array>
-    <string name="camera1">Camera1</string>
+    <string name="camera1" translatable="false">Camera1</string>
     <string name="addCamera">Add Camera</string>
     <string name="addCameraText1">No camera found</string>
     <string name="addCameraText2">Tap on the top right icon to add camera</string>
@@ -17,7 +17,7 @@
     <string name="granted_notice">Permission Granted for the app!</string>
     <string name="ask_permission_text">Please allow me to read/write SAFE files to your external storage.</string>
     <string name="ask_permission_title">Permission Required!</string>
-    <string name="OK_text">OK</string>
+    <string name="OK_text" translatable="false">OK</string>
     <string name="cancel_text">Cancel</string>
     <string name="check_Internet">Please check the Internet connection!</string>
     <string name="snapFailed">"Failed to save snapshot: "</string>
