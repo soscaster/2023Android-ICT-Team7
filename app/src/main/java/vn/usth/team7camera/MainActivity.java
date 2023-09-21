@@ -3,6 +3,8 @@ package vn.usth.team7camera;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,7 +46,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//
+
+        // Check if the app is running for the first time
+        SharedPreferences fRun = getPreferences(MODE_PRIVATE);
+        if (fRun.getBoolean("firstrun", true)) {
+            SharedPreferences.Editor editX = fRun.edit();
+            editX.putBoolean("firstrun", false);
+            editX.apply();
+
+            // Create an intent to start LoginActivity
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
+
+
+
+
+
 //        TextView username =(TextView) findViewById(R.id.username);
 //        TextView password =(TextView) findViewById(R.id.password);
 //
@@ -107,6 +125,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 123) {
+//            if (resultCode == LoginActivity.RESULT_OK) {
+//                String result = data.getStringExtra("result");
+//            }
+//            if (resultCode == LoginActivity.RESULT_CANCELED) {
+//                // Not logged in
+//            }
+//        }
+//    }
 
     private void requestRuntimePermission(){
         if (ActivityCompat.checkSelfPermission(this, PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED){
@@ -208,4 +239,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    }
+
+}
