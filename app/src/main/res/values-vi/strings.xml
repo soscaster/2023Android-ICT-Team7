@@ -10,6 +10,8 @@
     <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
     <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
     <string name="ask_permission_title">Cần được cấp quyền!</string>
+    <string name="app_name">Máy quay An ninh Nhóm 7</string>
+    <string name="camera1">- D.I.T M.E VU MINH -</string>
     <string name="cancel_text">Huỷ bỏ</string>
     <string name="check_Internet">Xin hãy kiểm tra kết nối Internet!</string>
     <string name="snapFailed">Lỗi tạo ảnh chụp:</string>
@@ -20,4 +22,6 @@
     <string name="camAdded">Thêm camera thành công</string>
     <string name="deleteCamConfirm">Bạn có chắc chắn xoá camera này không?</string>
     <string name="modifyCamera">Tuỳ chỉnh Camera</string>
+    <string name="events">Sự kiện</string>
+    <string name="snapshots">Ảnh chụp</string>
 </resources>

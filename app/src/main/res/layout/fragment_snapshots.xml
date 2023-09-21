@@ -9,7 +9,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Snapshots" />
+        android:text="@string/snapshots" />
     <!--<ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

@@ -5,4 +5,10 @@
         <item>Medium</item>
         <item>High</item>
     </string-array>
+    <string-array name="tab_titles">
+        <item>Cameras</item>
+        <item>Events</item>
+        <item>Snapshots</item>
+        <item>Settings</item>
+    </string-array>
 </resources>

@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleAddCameraButtonClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Camera");
+        builder.setTitle(R.string.addCamera);
 
         // Inflate the layout for the dialog
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);

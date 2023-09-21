@@ -160,7 +160,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void modifyCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Modify Camera");
+        builder.setTitle(R.string.modifyCamera);
 
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
         builder.setView(dialogView);
@@ -168,9 +168,9 @@ public class CameraActivity extends AppCompatActivity {
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
-        builder.setPositiveButton("OK", null); // Set to null. We override the onclick
+        builder.setPositiveButton(R.string.OK_text, null); // Set to null. We override the onclick
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
