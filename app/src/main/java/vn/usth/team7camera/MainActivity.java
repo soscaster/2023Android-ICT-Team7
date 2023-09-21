@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleAddCameraButtonClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.addCamera);
+        builder.setTitle(getResources().getString(R.string.addCamera));
 
         // Inflate the layout for the dialog
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
@@ -116,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
-        builder.setPositiveButton(R.string.save_text, null); // Set to null. We override the onclick
+        builder.setPositiveButton(getResources().getString(R.string.save), null); // Set to null. We override the onclick
 
-        builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

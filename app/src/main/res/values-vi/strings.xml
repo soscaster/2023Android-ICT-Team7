@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="addCamera">Thêm Camera</string>
-    <string name="addCameraText1">Không có camera</string>
-    <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm camera</string>
-    <string name="deleteCamera">Xoá Camera</string>
+    <string name="addCamera">Thêm máy quay</string>
+    <string name="addCameraText1">Không tìm thấy máy quay</string>
+    <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm máy quay</string>
+    <string name="deleteCamera">Xoá máy quay</string>
     <string name="sensitivity">Độ nhạy:</string>
     <string name="addSnapshot">Tạo Ảnh chụp</string>
-    <string name="savedToDir">"Ảnh chụp đã lưu vào "</string>
+    <string name="savedToDir">Ảnh chụp đã lưu vào</string>
     <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
     <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
     <string name="ask_permission_title">Cần được cấp quyền!</string>
-    <string name="app_name">Máy quay An ninh Nhóm 7</string>
-    <string name="camera1">- D.I.T M.E VU MINH -</string>
     <string name="cancel_text">Huỷ bỏ</string>
     <string name="check_Internet">Xin hãy kiểm tra kết nối Internet!</string>
     <string name="snapFailed">Lỗi tạo ảnh chụp:</string>
@@ -20,15 +18,15 @@
     <string name="camNameExist">Một camera với tên này đã tồn tại</string>
     <string name="camPortIPExist">Một camera với địa chỉ này đã tồn tại</string>
     <string name="camAdded">Thêm camera thành công</string>
-    <string name="deleteCamConfirm">Bạn có chắc chắn xoá camera này không?</string>
+    <string name="deleteCamConfirm">Bạn có chắc chắn xoá máy quay này không?</string>
     <string name="modifyCamera">Tuỳ chỉnh Camera</string>
-    <string name="events">Sự kiện</string>
-    <string name="snapshots">Ảnh chụp</string>
-    <string name="camera_name">Tên Camera</string>
+    <string name="videoQuality">Chất lượng khung hình: </string>
+    <string name="motionDetection">Phát hiện chuyển động: </string>
+    <string name="nightVision">Chế độ ban đêm: </string>
+    <string name="vol">Âm lượng: </string>
+    <string name="cameraName">Tên máy quay</string>
     <string name="address">Địa chỉ</string>
-    <string name="save_text">Lưu</string>
-    <string name="yes_text">Có</string>
-    <string name="delete_camera">Xoá Camera</string>
-    <string name="deleted_toast">\' đã được xoá</string>
-    <string name="not_found">\' không tìm thấy</string>
+    <string name="cancel">Hủy</string>
+    <string name="save">Lưu</string>
+    <string name="ok">Đồng ý</string>
 </resources>

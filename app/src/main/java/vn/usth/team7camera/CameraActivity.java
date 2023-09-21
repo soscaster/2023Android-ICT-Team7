@@ -21,6 +21,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import vn.usth.team7camera.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -103,13 +105,13 @@ public class CameraActivity extends AppCompatActivity {
     }
     private void deleteCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.delete_camera);
+        builder.setTitle(getResources().getString(R.string.deleteCamera));
 
         // Inflate the layout for the dialog
         builder.setMessage(R.string.deleteCamConfirm);
-        builder.setPositiveButton(R.string.yes_text, null); // Set to null. We override the onclick
+        builder.setPositiveButton(getResources().getString(R.string.ok), null); // Set to null. We override the onclick
 
-        builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -139,7 +141,7 @@ public class CameraActivity extends AppCompatActivity {
                     cameraListManager.saveCameraLinks(cameraLinks);
 
                     // Display a message indicating the camera was deleted
-                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + getString(R.string.deleted_toast), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' deleted", Toast.LENGTH_SHORT).show();
 
                     // Create an Intent to return to MainActivity
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -147,9 +149,8 @@ public class CameraActivity extends AppCompatActivity {
 
                 } else {
                     // If the camera name, IP, or port is not found in the list, show an error message
-                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + getString(R.string.not_found), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' not found", Toast.LENGTH_SHORT).show();
                 }
-                recreate();
                 dialog.dismiss();
             }
         });
@@ -158,7 +159,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void modifyCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.modifyCamera);
+        builder.setTitle(getResources().getString(R.string.modifyCamera));
 
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
         builder.setView(dialogView);
@@ -166,9 +167,9 @@ public class CameraActivity extends AppCompatActivity {
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
-        builder.setPositiveButton(R.string.OK_text, null); // Set to null. We override the onclick
+        builder.setPositiveButton(getResources().getString(R.string.save), null); // Set to null. We override the onclick
 
-        builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

@@ -9,7 +9,7 @@
         android:id="@+id/editTextCameraName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/camera_name" />
+        android:hint="@string/cameraName" />
 
     <EditText
         android:id="@+id/editTextAddress"
