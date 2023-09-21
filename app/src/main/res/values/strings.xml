@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name" translatable="false">Team 7 Security Camera</string>
-    <string name="camera1" translatable="false">Camera1</string>
+    <string name="app_name">Team 7 Security Camera</string>
+    <string name="camera">Camera</string>
     <string name="addCamera">Add Camera</string>
     <string name="addCameraText1">No camera found</string>
     <string name="addCameraText2">Tap on the top right icon to add camera</string>
     <string name="deleteCamera">Delete Camera</string>
-    <string name="sensitivity">Sensitivity: </string>
+    <string name="sensitivity">Sensitivity:</string>
     <string name="addSnapshot">Add Snapshot</string>
+    <string name="Snapshots">Snapshots</string>
     <string name="savedToDir">"Snapshot saved to "</string>
     <string name="granted_notice">Permission Granted for the app!</string>
     <string name="ask_permission_text">Please allow me to read/write SAFE files to your external storage.</string>
@@ -22,13 +23,17 @@
     <string name="camAdded">Camera added successfully</string>
     <string name="deleteCamConfirm">Are you sure you want to delete this camera?</string>
     <string name="modifyCamera">Modify Camera</string>
-    <string name="videoQuality">Video Quality: </string>
-    <string name="motionDetection">Motion Detection: </string>
-    <string name="nightVision">Night Vision: </string>
-    <string name="vol">Volume: </string>
+    <string name="videoQuality">"Video Quality: "</string>
+    <string name="motionDetection">"Motion Detection: "</string>
+    <string name="nightVision">"Night Vision: "</string>
+    <string name="vol">"Volume: "</string>
     <string name="cameraName">Camera Name</string>
     <string name="address">Address</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="ok">Yes</string>
+    <string name="notFound">not found</string>
+    <string name="changeCamInfo">"Changed information to camera "</string>
+    <string name="deleted">deleted</string>
+    <string name="events">Events</string>
 </resources>

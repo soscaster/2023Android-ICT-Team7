@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Máy quay An ninh Nhóm 7</string>
+    <string name="camera">Máy quay</string>
     <string name="addCamera">Thêm máy quay</string>
     <string name="addCameraText1">Không tìm thấy máy quay</string>
     <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm máy quay</string>
     <string name="deleteCamera">Xoá máy quay</string>
     <string name="sensitivity">Độ nhạy:</string>
     <string name="addSnapshot">Tạo Ảnh chụp</string>
-    <string name="savedToDir">Ảnh chụp đã lưu vào</string>
+    <string name="Snapshots">Ảnh chụp</string>
+    <string name="savedToDir">"Ảnh chụp đã lưu vào "</string>
     <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
     <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
     <string name="ask_permission_title">Cần được cấp quyền!</string>
@@ -20,13 +23,17 @@
     <string name="camAdded">Thêm camera thành công</string>
     <string name="deleteCamConfirm">Bạn có chắc chắn xoá máy quay này không?</string>
     <string name="modifyCamera">Tuỳ chỉnh Camera</string>
-    <string name="videoQuality">Chất lượng khung hình: </string>
-    <string name="motionDetection">Phát hiện chuyển động: </string>
-    <string name="nightVision">Chế độ ban đêm: </string>
-    <string name="vol">Âm lượng: </string>
+    <string name="videoQuality">"Chất lượng khung hình: "</string>
+    <string name="motionDetection">"Phát hiện chuyển động: "</string>
+    <string name="nightVision">"Chế độ ban đêm: "</string>
+    <string name="vol">"Âm lượng: "</string>
     <string name="cameraName">Tên máy quay</string>
     <string name="address">Địa chỉ</string>
     <string name="cancel">Hủy</string>
     <string name="save">Lưu</string>
     <string name="ok">Đồng ý</string>
+    <string name="notFound">không tìm thấy</string>
+    <string name="changeCamInfo">"Thay đổi thông tin máy quay "</string>
+    <string name="deleted">đã được xoá</string>
+    <string name="events">Sự kiện</string>
 </resources>
