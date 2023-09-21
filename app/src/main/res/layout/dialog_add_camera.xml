@@ -12,17 +12,10 @@
         android:hint="Camera Name" />
 
     <EditText
-        android:id="@+id/editTextIpAddress"
+        android:id="@+id/editTextAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:hint="IP Address" />
-
-    <EditText
-        android:id="@+id/editTextPort"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Port" />
+        android:hint="Address" />
 
 </LinearLayout>

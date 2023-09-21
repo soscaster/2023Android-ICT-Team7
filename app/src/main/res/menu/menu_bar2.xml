@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/modifyCamera"
+        android:title="@string/modifyCamera"
+        android:icon="@drawable/ic_modify"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/deleteCamera"
         android:title="@string/deleteCamera"
         android:icon="@drawable/baseline_delete_24"

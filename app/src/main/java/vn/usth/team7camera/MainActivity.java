@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
-        final TextView editTextIpAddress = dialogView.findViewById(R.id.editTextIpAddress);
-        final TextView editTextPort = dialogView.findViewById(R.id.editTextPort);
+        final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
         builder.setPositiveButton("Save", null); // Set to null. We override the onclick
 
@@ -154,18 +153,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cameraName = editTextCameraName.getText().toString();
-                String ipAddress = editTextIpAddress.getText().toString();
-                String port = editTextPort.getText().toString();
+                String camAddress = editTextAddress.getText().toString();
 
-                if (cameraName.isEmpty() || ipAddress.isEmpty() || port.isEmpty()) {
+                if (cameraName.isEmpty() || camAddress.isEmpty()) {
                     Toast.makeText(MainActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Get the existing camera names, IPs and ports
                 Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
-                Set<String> existingCameraIPs = new HashSet<>(cameraListManager.getCameraIPs());
-                Set<String> existingCameraPorts = new HashSet<>(cameraListManager.getCameraPorts());
+                Set<String> existingCameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
 
                 // Check if the new camera name already exists
                 if (existingCameraNames.contains(cameraName)) {
@@ -174,23 +171,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Check if a camera with the same IP already exists
-                if (existingCameraIPs.contains(ipAddress)) {
-                    // If a camera with the same IP exists, check if the port is also the same
-                    if (existingCameraPorts.contains(port)) {
-                        Toast.makeText(MainActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                if (existingCameraLinks.contains(camAddress)) {
+                    Toast.makeText(MainActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 // Add the new camera name, IP and port to the existing list
                 existingCameraNames.add(cameraName);
-                existingCameraIPs.add(ipAddress);
-                existingCameraPorts.add(port);
+                existingCameraLinks.add(camAddress);
 
                 // Save the updated camera names, IPs and ports list
                 cameraListManager.saveCameraNames(existingCameraNames);
-                cameraListManager.saveCameraIPs(existingCameraIPs);
-                cameraListManager.saveCameraPorts(existingCameraPorts);
+                cameraListManager.saveCameraLinks(existingCameraLinks);
                 Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
 
 
