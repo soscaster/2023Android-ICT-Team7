@@ -8,118 +8,42 @@
     android:padding="20dp"
     tools:context="vn.usth.team7camera.SettingsFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Video Quality: "
-            android:textSize="16sp" />
-
-        <Spinner
-            android:id="@+id/spinnerVideoQuality"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/video_quality_options" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-/>
-
-    <Switch
-        android:id="@+id/switchMotionDetection"
+    <!-- Add buttons for each section -->
+    <Button
+        android:id="@+id/buttonVideoQuality"
         android:layout_width="wrap_content"
-        android:layout_height="39dp"
-        android:text="Motion Detection: " />
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:text="Video Quality" />
 
-        <TextView
-            android:id="@+id/SensitivityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp" />
-
-        <SeekBar
-            android:id="@+id/seekBarSensitivity"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:max="100"
-            android:progress="50" />
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonMotionDetection"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:text="Motion Detection" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Audio: "
-            android:textSize="16sp" />
-
-        <SeekBar
-            android:id="@+id/seekBarAudio"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:max="100"
-            android:progress="50" />
-
-    </LinearLayout>
-
-    <Switch
-        android:id="@+id/switchNightVision"
-        android:layout_width="159dp"
-        android:layout_height="38dp"
-        android:text="Night Vision: " />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonAudio"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:text="Audio" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Language: "
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/buttonNightVision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Night Vision" />
 
-        <Spinner
-            android:id="@+id/spinnerLanguage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/languages" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-/>
+    <Button
+        android:id="@+id/buttonLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Language" />
 
     <Button
         android:id="@+id/buttonAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="About" />
+
 
 </LinearLayout>

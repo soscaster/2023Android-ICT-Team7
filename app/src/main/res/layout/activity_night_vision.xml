@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Include the necessary elements from fragment_settings.xml specific to night vision settings -->
+    <!-- Modify the IDs and attributes as needed -->
+
+    <Switch
+        android:id="@+id/switchNightVision"
+        android:layout_width="159dp"
+        android:layout_height="38dp"
+        android:text="Night Vision: " />
+
+    <!-- Rest of your layout for night vision settings -->
+
+</LinearLayout>

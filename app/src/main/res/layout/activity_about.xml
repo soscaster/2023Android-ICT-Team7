@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textProjectDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Project Description"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textProjectDescriptionContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This project is a GUI-friendly application that allows users to watch and manage security camera(s). The application is written in (Java or Kotlin) and using some libraries for media encode/decode."
+                android:textSize="16sp" />
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/textProjectStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Project Status"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp" />
+
+        <TextView
+            android:id="@+id/textProjectStatusContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We started this project from Sep 11, 2023 and have not yet finished. The project was initially planned to be finished in 2 weeks with basic GUI and functions. We're in the development stage, so lots of bugs will exist."
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
