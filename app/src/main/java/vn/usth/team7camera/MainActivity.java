@@ -35,7 +35,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -118,16 +120,11 @@ public class MainActivity extends AppCompatActivity {
     private void handleAddCameraButtonClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.addCamera));
-
-        // Inflate the layout for the dialog
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
         builder.setView(dialogView);
-
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
-
-        builder.setPositiveButton(getResources().getString(R.string.save), null); // Set to null. We override the onclick
-
+        builder.setPositiveButton(getResources().getString(R.string.save), null);
         builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -148,8 +145,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                // Check if the address is a valid http or https link
                 if (!camAddress.startsWith("http://") && !camAddress.startsWith("https://")) {
                     Toast.makeText(MainActivity.this, R.string.invalidLink, Toast.LENGTH_SHORT).show();
                     return;
@@ -157,29 +152,31 @@ public class MainActivity extends AppCompatActivity {
 
                 new NetworkOperation().execute(camAddress);
 
-                // Get the existing camera names, IPs and ports
-                Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
-                Set<String> existingCameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
+                List<String> existingCameraNames = new ArrayList<>(cameraListManager.getCameraNames());
+                List<String> existingCameraLinks = new ArrayList<>(cameraListManager.getCameraLinks());
 
-                // Check if the new camera name already exists
                 if (existingCameraNames.contains(cameraName)) {
                     Toast.makeText(MainActivity.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Check if a camera with the same IP already exists
                 if (existingCameraLinks.contains(camAddress)) {
                     Toast.makeText(MainActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Add the new camera name, IP and port to the existing list
-                existingCameraNames.add(cameraName);
-                existingCameraLinks.add(camAddress);
-
-                // Save the updated camera names, IPs and ports list
-                cameraListManager.saveCameraNames(existingCameraNames);
-                cameraListManager.saveCameraLinks(existingCameraLinks);
+                int index = existingCameraNames.indexOf(cameraName);
+                if (index != -1) {
+                    // The camera name exists, update it
+                    existingCameraNames.set(index, cameraName);
+                    existingCameraLinks.set(index, camAddress);
+                } else {
+                    // The camera name does not exist, add it
+                    existingCameraNames.add(cameraName);
+                    existingCameraLinks.add(camAddress);
+                }
+                cameraListManager.saveCameraNames(new HashSet<>(existingCameraNames));
+                cameraListManager.saveCameraLinks(new HashSet<>(existingCameraLinks));
                 Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
 
                 dialog.dismiss();

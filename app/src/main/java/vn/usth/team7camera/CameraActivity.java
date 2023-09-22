@@ -160,6 +160,7 @@ public class CameraActivity extends AppCompatActivity {
 
                     // Create an Intent to return to MainActivity
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    finish();
                     startActivity(intent);
                     recreate();
 
