@@ -20,6 +20,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -48,43 +50,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@UnstableApi public class CameraActivity extends AppCompatActivity {
+@UnstableApi
+public class CameraActivity extends AppCompatActivity {
     private CameraListManager cameraListManager;
     private ExoPlayer player;
     private PlayerView playerView;
-    private MediaMetadataRetriever retriever; // add this field
-    private String videoPath; // add this field
+    private String videoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_camera);
-//        cameraListManager = new CameraListManager(this);
-//        String cameraName = getIntent().getStringExtra("cameraIndex");
-//        String videoPath = getIntent().getStringExtra("videoPath");
-//        setTitle(cameraName);
-//        player = new ExoPlayer.Builder(getApplicationContext()).build();
-//        playerView = findViewById(R.id.videoLayout);
-//        playerView.setPlayer(player);
-//        player.setMediaItem(MediaItem.fromUri(videoPath));
-//        player.prepare();
-//        player.play();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         cameraListManager = new CameraListManager(this);
         String cameraName = getIntent().getStringExtra("cameraIndex");
-        videoPath = getIntent().getStringExtra("videoPath"); // assign this field
+        videoPath = getIntent().getStringExtra("videoPath");
         setTitle(cameraName);
         player = new ExoPlayer.Builder(getApplicationContext()).build();
-        playerView = findViewById(R.id.videoLayout);
+        playerView = (PlayerView) findViewById(R.id.videoLayout);
         playerView.setPlayer(player);
         playerView.setControllerShowTimeoutMs(1000);
         player.setMediaItem(MediaItem.fromUri(videoPath));
         player.prepare();
         player.play();
-        retriever = new MediaMetadataRetriever(); // initialize this field
-        retriever.setDataSource(videoPath); // set the data source for the retriever
     }
 
     @Override
@@ -92,6 +79,7 @@ import java.util.Set;
         getMenuInflater().inflate(R.menu.menu_bar2, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -102,14 +90,13 @@ import java.util.Set;
         } else if (id == R.id.deleteCamera) {
             deleteCamera();
             return true;
-        }
-        else if (id == R.id.snapshot) {
-//            captureSnapshot();
+        } else if (id == R.id.snapshot) {
             new CaptureSnapshotTask().execute();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -174,10 +161,11 @@ import java.util.Set;
                     // Create an Intent to return to MainActivity
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
+                    recreate();
 
                 } else {
                     // If the camera name, IP, or port is not found in the list, show an error message
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera) +" '" + cameraName + "' " + getResources().getString(R.string.notFound), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera) + " '" + cameraName + "' " + getResources().getString(R.string.notFound), Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
@@ -267,10 +255,14 @@ import java.util.Set;
         }
     }
 
-    private Bitmap getBitmapFromPlayer(ExoPlayer player) {
-        long position = player.getCurrentPosition(); // get the current position of the player in microseconds
-        Bitmap bitmap = retriever.getFrameAtTime(position); // get the bitmap at that position from the retriever
-        return bitmap;
+    public Bitmap captureBitmap() {
+        View view = playerView.getVideoSurfaceView();
+        if (view instanceof TextureView) {
+            TextureView textureView = (TextureView) view;
+            return textureView.getBitmap();
+        } else {
+            return null;
+        }
     }
 
     private void captureSnapshot() {
@@ -278,7 +270,16 @@ import java.util.Set;
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Bitmap bitmap = getBitmapFromPlayer(player); // use this method instead of getBitmapFromView
+                Bitmap bitmap = captureBitmap();
+                if (bitmap == null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CameraActivity.this, "Failed to capture bitmap", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 String cameraName = getIntent().getStringExtra("cameraIndex");
                 String fileName = "snapshot_" + cameraName + "_" + System.currentTimeMillis() + ".jpg";
                 File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
@@ -312,5 +313,6 @@ import java.util.Set;
             }
         });
     }
+
 }
 

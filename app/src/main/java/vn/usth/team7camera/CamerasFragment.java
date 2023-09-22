@@ -138,10 +138,8 @@ public class CamerasFragment extends Fragment {
             for (ExoPlayer player : exoPlayers) {
                 if (player != null) {
                     player.stop();
-                    player.release();
                 }
             }
-            exoPlayers.clear();
         }
     }
 
@@ -156,20 +154,4 @@ public class CamerasFragment extends Fragment {
             }
         }
     }
-
-
-//    private void toggleFullscreen() {
-//        if (isFullscreen) {
-//            // Exit fullscreen
-//            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            functionButton.setVisibility(View.VISIBLE);
-//            isFullscreen = false;
-//        } else {
-//            // Enter fullscreen
-//            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//            functionButton.setVisibility(View.INVISIBLE);
-//            isFullscreen = true;
-//        }
-//    }
-//
 }
