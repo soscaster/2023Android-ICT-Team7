@@ -18,24 +18,17 @@ import android.widget.VideoView;
 
 import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
-//import androidx.media3.common.MediaItem;
-//import androidx.media3.common.Player;
-//import androidx.media3.common.util.UnstableApi;
-//import androidx.media3.datasource.DataSource;
-//import androidx.media3.datasource.DefaultHttpDataSource;
-//import androidx.media3.exoplayer.ExoPlayer;
-//import androidx.media3.exoplayer.SimpleExoPlayer;
-//import androidx.media3.exoplayer.hls.HlsMediaSource;
-//import androidx.media3.exoplayer.source.MediaSource;
-//import androidx.media3.ui.PlayerView;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 
 import vn.usth.team7camera.R;
 
 import org.jetbrains.annotations.Nullable;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.VLCVideoLayout;
+//import org.videolan.libvlc.LibVLC;
+//import org.videolan.libvlc.Media;
+//import org.videolan.libvlc.MediaPlayer;
+//import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +38,10 @@ public class CamerasFragment extends Fragment {
     private boolean isFullscreen = false;
     private String addCameraText1;
     private String addCameraText2;
-    private MediaPlayer mediaPlayer;
-    private LibVLC libVLC;
-    private List<MediaPlayer> mediaPlayers;
-    private List<LibVLC> libVLCs;
+    private ExoPlayer player;
+    private PlayerView playerView;
+    private List<ExoPlayer> exoPlayers;
+
 
     public CamerasFragment() {
     }
@@ -90,9 +83,8 @@ public class CamerasFragment extends Fragment {
             noCameraIcon.setVisibility(View.INVISIBLE);
         }
 
-        // Create lists to store all MediaPlayer and LibVLC instances
-        mediaPlayers = new ArrayList<>();
-        libVLCs = new ArrayList<>();
+        // Create a list to store all ExoPlayer instances
+        exoPlayers = new ArrayList<>();
 
         for (int i = 0; i < cameraNames.length; i++) {
             View cameraItemView = inflater.inflate(R.layout.camera_items, null);
@@ -101,23 +93,16 @@ public class CamerasFragment extends Fragment {
             final String videoPath = cameraLinks[i];
             cameraName.setText(cameraNames[i]);
 
-            ArrayList<String> options = new ArrayList<>();
-            options.add("-vvv");
-            final LibVLC libVLC = new LibVLC(requireContext(), options);
-            final MediaPlayer mediaPlayer = new MediaPlayer(libVLC);
+            player = new ExoPlayer.Builder(requireContext()).build();
+            playerView = cameraItemView.findViewById(R.id.videoLayout);
+            playerView.setPlayer(player);
+            player.setMediaItem(MediaItem.fromUri(videoPath));
+            player.setVolume(0);
+            player.prepare();
+            player.play();
 
-            // Add the instances to the lists
-            libVLCs.add(libVLC);
-            mediaPlayers.add(mediaPlayer);
-
-            Media media = new Media(libVLC, Uri.parse(videoPath));
-            mediaPlayer.setMedia(media);
-
-            VLCVideoLayout videoLayout = cameraItemView.findViewById(R.id.videoLayout);
-            mediaPlayer.attachViews(videoLayout, null, true, true);
-
-            mediaPlayer.play();
-            mediaPlayer.setVolume(0);
+            // Add the instance to the list
+            exoPlayers.add(player);
 
             final int cameraIndex = i;
             cameraItemView.setOnClickListener(new View.OnClickListener() {
@@ -137,10 +122,10 @@ public class CamerasFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (mediaPlayers != null) {
-            for (MediaPlayer mp : mediaPlayers) {
-                if (mp != null && mp.isPlaying()) {
-                    mp.stop();
+        if (exoPlayers != null) {
+            for (ExoPlayer player : exoPlayers) {
+                if (player != null && player.isPlaying()) {
+                    player.stop();
                 }
             }
         }
@@ -149,36 +134,29 @@ public class CamerasFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mediaPlayers != null) {
-            for (MediaPlayer mp : mediaPlayers) {
-                if (mp != null) {
-                    mp.stop();
-                    mp.release();
+        if (exoPlayers != null) {
+            for (ExoPlayer player : exoPlayers) {
+                if (player != null) {
+                    player.stop();
+                    player.release();
                 }
             }
-            mediaPlayers.clear();
-        }
-        if (libVLCs != null) {
-            for (LibVLC lv : libVLCs) {
-                if (lv != null) {
-                    lv.release();
-                }
-            }
-            libVLCs.clear();
+            exoPlayers.clear();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mediaPlayers != null) {
-            for (MediaPlayer mp : mediaPlayers) {
-                if (mp != null && !mp.isPlaying()) {
-                    mp.play();
+        if (exoPlayers != null) {
+            for (ExoPlayer player : exoPlayers) {
+                if (player != null && !player.isPlaying()) {
+                    player.play();
                 }
             }
         }
     }
+
 
 //    private void toggleFullscreen() {
 //        if (isFullscreen) {

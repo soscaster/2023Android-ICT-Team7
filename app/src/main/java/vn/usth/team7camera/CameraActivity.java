@@ -33,10 +33,10 @@ import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerControlView;
 import androidx.media3.ui.PlayerView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.VLCVideoLayout;
+//import org.videolan.libvlc.LibVLC;
+//import org.videolan.libvlc.Media;
+//import org.videolan.libvlc.MediaPlayer;
+//import org.videolan.libvlc.util.VLCVideoLayout;
 import vn.usth.team7camera.R;
 
 import java.io.File;
