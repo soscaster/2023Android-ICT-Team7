@@ -8,42 +8,156 @@
     android:padding="20dp"
     tools:context="vn.usth.team7camera.SettingsFragment">
 
-    <!-- Add buttons for each section -->
-    <Button
+    <!-- Button for Video Quality -->
+    <RelativeLayout
         android:id="@+id/buttonVideoQuality"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Video Quality" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video Quality"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <!-- Button for Motion Detection -->
+    <RelativeLayout
         android:id="@+id/buttonMotionDetection"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Motion Detection" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Motion Detection"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <!-- Repeat the above RelativeLayout for each button -->
+
+    <!-- Button for Audio -->
+    <RelativeLayout
         android:id="@+id/buttonAudio"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Audio" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Audio"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <!-- Button for Night Vision -->
+    <RelativeLayout
         android:id="@+id/buttonNightVision"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Night Vision" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Night Vision"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <!-- Button for Language -->
+    <RelativeLayout
         android:id="@+id/buttonLanguage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Language" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <!-- Button for About -->
+    <RelativeLayout
         android:id="@+id/buttonAbout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About" />
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
+    </RelativeLayout>
 
 </LinearLayout>

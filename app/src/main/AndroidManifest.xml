@@ -24,23 +24,70 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- LoginActivity -->
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity">
-
         </activity>
+
+        <!-- CameraActivity -->
         <activity
             android:name=".CameraActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- Add the following for each activity -->
+        <!-- VideoQualityActivity -->
+        <activity
+            android:name=".VideoQualityActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- MotionDetectionActivity -->
+        <activity
+            android:name=".MotionDetectionActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- AudioActivity -->
+        <activity
+            android:name=".AudioActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- NightVisionActivity -->
+        <activity
+            android:name=".NightVisionActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- LanguageActivity -->
+        <activity
+            android:name=".LanguageActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <!-- AboutActivity -->
+        <activity
+            android:name=".AboutActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
