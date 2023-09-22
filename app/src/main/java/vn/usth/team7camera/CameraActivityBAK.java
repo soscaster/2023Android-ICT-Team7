@@ -21,16 +21,13 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import vn.usth.team7camera.R;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivityBAK extends AppCompatActivity {
     private int videoId;
     private CameraListManager cameraListManager;
     private VideoView videoView;
@@ -40,17 +37,29 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         videoView = findViewById(R.id.videoView);
         cameraListManager = new CameraListManager(this);
+
         String cameraName = getIntent().getStringExtra("cameraIndex");
-        String videoPath = getIntent().getStringExtra("videoPath");
+        String videoName = getIntent().getStringExtra("videoIndex");
+
+        //Set video base on id instead of R.raw.FILE_NAME
+        Resources res = this.getResources();
+        videoId = res.getIdentifier(videoName, "raw", this.getPackageName());
+
         setTitle(cameraName);
+
+        String videoPath = "android.resource://" + this.getPackageName() + "/" + videoId;
+
+        // Set a MediaController for video playback control
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-        videoView.setVideoURI(Uri.parse(videoPath));
+
+        videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(mp -> {
-            mp.setLooping(false);
+            mp.setLooping(true);
             mp.start();
         });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -181,17 +190,17 @@ public class CameraActivity extends AppCompatActivity {
                 Set<String> cameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
 
                 if (cameraNewName.isEmpty() || cameraNewAddress.isEmpty()) {
-                    Toast.makeText(CameraActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivityBAK.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Check if the camera name and address exist in the list
                 if (cameraList.contains(cameraName) && cameraLinks.contains(cameraAddress)) {
                     if (cameraList.contains(cameraNewName)) {
-                        Toast.makeText(CameraActivity.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraActivityBAK.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
                         return;
                     } else if (cameraLinks.contains(cameraNewAddress)) {
-                        Toast.makeText(CameraActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraActivityBAK.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     else {
@@ -246,9 +255,9 @@ public class CameraActivity extends AppCompatActivity {
         // Create a MediaMetadataRetriever
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
-        // Set the data source to the live link
-        String videoPath = getIntent().getStringExtra("videoPath");
-        retriever.setDataSource(videoPath, new HashMap<String, String>());
+        // Set the data source to the video path
+        String videoPath = "android.resource://" + this.getPackageName() + "/" + videoId;
+        retriever.setDataSource(this, Uri.parse(videoPath));
 
         // Get the bitmap of the current frame
         Bitmap bitmap = retriever.getFrameAtTime(currentPosition * 1000, MediaMetadataRetriever.OPTION_CLOSEST); // timeUs is in microseconds
@@ -289,7 +298,7 @@ public class CameraActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(CameraActivity.this, finalToastMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CameraActivityBAK.this, finalToastMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

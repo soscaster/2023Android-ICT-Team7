@@ -28,7 +28,7 @@
     <string name="nightVision">"Chế độ ban đêm: "</string>
     <string name="vol">"Âm lượng: "</string>
     <string name="cameraName">Tên máy quay</string>
-    <string name="address">Địa chỉ</string>
+    <string name="address">Địa chỉ (chỉ hỗ trợ http hoặc https)</string>
     <string name="cancel">Hủy</string>
     <string name="save">Lưu</string>
     <string name="ok">Đồng ý</string>
@@ -36,4 +36,6 @@
     <string name="changeCamInfo">"Thay đổi thông tin máy quay "</string>
     <string name="deleted">đã được xoá</string>
     <string name="events">Sự kiện</string>
+    <string name="unreachableLink">Không thể thiết lập kết nối tới địa chỉ này. Vui lòng kiểm tra lại!</string>
+    <string name="invalidLink">Địa chỉ này không hợp lệ. Vui lòng kiểm tra lại!</string>
 </resources>

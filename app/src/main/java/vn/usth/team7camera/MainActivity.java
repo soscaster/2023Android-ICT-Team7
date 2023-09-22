@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +30,11 @@ import androidx.viewpager.widget.ViewPager;
 import vn.usth.team7camera.R;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -139,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Check if the address is a valid http or https link
+                if (!camAddress.startsWith("http://") && !camAddress.startsWith("https://")) {
+                    Toast.makeText(MainActivity.this, R.string.invalidLink, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                new NetworkOperation().execute(camAddress);
+
                 // Get the existing camera names, IPs and ports
                 Set<String> existingCameraNames = new HashSet<>(cameraListManager.getCameraNames());
                 Set<String> existingCameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
@@ -169,6 +187,27 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    private class NetworkOperation extends AsyncTask<String, Void, Integer> {
+        protected Integer doInBackground(String... urls) {
+            int responseCode = 0;
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("HEAD");
+                responseCode = connection.getResponseCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return responseCode;
+        }
+
+        protected void onPostExecute(Integer result) {
+            if (result != HttpURLConnection.HTTP_OK) {
+                Toast.makeText(MainActivity.this, R.string.unreachableLink, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

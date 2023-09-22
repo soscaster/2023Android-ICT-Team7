@@ -28,7 +28,7 @@
     <string name="nightVision">"Night Vision: "</string>
     <string name="vol">"Volume: "</string>
     <string name="cameraName">Camera Name</string>
-    <string name="address">Address</string>
+    <string name="address">Address (http or https only)</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="ok">Yes</string>
@@ -36,4 +36,6 @@
     <string name="changeCamInfo">"Changed information to camera "</string>
     <string name="deleted">deleted</string>
     <string name="events">Events</string>
+    <string name="unreachableLink">This address is unreachable. Please re-check!</string>
+    <string name="invalidLink">This address is invalid. Please re-check!</string>
 </resources>
