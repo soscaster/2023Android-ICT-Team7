@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CameraActivity extends AppCompatActivity {
@@ -207,8 +208,8 @@ public class CameraActivity extends AppCompatActivity {
                 String cameraNewName = editTextCameraName.getText().toString();
                 String cameraNewAddress = editTextAddress.getText().toString();
 
-                Set<String> cameraList = new HashSet<>(cameraListManager.getCameraNames());
-                Set<String> cameraLinks = new HashSet<>(cameraListManager.getCameraLinks());
+                List<String> cameraList = new ArrayList<>(cameraListManager.getCameraNames());
+                List<String> cameraLinks = new ArrayList<>(cameraListManager.getCameraLinks());
 
                 if (cameraNewName.isEmpty() || cameraNewAddress.isEmpty()) {
                     Toast.makeText(CameraActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
@@ -226,21 +227,27 @@ public class CameraActivity extends AppCompatActivity {
                     Toast.makeText(CameraActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    // Temporary remove the camera from the list
-                    cameraList.remove(cameraName);
-                    cameraLinks.remove(cameraAddress);
+//                    // Temporary remove the camera from the list
+//                    cameraList.remove(cameraName);
+//                    cameraLinks.remove(cameraAddress);
+//
+//                    // Save the updated camera list
+//                    cameraListManager.saveCameraNames(cameraList);
+//                    cameraListManager.saveCameraLinks(cameraLinks);
+//
+//                    // Re-add the camera to the list
+//                    cameraList.add(cameraNewName);
+//                    cameraLinks.add(cameraNewAddress);
+//
+//                    // Save the updated camera list
+//                    cameraListManager.saveCameraNames(cameraList);
+//                    cameraListManager.saveCameraLinks(cameraLinks);
 
-                    // Save the updated camera list
-                    cameraListManager.saveCameraNames(cameraList);
-                    cameraListManager.saveCameraLinks(cameraLinks);
-
-                    // Re-add the camera to the list
-                    cameraList.add(cameraNewName);
-                    cameraLinks.add(cameraNewAddress);
-
-                    // Save the updated camera list
-                    cameraListManager.saveCameraNames(cameraList);
-                    cameraListManager.saveCameraLinks(cameraLinks);
+                    int index = cameraList.indexOf(cameraName);
+                    cameraList.set(index, cameraNewName);
+                    cameraLinks.set(index, cameraNewAddress);
+                    cameraListManager.saveCameraNames(new HashSet<>(cameraList));
+                    cameraListManager.saveCameraLinks(new HashSet<>(cameraLinks));
 
                     // Display a message indicating the camera was deleted
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.changeCamInfo) + cameraNewName + "'.", Toast.LENGTH_SHORT).show();

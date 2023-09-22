@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 cameraListManager.saveCameraLinks(existingCameraLinks);
                 Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
 
-
                 recreate();
                 dialog.dismiss();
             }
