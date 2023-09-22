@@ -5,10 +5,23 @@
         <item>Medium</item>
         <item>High</item>
     </string-array>
+    <string-array name="video_quality_values">
+        <item>low</item>
+        <item>medium</item>
+        <item>high</item>
+    </string-array>
     <string-array name="tab_titles">
         <item>Cameras</item>
         <item>Events</item>
         <item>Snapshots</item>
         <item>Settings</item>
+    </string-array>
+    <string-array name="languages" translatable="false">
+        <item>English</item>
+        <item>Tiếng Việt</item>
+    </string-array>
+    <string-array name="language_values" translatable="false">
+        <item>en</item>
+        <item>vi</item>
     </string-array>
 </resources>

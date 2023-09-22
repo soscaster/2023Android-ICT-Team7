@@ -36,6 +36,23 @@
     <string name="changeCamInfo">"Thay đổi thông tin máy quay "</string>
     <string name="deleted">đã được xoá</string>
     <string name="events">Sự kiện</string>
-    <string name="unreachableLink">Không thể thiết lập kết nối tới địa chỉ này. Vui lòng kiểm tra lại!</string>
-    <string name="invalidLink">Địa chỉ này không hợp lệ. Vui lòng kiểm tra lại!</string>
+    <string name="languages">"Ngôn ngữ: "</string>
+    <string name="about">Thông tin</string>
+    <string name="app_language_summary">Chọn ngôn ngữ cho ứng dụng</string>
+    <string name="language_settings">Cài đặt ngôn ngữ</string>
+    <string name="audio_settings">Cài đặt âm thanh</string>
+    <string name="audio_volume">Âm lượng</string>
+    <string name="audio_volume_summary">Điều chỉnh âm lượng</string>
+    <string name="night_vision">Chế độ ban đêm</string>
+    <string name="night_vision_summary">Bật hoặc tắt chế độ ban đêm</string>
+    <string name="general_settings">Cài đặt chung</string>
+    <string name="motion_detection_summary">Bật hoặc tắt phát hiện chuyển động</string>
+    <string name="languages2">Ngôn ngữ</string>
+    <string name="video_quality">Chất lượng khung hình</string>
+    <string name="video_quality_summary">Chọn chất lượng khung hình</string>
+    <string name="about_summary">Thông tin về chúng tôi</string>
+    <string name="invalidLink">Địa chỉ không hợp lệ. Hãy kiểm tra lại!</string>
+    <string name="unreachableLink">Không thể kết nối tới địa chỉ này! Hãy kiểm tra lại!</string>
+
+
 </resources>

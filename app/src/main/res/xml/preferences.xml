@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/general_settings"
+        android:key="general_settings">
+
+        <!-- Switch preference for motion detection -->
+        <SwitchPreferenceCompat
+            android:key="pref_motion_detection"
+            android:title="@string/motionDetection"
+            android:summary="@string/motion_detection_summary"
+            android:defaultValue="true" />
+
+        <!-- List preference for video quality -->
+        <ListPreference
+            android:key="pref_video_quality"
+            android:title="@string/video_quality"
+            android:summary="@string/video_quality_summary"
+            android:entries="@array/video_quality_options"
+            android:entryValues="@array/video_quality_values"
+            android:defaultValue="high" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/audio_settings"
+        android:key="audio_settings">
+
+        <!-- SeekBar preference for audio volume -->
+        <SeekBarPreference
+            android:key="pref_audio_volume"
+            android:title="@string/audio_volume"
+            android:summary="@string/audio_volume_summary"
+            android:max="100"
+            android:defaultValue="50" />
+
+        <!-- Switch preference for night vision -->
+        <SwitchPreferenceCompat
+            android:key="pref_night_vision"
+            android:title="@string/night_vision"
+            android:summary="@string/night_vision_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/language_settings"
+        android:key="language_settings">
+
+        <!-- List preference for app language -->
+        <ListPreference
+            android:key="pref_app_language"
+            android:title="@string/languages2"
+            android:summary="@string/app_language_summary"
+            android:entries="@array/languages"
+            android:entryValues="@array/language_values"
+            android:defaultValue="en" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/about"
+        android:key="about_section">
+
+        <!-- Clickable Preference for About -->
+        <Preference
+            android:key="pref_about"
+            android:title="@string/about"
+            android:summary="@string/about_summary" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
