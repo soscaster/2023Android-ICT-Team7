@@ -2,11 +2,16 @@ package vn.usth.team7camera;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +31,7 @@ import vn.usth.team7camera.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -41,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Retrieve the saved language preference
+        String selectedLanguage = getSavedLanguagePreference();
+
+        String title = getResources().getString(R.string.app_name);
+        setTitle(title);
+        // Set the locale based on the saved language preference
+        if (TextUtils.isEmpty(selectedLanguage)) {
+            selectedLanguage = getCurrentLanguage();
+        }
+        setLocale(selectedLanguage);
+
         setContentView(R.layout.activity_main);
 
         requestRuntimePermission();
@@ -186,5 +203,44 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Save last language configuration
+    private String getSavedLanguagePreference() {
+        SharedPreferences sharedPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
+        Log.d("language", getSystemLanguage());
+        return sharedPreferences.getString("selectedLanguage", getSystemLanguage());
+    }
+    public void saveLanguagePreference(String languageCode) {
+        SharedPreferences sharedPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("selectedLanguage", languageCode);
+        editor.apply();
+    }
+    private String getCurrentLanguage() {
+        Configuration configuration = getResources().getConfiguration();
+        return configuration.locale.getLanguage();
+    }
+
+    //set language
+    private void setLocale(String languageCode) {
+        if (!getCurrentLanguage().equals(languageCode)) {
+            saveLanguagePreference(languageCode);
+            Locale newLocale = new Locale(languageCode);
+            Locale.setDefault(newLocale);
+
+            Resources resources = getResources();
+            Configuration configuration = resources.getConfiguration();
+            configuration.setLocale(newLocale);
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+            // Restart the activity to apply changes
+            recreate();}
+    }
+
+    // Get the system language
+    private String getSystemLanguage() {
+        Configuration configuration = Resources.getSystem().getConfiguration();
+        return configuration.locale.getLanguage();
     }
     }

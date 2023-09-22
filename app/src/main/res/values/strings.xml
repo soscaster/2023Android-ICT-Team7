@@ -36,4 +36,20 @@
     <string name="changeCamInfo">"Changed information to camera "</string>
     <string name="deleted">deleted</string>
     <string name="events">Events</string>
+    <string name="languages">"Languages: "</string>
+    <string name="app_language_summary">Select the app language</string>
+    <string name="about">About</string>
+    <string name="language_settings">Language Settings</string>
+    <string name="audio_settings">Audio Settings</string>
+    <string name="audio_volume">Audio Volume</string>
+    <string name="audio_volume_summary">Adjust the audio volume</string>
+    <string name="night_vision">Night Vision</string>
+    <string name="night_vision_summary">Enable or disable night vision</string>
+    <string name="general_settings">General Settings</string>
+    <string name="motion_detection_summary">Enable or disable motion detection</string>
+    <string name="languages2">Languages</string>
+    <string name="video_quality">Video Quality</string>
+    <string name="video_quality_summary">Select the video quality</string>
+    <string name="about_summary">Informations about us</string>
+
 </resources>
