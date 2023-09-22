@@ -47,6 +47,9 @@ public class CamerasFragment extends Fragment {
     private String addCameraText2;
     private MediaPlayer mediaPlayer;
     private LibVLC libVLC;
+    private List<MediaPlayer> mediaPlayers;
+    private List<LibVLC> libVLCs;
+
     public CamerasFragment() {
     }
 
@@ -87,87 +90,9 @@ public class CamerasFragment extends Fragment {
             noCameraIcon.setVisibility(View.INVISIBLE);
         }
 
-
-//        for (int i = 0; i < cameraNames.length; i++) {
-//            View cameraItemView = inflater.inflate(R.layout.camera_items, null);
-//            TextView cameraName = cameraItemView.findViewById(R.id.titleTextView);
-//
-////            VideoView videoView = cameraItemView.findViewById(R.id.videoView);
-//            final String videoPath = cameraLinks[i];
-//            cameraName.setText(cameraNames[i]);
-//
-////            // Initialize the ExoPlayer
-////            // Create a data source factory.
-////            DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
-////            // Create a HLS media source pointing to a playlist uri.
-////            FfmpegMediaSource hlsMediaSource = new HlsMediaSource.Factory(dataSourceFactory).setAllowChunklessPreparation(false).createMediaSource(MediaItem.fromUri(videoPath));
-////            ExoPlayer player = new ExoPlayer.Builder(requireContext()).build();
-////            PlayerView playerView = cameraItemView.findViewById(R.id.playerView);
-////
-////            // Set the media source and start playing
-////            player.setMediaSource(hlsMediaSource);
-////            player.prepare();
-////            player.setVolume(0f); // Mute
-////            player.play();
-////
-////            // Bind the player to the view
-////            playerView.setPlayer(player);
-//            // Initialize the VLC player
-//            ArrayList<String> options = new ArrayList<>();
-//            options.add("-vvv"); // verbosity
-//            final LibVLC[] libVLC = {new LibVLC(requireContext(), options)};
-//            final MediaPlayer[] mediaPlayer = {new MediaPlayer(libVLC[0])};
-//
-//            // Create a media object
-//            Media media = new Media(libVLC[0], Uri.parse(videoPath));
-//            mediaPlayer[0].setMedia(media);
-//
-//            // Bind the player to the view
-//            VLCVideoLayout videoLayout = cameraItemView.findViewById(R.id.videoLayout);
-//            mediaPlayer[0].attachViews(videoLayout, null, true, true);
-//
-//            // Start playing
-//            mediaPlayer[0].play();
-//            Toast.makeText(getContext(), "RUN VLC", Toast.LENGTH_SHORT).show();
-//
-////            videoView.setVideoURI(Uri.parse(videoPath));
-////            videoView.setOnPreparedListener(mp -> {
-////                mp.setLooping(false);
-////                mp.setVolume(0f, 0f);
-////                mp.start();
-////            });
-//            final int cameraIndex = i;
-//            cameraItemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    for (int j=0; j < mediaPlayer.length ; j++) {
-//                        if (mediaPlayer[j] != null) {
-//                            mediaPlayer[j].stop();
-//                            mediaPlayer[j].release();
-//                            mediaPlayer[j] = null;
-//                        }
-//                    }
-//
-//                    for (int j=0; j < libVLC.length ; j++) {
-//                        if (libVLC[j] != null) {
-//                            libVLC[j].release();
-//                            libVLC[j] = null;
-//                        }
-//                    }
-//                    Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
-//                    cameraActivityIntent.putExtra("cameraIndex", cameraNames[cameraIndex]);
-//                    cameraActivityIntent.putExtra("videoPath",  cameraLinks[cameraIndex]); // Changed from "videoIndex"
-//                    startActivity(cameraActivityIntent);
-//                }
-//            });
-//            camerasContainer.addView(cameraItemView);
-//        }
-//        return view;
-//    }
-
         // Create lists to store all MediaPlayer and LibVLC instances
-        List<MediaPlayer> mediaPlayers = new ArrayList<>();
-        List<LibVLC> libVLCs = new ArrayList<>();
+        mediaPlayers = new ArrayList<>();
+        libVLCs = new ArrayList<>();
 
         for (int i = 0; i < cameraNames.length; i++) {
             View cameraItemView = inflater.inflate(R.layout.camera_items, null);
@@ -192,27 +117,15 @@ public class CamerasFragment extends Fragment {
             mediaPlayer.attachViews(videoLayout, null, true, true);
 
             mediaPlayer.play();
-            Toast.makeText(getContext(), "RUN VLC", Toast.LENGTH_SHORT).show();
+            mediaPlayer.setVolume(0);
 
             final int cameraIndex = i;
             cameraItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Stop and release all MediaPlayer and LibVLC instances
-                    for (MediaPlayer mp : mediaPlayers) {
-                        if (mp != null) {
-                            mp.release();
-                        }
-                    }
-                    for (LibVLC lv : libVLCs) {
-                        if (lv != null) {
-                            lv.release();
-                        }
-                    }
-
                     Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
                     cameraActivityIntent.putExtra("cameraIndex", cameraNames[cameraIndex]);
-                    cameraActivityIntent.putExtra("videoPath",  cameraLinks[cameraIndex]); // Changed from "videoIndex"
+                    cameraActivityIntent.putExtra("videoPath",  cameraLinks[cameraIndex]);
                     startActivity(cameraActivityIntent);
                 }
             });
@@ -222,28 +135,48 @@ public class CamerasFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-        if (libVLC != null) {
-            libVLC.release();
-            libVLC = null;
+    public void onStop() {
+        super.onStop();
+        if (mediaPlayers != null) {
+            for (MediaPlayer mp : mediaPlayers) {
+                if (mp != null && mp.isPlaying()) {
+                    mp.stop();
+                }
+            }
         }
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+    public void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayers != null) {
+            for (MediaPlayer mp : mediaPlayers) {
+                if (mp != null) {
+                    mp.stop();
+                    mp.release();
+                }
+            }
+            mediaPlayers.clear();
         }
-        if (libVLC != null) {
-            libVLC.release();
-            libVLC = null;
+        if (libVLCs != null) {
+            for (LibVLC lv : libVLCs) {
+                if (lv != null) {
+                    lv.release();
+                }
+            }
+            libVLCs.clear();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mediaPlayers != null) {
+            for (MediaPlayer mp : mediaPlayers) {
+                if (mp != null && !mp.isPlaying()) {
+                    mp.play();
+                }
+            }
         }
     }
 

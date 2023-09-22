@@ -1,15 +1,22 @@
 package vn.usth.team7camera;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +27,16 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerControlView;
+import androidx.media3.ui.PlayerView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCVideoLayout;
-
 import vn.usth.team7camera.R;
 
 import java.io.File;
@@ -37,35 +48,45 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CameraActivity extends AppCompatActivity {
-    private int videoId;
+@UnstableApi public class CameraActivity extends AppCompatActivity {
     private CameraListManager cameraListManager;
-    private VideoView videoView;
-    private MediaPlayer mediaPlayer;
-    private LibVLC libVLC;
+    private ExoPlayer player;
+    private PlayerView playerView;
+    private MediaMetadataRetriever retriever; // add this field
+    private String videoPath; // add this field
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_camera);
+//        cameraListManager = new CameraListManager(this);
+//        String cameraName = getIntent().getStringExtra("cameraIndex");
+//        String videoPath = getIntent().getStringExtra("videoPath");
+//        setTitle(cameraName);
+//        player = new ExoPlayer.Builder(getApplicationContext()).build();
+//        playerView = findViewById(R.id.videoLayout);
+//        playerView.setPlayer(player);
+//        player.setMediaItem(MediaItem.fromUri(videoPath));
+//        player.prepare();
+//        player.play();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         cameraListManager = new CameraListManager(this);
         String cameraName = getIntent().getStringExtra("cameraIndex");
-        String videoPath = getIntent().getStringExtra("videoPath");
+        videoPath = getIntent().getStringExtra("videoPath"); // assign this field
         setTitle(cameraName);
-        ArrayList<String> options = new ArrayList<>();
-        options.add("-vvv"); // verbosity
-        libVLC = new LibVLC(getApplicationContext(), options);
-        mediaPlayer = new MediaPlayer(libVLC);
-
-        // Create a media object
-        Media media = new Media(libVLC, Uri.parse(videoPath));
-        mediaPlayer.setMedia(media);
-
-        // Bind the player to the view
-        VLCVideoLayout videoLayout = findViewById(R.id.videoLayout);
-        mediaPlayer.attachViews(videoLayout, null, true, true);
-        mediaPlayer.play();
+        player = new ExoPlayer.Builder(getApplicationContext()).build();
+        playerView = findViewById(R.id.videoLayout);
+        playerView.setPlayer(player);
+        playerView.setControllerShowTimeoutMs(1000);
+        player.setMediaItem(MediaItem.fromUri(videoPath));
+        player.prepare();
+        player.play();
+        retriever = new MediaMetadataRetriever(); // initialize this field
+        retriever.setDataSource(videoPath); // set the data source for the retriever
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_bar2, menu);
@@ -95,34 +116,21 @@ public class CameraActivity extends AppCompatActivity {
 //        videoView.start();
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        if (mediaPlayer != null) {
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
-//        if (libVLC != null) {
-//            libVLC.release();
-//            libVLC = null;
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        player.stop();
+        player.release();
+    }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-        if (libVLC != null) {
-            libVLC.release();
-            libVLC = null;
-        }
-        recreate();
+        player.stop();
+        player.release();
     }
+
+
     private void deleteCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.deleteCamera));
@@ -227,21 +235,6 @@ public class CameraActivity extends AppCompatActivity {
                     Toast.makeText(CameraActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-//                    // Temporary remove the camera from the list
-//                    cameraList.remove(cameraName);
-//                    cameraLinks.remove(cameraAddress);
-//
-//                    // Save the updated camera list
-//                    cameraListManager.saveCameraNames(cameraList);
-//                    cameraListManager.saveCameraLinks(cameraLinks);
-//
-//                    // Re-add the camera to the list
-//                    cameraList.add(cameraNewName);
-//                    cameraLinks.add(cameraNewAddress);
-//
-//                    // Save the updated camera list
-//                    cameraListManager.saveCameraNames(cameraList);
-//                    cameraListManager.saveCameraLinks(cameraLinks);
 
                     int index = cameraList.indexOf(cameraName);
                     cameraList.set(index, cameraNewName);
@@ -256,10 +249,6 @@ public class CameraActivity extends AppCompatActivity {
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
                 }
-//                } else {
-//                    // If the camera name, IP, or port is not found in the list, show an error message
-//                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera)+ " '" + cameraName + "' " +getResources().getString(R.string.notFound), Toast.LENGTH_SHORT).show();
-//                }
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 finish();
                 startActivity(intent);
@@ -278,59 +267,48 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap getBitmapFromPlayer(ExoPlayer player) {
+        long position = player.getCurrentPosition(); // get the current position of the player in microseconds
+        Bitmap bitmap = retriever.getFrameAtTime(position); // get the bitmap at that position from the retriever
+        return bitmap;
+    }
+
     private void captureSnapshot() {
-        String cameraName = getIntent().getStringExtra("cameraIndex");
-
-        // Get the current position of the video
-        int currentPosition = videoView.getCurrentPosition();
-
-        // Create a MediaMetadataRetriever
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-
-        // Set the data source to the live link
-        String videoPath = getIntent().getStringExtra("videoPath");
-        retriever.setDataSource(videoPath, new HashMap<String, String>());
-
-        // Get the bitmap of the current frame
-        Bitmap bitmap = retriever.getFrameAtTime(currentPosition * 1000, MediaMetadataRetriever.OPTION_CLOSEST); // timeUs is in microseconds
-
-        String toastMessage = "";
-
-        // Check if the bitmap is not null
-        if (bitmap != null) {
-            // Create a file name based on the current time
-            String fileName = "snapshot_" + cameraName + "_" + System.currentTimeMillis() + ".jpg";
-
-            File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
-            if (!storageDir.exists())
-            {
-                storageDir.mkdirs();
-            }
-
-            // Create a file object for the snapshot
-            File file = new File(storageDir, fileName);
-
-            try {
-                // Write the bitmap to the file using JPEG format
-                FileOutputStream out = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                out.close();
-
-                // Show a toast message to indicate success
-                toastMessage = getString(R.string.savedToDir) + file.getAbsolutePath();
-            } catch (IOException e) {
-                // Show a toast message to indicate failure
-                Toast.makeText(this, getString(R.string.snapFailed) + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            // Show a toast message to indicate no frame available
-            toastMessage = getString(R.string.frameNo);
-        }
-        final String finalToastMessage = toastMessage;
-        runOnUiThread(new Runnable() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(CameraActivity.this, finalToastMessage, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = getBitmapFromPlayer(player); // use this method instead of getBitmapFromView
+                String cameraName = getIntent().getStringExtra("cameraIndex");
+                String fileName = "snapshot_" + cameraName + "_" + System.currentTimeMillis() + ".jpg";
+                File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
+
+                if (!storageDir.exists()) {
+                    storageDir.mkdirs();
+                }
+
+                File file = new File(storageDir, fileName);
+
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.close();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CameraActivity.this, getString(R.string.savedToDir) + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } catch (IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CameraActivity.this, getString(R.string.snapFailed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }
