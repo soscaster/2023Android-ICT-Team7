@@ -5,4 +5,15 @@
         <item>Trung bình</item>
         <item>Cao</item>
     </string-array>
+    <string-array name="video_quality_values">
+        <item>thấp</item>
+        <item>trung bình</item>
+        <item>cao</item>
+    </string-array>
+    <string-array name="tab_titles">
+        <item>Máy quay</item>
+        <item>Sự kiện</item>
+        <item>Ảnh chụp</item>
+        <item>Cài đặt</item>
+    </string-array>
 </resources>

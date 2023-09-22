@@ -105,13 +105,13 @@ public class CameraActivity extends AppCompatActivity {
     }
     private void deleteCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Camera");
+        builder.setTitle(getResources().getString(R.string.deleteCamera));
 
         // Inflate the layout for the dialog
         builder.setMessage(R.string.deleteCamConfirm);
-        builder.setPositiveButton("Yes", null); // Set to null. We override the onclick
+        builder.setPositiveButton(getResources().getString(R.string.ok), null); // Set to null. We override the onclick
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -141,7 +141,7 @@ public class CameraActivity extends AppCompatActivity {
                     cameraListManager.saveCameraLinks(cameraLinks);
 
                     // Display a message indicating the camera was deleted
-                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera) + " '" + cameraName + "' " + getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
 
                     // Create an Intent to return to MainActivity
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -149,9 +149,8 @@ public class CameraActivity extends AppCompatActivity {
 
                 } else {
                     // If the camera name, IP, or port is not found in the list, show an error message
-                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera) +" '" + cameraName + "' " + getResources().getString(R.string.notFound), Toast.LENGTH_SHORT).show();
                 }
-                recreate();
                 dialog.dismiss();
             }
         });
@@ -160,7 +159,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void modifyCamera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Modify Camera");
+        builder.setTitle(getResources().getString(R.string.modifyCamera));
 
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_camera, null);
         builder.setView(dialogView);
@@ -168,9 +167,9 @@ public class CameraActivity extends AppCompatActivity {
         final TextView editTextCameraName = dialogView.findViewById(R.id.editTextCameraName);
         final TextView editTextAddress = dialogView.findViewById(R.id.editTextAddress);
 
-        builder.setPositiveButton("OK", null); // Set to null. We override the onclick
+        builder.setPositiveButton(getResources().getString(R.string.save), null); // Set to null. We override the onclick
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -222,14 +221,14 @@ public class CameraActivity extends AppCompatActivity {
                         cameraListManager.saveCameraLinks(cameraLinks);
 
                         // Display a message indicating the camera was deleted
-                        Toast.makeText(getApplicationContext(), "Changed information to camera '" + cameraNewName + "'.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.changeCamInfo) + cameraNewName + "'.", Toast.LENGTH_SHORT).show();
                         // Create an Intent to return to MainActivity
                         Intent intent = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(intent);
                     }
                 } else {
                     // If the camera name, IP, or port is not found in the list, show an error message
-                    Toast.makeText(getApplicationContext(), "Camera '" + cameraName + "' not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera)+ " '" + cameraName + "' " +getResources().getString(R.string.notFound), Toast.LENGTH_SHORT).show();
                 }
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 finish();

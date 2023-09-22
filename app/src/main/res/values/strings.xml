@@ -1,18 +1,13 @@
 <resources>
-    <string name="app_name" translatable="false">Team 7 Security Camera</string>
-    <string-array name="tab_titles">
-        <item>Cameras</item>
-        <item>Events</item>
-        <item>Snapshots</item>
-        <item>Settings</item>
-    </string-array>
-    <string name="camera1" translatable="false">Camera1</string>
+    <string name="app_name">Team 7 Security Camera</string>
+    <string name="camera">Camera</string>
     <string name="addCamera">Add Camera</string>
     <string name="addCameraText1">No camera found</string>
     <string name="addCameraText2">Tap on the top right icon to add camera</string>
     <string name="deleteCamera">Delete Camera</string>
-    <string name="sensitivity">Sensitivity: </string>
+    <string name="sensitivity">Sensitivity:</string>
     <string name="addSnapshot">Add Snapshot</string>
+    <string name="Snapshots">Snapshots</string>
     <string name="savedToDir">"Snapshot saved to "</string>
     <string name="granted_notice">Permission Granted for the app!</string>
     <string name="ask_permission_text">Please allow me to read/write SAFE files to your external storage.</string>
@@ -28,11 +23,33 @@
     <string name="camAdded">Camera added successfully</string>
     <string name="deleteCamConfirm">Are you sure you want to delete this camera?</string>
     <string name="modifyCamera">Modify Camera</string>
+    <string name="videoQuality">"Video Quality: "</string>
+    <string name="motionDetection">"Motion Detection: "</string>
+    <string name="nightVision">"Night Vision: "</string>
+    <string name="vol">"Volume: "</string>
+    <string name="cameraName">Camera Name</string>
+    <string name="address">Address</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="ok">Yes</string>
+    <string name="notFound">not found</string>
+    <string name="changeCamInfo">"Changed information to camera "</string>
+    <string name="deleted">deleted</string>
+    <string name="events">Events</string>
+    <string name="languages">"Languages: "</string>
+    <string name="app_language_summary">Select the app language</string>
+    <string name="about">About</string>
+    <string name="language_settings">Language Settings</string>
+    <string name="audio_settings">Audio Settings</string>
+    <string name="audio_volume">Audio Volume</string>
+    <string name="audio_volume_summary">Adjust the audio volume</string>
+    <string name="night_vision">Night Vision</string>
+    <string name="night_vision_summary">Enable or disable night vision</string>
+    <string name="general_settings">General Settings</string>
+    <string name="motion_detection_summary">Enable or disable motion detection</string>
+    <string name="languages2">Languages</string>
+    <string name="video_quality">Video Quality</string>
+    <string name="video_quality_summary">Select the video quality</string>
+    <string name="about_summary">Informations about us</string>
 
-    <!-- to toggle the open close button of the navigation drawer -->
-    <string name="nav_open">Open</string>
-    <string name="nav_close">Close</string>
-    <string name="action_settings">this is string</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

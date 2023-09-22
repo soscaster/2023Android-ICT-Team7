@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="addCamera">Thêm Camera</string>
-    <string name="addCameraText1">Không tìm thấy camera</string>
-    <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm camera</string>
-    <string name="deleteCamera">Xoá Camera</string>
+    <string name="app_name">Máy quay An ninh Nhóm 7</string>
+    <string name="camera">Máy quay</string>
+    <string name="addCamera">Thêm máy quay</string>
+    <string name="addCameraText1">Không tìm thấy máy quay</string>
+    <string name="addCameraText2">Bấm vào biểu tượng phía trên để thêm máy quay</string>
+    <string name="deleteCamera">Xoá máy quay</string>
     <string name="sensitivity">Độ nhạy:</string>
     <string name="addSnapshot">Tạo Ảnh chụp</string>
-    <string name="savedToDir">Ảnh chụp đã lưu vào</string>
+    <string name="Snapshots">Ảnh chụp</string>
+    <string name="savedToDir">"Ảnh chụp đã lưu vào "</string>
     <string name="granted_notice">Phần mềm đã được cấp quyền!</string>
     <string name="ask_permission_text">Xin hãy đồng ý cho phần mềm được ghi/đọc những file AN TOÀN tại bộ nhớ.</string>
     <string name="ask_permission_title">Cần được cấp quyền!</string>
@@ -18,6 +21,36 @@
     <string name="camNameExist">Một camera với tên này đã tồn tại</string>
     <string name="camPortIPExist">Một camera với địa chỉ này đã tồn tại</string>
     <string name="camAdded">Thêm camera thành công</string>
-    <string name="deleteCamConfirm">Bạn có chắc chắn xoá camera này không?</string>
+    <string name="deleteCamConfirm">Bạn có chắc chắn xoá máy quay này không?</string>
     <string name="modifyCamera">Tuỳ chỉnh Camera</string>
+    <string name="videoQuality">"Chất lượng khung hình: "</string>
+    <string name="motionDetection">"Phát hiện chuyển động: "</string>
+    <string name="nightVision">"Chế độ ban đêm: "</string>
+    <string name="vol">"Âm lượng: "</string>
+    <string name="cameraName">Tên máy quay</string>
+    <string name="address">Địa chỉ</string>
+    <string name="cancel">Hủy</string>
+    <string name="save">Lưu</string>
+    <string name="ok">Đồng ý</string>
+    <string name="notFound">không tìm thấy</string>
+    <string name="changeCamInfo">"Thay đổi thông tin máy quay "</string>
+    <string name="deleted">đã được xoá</string>
+    <string name="events">Sự kiện</string>
+    <string name="languages">"Ngôn ngữ: "</string>
+    <string name="about">Thông tin</string>
+    <string name="app_language_summary">Chọn ngôn ngữ cho ứng dụng</string>
+    <string name="language_settings">Cài đặt ngôn ngữ</string>
+    <string name="audio_settings">Cài đặt âm thanh</string>
+    <string name="audio_volume">Âm lượng</string>
+    <string name="audio_volume_summary">Điều chỉnh âm lượng</string>
+    <string name="night_vision">Chế độ ban đêm</string>
+    <string name="night_vision_summary">Bật hoặc tắt chế độ ban đêm</string>
+    <string name="general_settings">Cài đặt chung</string>
+    <string name="motion_detection_summary">Bật hoặc tắt phát hiện chuyển động</string>
+    <string name="languages2">Ngôn ngữ</string>
+    <string name="video_quality">Chất lượng khung hình</string>
+    <string name="video_quality_summary">Chọn chất lượng khung hình</string>
+    <string name="about_summary">Thông tin về chúng tôi</string>
+
+
 </resources>
