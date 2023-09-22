@@ -35,7 +35,7 @@ public class CameraActivityBAK extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        videoView = findViewById(R.id.videoView);
+//        videoView = findViewById(R.id.videoView);
         cameraListManager = new CameraListManager(this);
 
         String cameraName = getIntent().getStringExtra("cameraIndex");

@@ -65,7 +65,7 @@ public class CamerasFragmentBAK extends Fragment {
 
             // Find views within the camera_items.xml layout
             TextView cameraName = cameraItemView.findViewById(R.id.titleTextView);
-            VideoView videoView = cameraItemView.findViewById(R.id.videoView);
+//            VideoView videoView = cameraItemView.findViewById(R.id.videoView);
 
             //Set video base on id instead of R.raw.FILE_NAME
             final String videoName = "sample"+((i%2)+1);
@@ -77,12 +77,12 @@ public class CamerasFragmentBAK extends Fragment {
 
             // Set video source and start playing (same video for all cameras)
             String videoPath = "android.resource://" + requireActivity().getPackageName() + "/" + videoId;
-            videoView.setVideoPath(videoPath);
-            videoView.setOnPreparedListener(mp -> {
-                mp.setLooping(true); // Set looping to true to play the video in a loop
-                mp.setVolume(0f, 0f);
-                mp.start();
-            });
+//            videoView.setVideoPath(videoPath);
+//            videoView.setOnPreparedListener(mp -> {
+//                mp.setLooping(true); // Set looping to true to play the video in a loop
+//                mp.setVolume(0f, 0f);
+//                mp.start();
+//            });
 
             // Add click behavior for each camera
             final int cameraIndex = i; // Capture the current camera index for the click listener

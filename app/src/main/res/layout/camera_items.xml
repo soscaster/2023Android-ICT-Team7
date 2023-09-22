@@ -11,12 +11,20 @@
     android:layout_margin="20px">
 
         <!-- VideoView for video playback -->
-        <VideoView
-            android:id="@+id/videoView"
+        <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/videoLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             />
+
+        <!-- PlayerView for video playback -->
+<!--        <androidx.media3.ui.PlayerView-->
+<!--            android:id="@+id/playerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
 
         <!-- TextView for title -->
         <TextView

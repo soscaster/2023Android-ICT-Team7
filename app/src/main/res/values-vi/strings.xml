@@ -28,7 +28,7 @@
     <string name="nightVision">"Chế độ ban đêm: "</string>
     <string name="vol">"Âm lượng: "</string>
     <string name="cameraName">Tên máy quay</string>
-    <string name="address">Địa chỉ (chỉ hỗ trợ http hoặc https)</string>
+    <string name="address">Địa chỉ</string>
     <string name="cancel">Hủy</string>
     <string name="save">Lưu</string>
     <string name="ok">Đồng ý</string>
