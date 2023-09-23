@@ -1,5 +1,7 @@
 package vn.usth.team7camera;
 
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
@@ -30,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 //import org.videolan.libvlc.MediaPlayer;
 //import org.videolan.libvlc.util.VLCVideoLayout;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,10 +100,7 @@ public class CamerasFragment extends Fragment {
             player = new ExoPlayer.Builder(requireContext()).build();
             playerView = cameraItemView.findViewById(R.id.videoLayout);
             playerView.setPlayer(player);
-            player.setMediaItem(MediaItem.fromUri(videoPath));
             player.setVolume(0);
-            player.prepare();
-            player.play();
 
             // Add the instance to the list
             exoPlayers.add(player);
@@ -114,6 +115,38 @@ public class CamerasFragment extends Fragment {
                     startActivity(cameraActivityIntent);
                 }
             });
+
+            // Check if the videoPath URL is reachable in a background task
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    boolean isReachable = false;
+                    try {
+                        HttpURLConnection.setFollowRedirects(false);
+                        HttpURLConnection con = (HttpURLConnection) new URL(videoPath).openConnection();
+                        con.setRequestMethod("HEAD");
+                        isReachable = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    final boolean finalIsReachable = isReachable;
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!finalIsReachable) {
+                                // If not reachable, change the camera name to "Camera Offline"
+                                cameraName.setText(cameraNames[cameraIndex] + " - Camera Offline");
+                            } else {
+                                // If reachable, set media item and prepare player
+                                player.setMediaItem(MediaItem.fromUri(videoPath));
+                                player.prepare();
+                                player.play();
+                            }
+                        }
+                    });
+                }
+            }).start();
             camerasContainer.addView(cameraItemView);
         }
         return view;
