@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team 7 Security Camera</string>
+    <string name="app_name" translatable="false">CamSeeCamXa</string>
     <string name="camera">Camera</string>
     <string name="addCamera">Add Camera</string>
     <string name="addCameraText1">No camera found</string>
@@ -53,5 +53,6 @@
     <string name="about_summary">Informations about us</string>
     <string name="invalidLink">The address is invalid. Check again!</string>
     <string name="unreachableLink">This link is unreachable! Check again!</string>
+    <string name="login_pref">Login</string>
 
 </resources>

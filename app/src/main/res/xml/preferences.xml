@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:key="pref_login"
+        android:title="@string/login_pref"
+        android:summary="Open Login Screen" />
+
     <PreferenceCategory
         android:title="@string/general_settings"
         android:key="general_settings">

@@ -2,6 +2,7 @@ package vn.usth.team7camera;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -31,6 +32,21 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
         }
+
+        Preference loginPreference = findPreference("pref_login");
+        if (loginPreference != null) {
+            loginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    // Open LoginActivity here
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
+
+
         // Find and handle the language preference
         ListPreference languagePreference = findPreference("pref_app_language");
         if (languagePreference != null) {
