@@ -1,8 +1,9 @@
 # A23-24 ICT GROUP MOBILE APPLICATION DEVELOPMENT - Group Project
 ## Topic 19. Security Camera System
+## Official name: CamSeeCamXa
 
 ## 📝 Description
-This project is a GUI-friendly application that allows users to watch and manage security camera(s). The application is written in (Java or Kotlin) and using some libraries for media encode/decode.
+This project is a GUI-friendly application that allows users to watch and manage security camera(s). The application is written in Java and using Media3-ExoPlayer for media encode/decode.
 
 ## 📝 Project Status
 We started this project from Sep 11, 2023 and not yet finished (more information can be found in the commit history). The project was initially planned to be finished in 2 weeks with basic GUI and functions. We're in the development stage, so lots of bugs will exist.
@@ -15,8 +16,7 @@ In order for the members not to create many structurally different pieces of cod
 
 ## 📚 Features
 - [x] Add/Remove/Modify security camera's informations.
-- [x] Decode/Encode (Watch/Record) videos from security cameras.
-- [x] will think more...
+- [x] Decode/Encode (Watch/Record/Take Snapshots) videos from security cameras.
 
 ## 📝 How to run
 - [x] Download the latest app release.
