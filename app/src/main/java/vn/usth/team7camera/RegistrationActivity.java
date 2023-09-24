@@ -1,11 +1,14 @@
 package vn.usth.team7camera;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,10 +16,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.AuthResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
@@ -77,42 +83,38 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         // create new user or register new user
-        mAuth
-                .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task)
+            {
+                if (task.isSuccessful()) {
 
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task)
-                    {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                            "Registration successful!",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
-
-                            // if the user created intent to login activity
-                            Intent intent
-                                    = new Intent(RegistrationActivity.this,
-                                    MainActivity.class);
-                            startActivity(intent);
+                    final FirebaseUser user = mAuth.getCurrentUser();
+                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(RegistrationActivity.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
                         }
-                        else {
-
-                            // Registration failed
-                            Toast.makeText(
-                                            getApplicationContext(),
-                                            "Registration failed!!"
-                                                    + " Please try again later",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@androidx.annotation.NonNull Exception e) {
+                            Log.e(TAG, "sendEmailVerification", task.getException());
+                            Toast.makeText(RegistrationActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+
+                    // hide the progress bar
+                    progressbar.setVisibility(View.GONE);
+                    // if the user created intent to login activity
+                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Registration failed
+                    Toast.makeText(getApplicationContext(),"Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show();
+                    // hide the progress bar
+                    progressbar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
