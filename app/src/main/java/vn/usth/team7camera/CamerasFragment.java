@@ -97,8 +97,9 @@ public class CamerasFragment extends Fragment {
             final String videoPath = cameraLinks[i];
             cameraName.setText(cameraNames[i]);
 
-            player = new ExoPlayer.Builder(requireContext()).build();
-            playerView = cameraItemView.findViewById(R.id.videoLayout);
+            // Create a new ExoPlayer instance for each camera
+            final ExoPlayer player = new ExoPlayer.Builder(requireContext()).build();
+            PlayerView playerView = cameraItemView.findViewById(R.id.videoLayout);
             playerView.setPlayer(player);
             player.setVolume(0);
 
@@ -147,10 +148,12 @@ public class CamerasFragment extends Fragment {
                     });
                 }
             }).start();
+
             camerasContainer.addView(cameraItemView);
         }
         return view;
     }
+
 
     @Override
     public void onStop() {
