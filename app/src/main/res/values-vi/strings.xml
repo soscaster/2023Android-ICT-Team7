@@ -53,6 +53,8 @@
     <string name="invalidLink">Địa chỉ không hợp lệ. Hãy kiểm tra lại!</string>
     <string name="unreachableLink">Không thể kết nối tới địa chỉ này! Hãy kiểm tra lại!</string>
     <string name="login_pref">Đăng nhập</string>
+    <string name="logged_as">Đã đăng nhập bằng:</string>
+    <string name="account">Tài khoản</string>
 
 
 </resources>

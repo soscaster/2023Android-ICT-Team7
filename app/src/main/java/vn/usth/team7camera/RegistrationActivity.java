@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -66,55 +67,60 @@ public class RegistrationActivity extends AppCompatActivity {
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
 
-        // Validations for input email and password
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter email!!",
-                            Toast.LENGTH_LONG)
-                    .show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter password!!",
-                            Toast.LENGTH_LONG)
-                    .show();
-            return;
-        }
-
-        // create new user or register new user
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task)
-            {
-                if (task.isSuccessful()) {
-
-                    final FirebaseUser user = mAuth.getCurrentUser();
-                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(RegistrationActivity.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(RegistrationActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    // hide the progress bar
-                    progressbar.setVisibility(View.GONE);
-                    // if the user created intent to login activity
-                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    // Registration failed
-                    Toast.makeText(getApplicationContext(),"Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show();
-                    // hide the progress bar
-                    progressbar.setVisibility(View.GONE);
+        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (TextUtils.isEmpty(email)) {
+                // Validations for input email and password
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(),
+                                    "Please enter email!!",
+                                    Toast.LENGTH_LONG)
+                            .show();
+                    return;
                 }
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(),
+                                    "Please enter password!!",
+                                    Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+
+                // create new user or register new user
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegistrationActivity.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@androidx.annotation.NonNull Exception e) {
+                                    Log.e(TAG, "sendEmailVerification", task.getException());
+                                    Toast.makeText(RegistrationActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            // hide the progress bar
+                            progressbar.setVisibility(View.GONE);
+                            // if the user created intent to login activity
+                            Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // Registration failed
+                            Toast.makeText(getApplicationContext(), "Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show();
+                            // hide the progress bar
+                            progressbar.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
-        });
+        } else {
+            Toast.makeText(this, "Enter valid Email address !", Toast.LENGTH_SHORT).show();
+        }
     }
 }

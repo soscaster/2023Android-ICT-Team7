@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView BtnGoogle;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private ProgressBar progressbar;
     private static final int RC_SIGN_IN = 9001; // Request code for Google Sign-In
 
     @Override
@@ -53,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         Btn = findViewById(R.id.loginbtn);
         BtnReg = findViewById(R.id.regnew);
         BtnGoogle = findViewById(R.id.googlebtn);
+        progressbar = findViewById(R.id.progressbar);
 
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -86,31 +89,46 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
+        progressbar.setVisibility(View.VISIBLE);
+
         String email, password;
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),"Please enter email!!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),"Please enter password!!", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(),"Login successful!!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(),"Login failed!!", Toast.LENGTH_LONG).show();
-                }
+        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplicationContext(),"Please enter email!!", Toast.LENGTH_LONG).show();
+                progressbar.setVisibility(View.GONE);
+                return;
             }
-        });
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(getApplicationContext(),"Please enter password!!", Toast.LENGTH_LONG).show();
+                progressbar.setVisibility(View.GONE);
+                return;
+            }
+            if (password.length() < 6) {
+                Toast.makeText(getApplicationContext(),"The password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                progressbar.setVisibility(View.GONE);
+                return;
+            }
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        progressbar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Login successful!!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        progressbar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Login failed!!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            progressbar.setVisibility(View.GONE);
+            Toast.makeText(this, "Enter valid Email address !", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loginGoogleAccount() {
@@ -146,7 +164,12 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getApplicationContext(), "Google Sign-In successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            // Add flags to clear all other activities and start a new task
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+                            // Finish the current activity to ensure it's removed from the stack
+                            finish();
+                            recreate();
                         } else {
                             // If sign-in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "Google Sign-In failed.", Toast.LENGTH_SHORT).show();

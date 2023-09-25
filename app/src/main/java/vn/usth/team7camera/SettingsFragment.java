@@ -3,12 +3,19 @@ package vn.usth.team7camera;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 
@@ -18,6 +25,31 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load your preferences from XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        Preference accPreference = findPreference("pref_logged");
+
+        if (accPreference != null) {
+            FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    if (firebaseUser != null) {
+                        String email = firebaseUser.getEmail();
+                        if (email != null) {
+                            // Update the summary text of pref_logged to the email string
+                            accPreference.setSummary(email);
+                        }
+                    } else {
+                        // If the user is not logged in, set the summary to "Not logged in yet."
+                        accPreference.setSummary("Not logged in yet.");
+                    }
+                }
+            };
+            // Add the AuthStateListener to FirebaseAuth
+            auth.addAuthStateListener(authListener);
+        }
+
 
         // Find and handle the "About" preference
         Preference aboutPreference = findPreference("pref_about");
@@ -34,12 +66,47 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
 
         Preference loginPreference = findPreference("pref_login");
+        Preference logoutPreference = findPreference("pref_logout");
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            // User is logged in, show logout preference and hide login preference
+            if (loginPreference != null) {
+                loginPreference.setVisible(false);
+            }
+            if (logoutPreference != null) {
+                logoutPreference.setVisible(true);
+            }
+        } else {
+            // User is not logged in, show login preference and hide logout preference
+            if (loginPreference != null) {
+                loginPreference.setVisible(true);
+            }
+            if (logoutPreference != null) {
+                logoutPreference.setVisible(false);
+            }
+        }
+
         if (loginPreference != null) {
             loginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     // Open LoginActivity here
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
+
+        if (logoutPreference != null) {
+            logoutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    // Log out the user here using Firebase Authentication
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = getActivity().getIntent();
+                    getActivity().finish();
                     startActivity(intent);
                     return true;
                 }

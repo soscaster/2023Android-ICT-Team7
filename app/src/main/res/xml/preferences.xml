@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:key="pref_login"
-        android:title="@string/login_pref"
-        android:summary="Open Login Screen" />
+    <PreferenceCategory
+        android:title="@string/account"
+        android:key="account_settings">
+
+        <Preference
+            android:key="pref_login"
+            android:title="@string/login_pref"
+            android:summary="Using your Email or Google Account" />
+
+        <Preference
+            android:key="pref_logout"
+            android:title="Logout"
+            android:summary="Click to log out." />
+
+        <Preference
+            android:key="pref_logged"
+            android:title="@string/logged_as"
+            android:summary="Not logged in yet." />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/general_settings"
