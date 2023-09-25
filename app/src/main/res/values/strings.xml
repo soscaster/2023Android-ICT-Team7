@@ -56,5 +56,6 @@
     <string name="login_pref">Login</string>
     <string name="logged_as">Logged as:</string>
     <string name="account">Account</string>
+    <string name="need_help">Need help?</string>
 
 </resources>

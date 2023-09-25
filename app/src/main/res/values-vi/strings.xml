@@ -55,6 +55,7 @@
     <string name="login_pref">Đăng nhập</string>
     <string name="logged_as">Đã đăng nhập bằng:</string>
     <string name="account">Tài khoản</string>
+    <string name="need_help">Cần hỗ trợ ?</string>
 
 
 </resources>
