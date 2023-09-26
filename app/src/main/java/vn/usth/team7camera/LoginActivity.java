@@ -35,7 +35,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextView emailTextView, passwordTextView;
+    private TextView emailTextView, passwordTextView, forgotPasswordTextView;
     private MaterialButton Btn;
     private MaterialButton BtnReg;
     private ImageView BtnGoogle;
@@ -52,10 +52,12 @@ public class LoginActivity extends AppCompatActivity {
 
         emailTextView = findViewById(R.id.username);
         passwordTextView = findViewById(R.id.password);
+        forgotPasswordTextView = findViewById(R.id.forgotpass);
         Btn = findViewById(R.id.loginbtn);
         BtnReg = findViewById(R.id.regnew);
         BtnGoogle = findViewById(R.id.googlebtn);
         progressbar = findViewById(R.id.progressbar);
+
 
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -76,6 +78,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent (getBaseContext(),ForgotPasswordActivity.class);
                 startActivity(intent);
             }
         });

@@ -57,5 +57,6 @@
     <string name="logged_as">Logged as:</string>
     <string name="account">Account</string>
     <string name="need_help">Need help?</string>
+    <string name="reset_pwd_title">Reset password by E-mail</string>
 
 </resources>
