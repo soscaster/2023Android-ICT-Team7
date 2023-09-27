@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView, re_passwordTextView;
@@ -94,6 +96,10 @@ public class RegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(RegistrationActivity.this, getString(R.string.email_verify_sent) + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                String userUid = user.getUid();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("camseecamxa");
+                                DatabaseReference userTableReference = databaseReference.child(userUid);
+                                userTableReference.setValue(""); // Create an empty table for the user
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

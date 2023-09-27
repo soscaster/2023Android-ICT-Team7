@@ -84,5 +84,8 @@
     <string name="register_title">Register</string>
     <string name="pwd_re_hint">Re-enter Password</string>
     <string name="email_reset_pwd">Send Reset Password e-mail</string>
+    <string name="no_change">No changes were made.</string>
+    <string name="capture_failed">Failed to capture bitmap</string>
+    <string name="database_error">Database Access Error!</string>
 
 </resources>

@@ -1,8 +1,11 @@
 package vn.usth.team7camera;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -15,6 +18,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +38,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import vn.usth.team7camera.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,14 +62,18 @@ public class MainActivity extends AppCompatActivity {
     private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final int PERMISSION_CODE = 100;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-
-    private CameraListManager cameraListManager;
     private String [] titles;
-
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         // Retrieve the saved language preference
         String selectedLanguage = getSavedLanguagePreference();
 
@@ -79,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
-            cameraListManager = new CameraListManager(this);
-
             titles = getResources().getStringArray(R.array.tab_titles);
             PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
             ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
@@ -111,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             setContentView(textView);
         }
-
-
     }
 
     //Save last language configuration
@@ -144,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
             configuration.setLocale(newLocale);
             resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
-            // Restart the activity to apply changes
-            recreate();}
+            recreate();
+        }
     }
 
     // Get the system language
@@ -193,49 +204,54 @@ public class MainActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cameraName = editTextCameraName.getText().toString();
-                String camAddress = editTextAddress.getText().toString();
+                final String cameraName = editTextCameraName.getText().toString();
+                final String cameraLink = editTextAddress.getText().toString();
 
-                if (cameraName.isEmpty() || camAddress.isEmpty()) {
+                if (cameraName.isEmpty() || cameraLink.isEmpty()) {
                     Toast.makeText(MainActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!camAddress.startsWith("http://") && !camAddress.startsWith("https://")) {
+                if (!cameraLink.startsWith("http://") && !cameraLink.startsWith("https://")) {
                     Toast.makeText(MainActivity.this, R.string.invalidLink, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                new NetworkOperation().execute(camAddress);
+                DatabaseReference camerasRef = FirebaseDatabase.getInstance().getReference("camseecamxa");
+                camerasRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            for (DataSnapshot cameraSnapshot : userSnapshot.getChildren()) {
+                                String existingCameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
+                                String existingCameraName = cameraSnapshot.child("cameraName").getValue(String.class);
 
-                List<String> existingCameraNames = new ArrayList<>(cameraListManager.getCameraNames());
-                List<String> existingCameraLinks = new ArrayList<>(cameraListManager.getCameraLinks());
+                                if (existingCameraLink != null && existingCameraLink.equals(cameraLink)) {
+                                    Toast.makeText(MainActivity.this, getString(R.string.camPortIPExist), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                if (existingCameraName != null && existingCameraName.equals(cameraName)) {
+                                    Toast.makeText(MainActivity.this, getString(R.string.camNameExist), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        }
 
-                if (existingCameraNames.contains(cameraName)) {
-                    Toast.makeText(MainActivity.this, R.string.camNameExist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        DatabaseReference userCamerasRef = camerasRef.child(currentUserUid);
+                        String cameraKey = userCamerasRef.push().getKey();
+                        userCamerasRef.child(cameraKey).child("cameraName").setValue(cameraName);
+                        userCamerasRef.child(cameraKey).child("cameraLink").setValue(cameraLink);
+                        Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
 
-                if (existingCameraLinks.contains(camAddress)) {
-                    Toast.makeText(MainActivity.this, R.string.camPortIPExist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                        dialog.dismiss();
+                        recreate();
+                    }
 
-                int index = existingCameraNames.indexOf(cameraName);
-                if (index != -1) {
-                    // The camera name exists, update it
-                    existingCameraNames.set(index, cameraName);
-                    existingCameraLinks.set(index, camAddress);
-                } else {
-                    // The camera name does not exist, add it
-                    existingCameraNames.add(cameraName);
-                    existingCameraLinks.add(camAddress);
-                }
-                cameraListManager.saveCameraNames(new HashSet<>(existingCameraNames));
-                cameraListManager.saveCameraLinks(new HashSet<>(existingCameraLinks));
-                Toast.makeText(MainActivity.this, R.string.camAdded, Toast.LENGTH_SHORT).show();
-
-                dialog.dismiss();
-                recreate();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getBaseContext(), getString(R.string.database_error), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -274,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
             handleAddCameraButtonClick();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-    }
+}

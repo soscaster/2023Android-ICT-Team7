@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "513400889789",
+    "project_id": "camseecamxa",
+    "storage_bucket": "camseecamxa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513400889789:android:07b48b1a35926f53ea72d4",
+        "android_client_info": {
+          "package_name": "vn.usth.team7camera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513400889789-sr2ma1ppmmogsmsaioglvalmqfka0uaa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.usth.team7camera",
+            "certificate_hash": "c9c47cae34d57bdb545cf25866451ee2f1707f5a"
+          }
+        },
+        {
+          "client_id": "513400889789-0nf6skcpnfe9797csd8hr0oqkh8l4c3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjg7B3Yr61DiQMXJLRe7OnmXSozD0_ZOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513400889789-0nf6skcpnfe9797csd8hr0oqkh8l4c3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

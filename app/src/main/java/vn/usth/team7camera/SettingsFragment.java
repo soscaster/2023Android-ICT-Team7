@@ -33,19 +33,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
                 @Override
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                    if (firebaseUser != null) {
-                        if (firebaseUser.isEmailVerified()) {
-                            String email = firebaseUser.getEmail();
-                            if (email != null) {
-                                // Update the summary text of pref_logged to the email string
-                                accPreference.setSummary(email);
+                    if (isAdded()) { // Check if the fragment is attached to an activity
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            if (firebaseUser.isEmailVerified()) {
+                                String email = firebaseUser.getEmail();
+                                if (email != null) {
+                                    // Update the summary text of pref_logged to the email string
+                                    accPreference.setSummary(email);
+                                }
+                            } else {
+                                accPreference.setSummary(getString(R.string.notLoggedIn));
                             }
                         } else {
-                            accPreference.setSummary(getString(R.string.notLoggedIn));                        }
-                    } else {
-                        // If the user is not logged in, set the summary to "Not logged in yet."
-                        accPreference.setSummary(getString(R.string.notLoggedIn));
+                            // If the user is not logged in, set the summary to "Not logged in yet."
+                            accPreference.setSummary(getString(R.string.notLoggedIn));
+                        }
                     }
                 }
             };

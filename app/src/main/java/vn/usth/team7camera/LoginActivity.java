@@ -31,6 +31,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -171,6 +176,25 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = mAuth.getCurrentUser();
+                    String userUid = user.getUid();
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("camseecamxa");
+                    DatabaseReference userTableReference = databaseReference.child(userUid);
+
+                    userTableReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                // Table doesn't exist, create it
+                                userTableReference.setValue(""); // Create an empty table for the user
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle possible errors.
+                        }
+                    });
+
                     Toast.makeText(getApplicationContext(), getString(R.string.google_sign_in_success), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     // Add flags to clear all other activities and start a new task

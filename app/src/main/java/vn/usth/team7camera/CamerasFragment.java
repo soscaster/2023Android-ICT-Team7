@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,24 +28,29 @@ import androidx.media3.ui.PlayerView;
 import vn.usth.team7camera.R;
 
 import org.jetbrains.annotations.Nullable;
-//import org.videolan.libvlc.LibVLC;
-//import org.videolan.libvlc.Media;
-//import org.videolan.libvlc.MediaPlayer;
-//import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class CamerasFragment extends Fragment {
-    private CameraListManager cameraListManager;
-    private boolean isFullscreen = false;
     private String addCameraText1;
     private String addCameraText2;
-    private ExoPlayer player;
-    private PlayerView playerView;
     private List<ExoPlayer> exoPlayers;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference camerasRef = database.getReference("camseecamxa");
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
     public CamerasFragment() {
@@ -53,18 +59,13 @@ public class CamerasFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cameraListManager = new CameraListManager(requireContext());
+        exoPlayers = new ArrayList<>();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cameras, container, false);
-
         LinearLayout camerasContainer = view.findViewById(R.id.camerasContainer);
-
-        String[] cameraNames = cameraListManager.getCameraNamesArray();
-        String[] cameraLinks = cameraListManager.getCameraLinksArray();
 
         addCameraText1 = getResources().getString(R.string.addCameraText1);
         TextView addCamera1 = view.findViewById(R.id.noCamera1);
@@ -76,93 +77,105 @@ public class CamerasFragment extends Fragment {
         ImageView noCameraIcon = view.findViewById(R.id.noCameraIcon);
         noCameraIcon.setImageResource(R.drawable.baseline_add_2);
 
-        if (cameraNames.length == 0)
-        {
-            addCamera1.setVisibility(View.VISIBLE);
-            addCamera2.setVisibility(View.VISIBLE);
-            noCameraIcon.setVisibility(View.VISIBLE);}
-        else {
-            addCamera1.setVisibility(View.INVISIBLE);
-            addCamera2.setVisibility(View.INVISIBLE);
-            noCameraIcon.setVisibility(View.INVISIBLE);
-        }
-
-        // Create a list to store all ExoPlayer instances
-        exoPlayers = new ArrayList<>();
-
-        for (int i = 0; i < cameraNames.length; i++) {
-            View cameraItemView = inflater.inflate(R.layout.camera_items, null);
-            TextView cameraName = cameraItemView.findViewById(R.id.titleTextView);
-
-            final String videoPath = cameraLinks[i];
-            cameraName.setText(cameraNames[i]);
-
-            // Create a new ExoPlayer instance for each camera
-            final ExoPlayer player = new ExoPlayer.Builder(requireContext()).build();
-            PlayerView playerView = cameraItemView.findViewById(R.id.videoLayout);
-            playerView.setPlayer(player);
-            player.setVolume(0);
-
-            // Add the instance to the list
-            exoPlayers.add(player);
-
-            final int cameraIndex = i;
-            cameraItemView.setOnClickListener(new View.OnClickListener() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            camerasRef.child(String.valueOf(currentUser.getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onClick(View v) {
-                    Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
-                    cameraActivityIntent.putExtra("cameraIndex", cameraNames[cameraIndex]);
-                    cameraActivityIntent.putExtra("videoPath",  cameraLinks[cameraIndex]);
-                    startActivity(cameraActivityIntent);
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot cameraSnapshot : snapshot.getChildren()) {
+                            addCamera1.setVisibility(View.GONE);
+                            addCamera2.setVisibility(View.GONE);
+                            noCameraIcon.setVisibility(View.GONE);
+
+                            String cameraName = cameraSnapshot.child("cameraName").getValue(String.class);
+                            String cameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
+
+                            View cameraItemView = inflater.inflate(R.layout.camera_items, null);
+                            TextView cameraNameTextView = cameraItemView.findViewById(R.id.titleTextView);
+                            cameraNameTextView.setText(cameraName);
+
+                            final ExoPlayer player = new ExoPlayer.Builder(requireContext()).build();
+                            PlayerView playerView = cameraItemView.findViewById(R.id.videoLayout);
+                            playerView.setPlayer(player);
+                            player.setVolume(0);
+                            exoPlayers.add(player);
+                            cameraItemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent cameraActivityIntent = new Intent(requireContext(), CameraActivity.class);
+                                    cameraActivityIntent.putExtra("cameraIndex", cameraName);
+                                    cameraActivityIntent.putExtra("videoPath", cameraLink);
+                                    startActivity(cameraActivityIntent);
+                                }
+                            });
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean isReachable = false;
+                                    try {
+                                        HttpURLConnection.setFollowRedirects(false);
+                                        HttpURLConnection con = (HttpURLConnection) new URL(cameraLink).openConnection();
+                                        con.setRequestMethod("HEAD");
+                                        isReachable = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    final boolean finalIsReachable = isReachable;
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (!finalIsReachable) {
+                                                cameraNameTextView.setText(cameraName + " - Camera Offline");
+                                            } else {
+                                                player.setMediaItem(MediaItem.fromUri(cameraLink));
+                                                player.prepare();
+                                                player.play();
+                                            }
+                                        }
+                                    });
+                                }
+                            }).start();
+                            camerasContainer.addView(cameraItemView);
+                        }
+                    } else {
+                        addCamera1.setVisibility(View.VISIBLE);
+                        addCamera2.setVisibility(View.VISIBLE);
+                        noCameraIcon.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getActivity(), getString(R.string.database_error), Toast.LENGTH_SHORT).show();
                 }
             });
-
-            // Check if the videoPath URL is reachable in a background task
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    boolean isReachable = false;
-                    try {
-                        HttpURLConnection.setFollowRedirects(false);
-                        HttpURLConnection con = (HttpURLConnection) new URL(videoPath).openConnection();
-                        con.setRequestMethod("HEAD");
-                        isReachable = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    final boolean finalIsReachable = isReachable;
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!finalIsReachable) {
-                                // If not reachable, change the camera name to "Camera Offline"
-                                cameraName.setText(cameraNames[cameraIndex] + " - Camera Offline");
-                            } else {
-                                // If reachable, set media item and prepare player
-                                player.setMediaItem(MediaItem.fromUri(videoPath));
-                                player.prepare();
-                                player.play();
-                            }
-                        }
-                    });
-                }
-            }).start();
-
-            camerasContainer.addView(cameraItemView);
+        } else {
+            addCamera1.setVisibility(View.VISIBLE);
+            addCamera2.setVisibility(View.VISIBLE);
+            noCameraIcon.setVisibility(View.VISIBLE);
         }
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Resume ExoPlayers if they were paused
+        for (ExoPlayer player : exoPlayers) {
+            if (player != null && !player.isPlaying()) {
+                player.play();
+            }
+        }
+    }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (exoPlayers != null) {
-            for (ExoPlayer player : exoPlayers) {
-                if (player != null && player.isPlaying()) {
-                    player.stop();
-                }
+        for (ExoPlayer player : exoPlayers) {
+            if (player != null && player.isPlaying()) {
+                player.pause();
             }
         }
     }
@@ -170,11 +183,9 @@ public class CamerasFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (exoPlayers != null) {
-            for (ExoPlayer player : exoPlayers) {
-                if (player != null) {
-                    player.stop();
-                }
+        for (ExoPlayer player : exoPlayers) {
+            if (player != null) {
+                player.release();
             }
         }
     }

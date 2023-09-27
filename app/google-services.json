@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "513400889789",
+    "firebase_url": "https://camseecamxa-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "camseecamxa",
     "storage_bucket": "camseecamxa.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "513400889789-e4ksao7kfh5bi8ls692ee2ql3srcm8t7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.usth.team7camera",
+            "certificate_hash": "7b6a00811e89709691174ed6b1559078435574c5"
+          }
+        },
+        {
+          "client_id": "513400889789-ovbk5e7tg3vqvgplj3pej9tebbaeg5st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.usth.team7camera",
+            "certificate_hash": "b961150e21250e005b79abe28b1b00b02cef1525"
+          }
+        },
         {
           "client_id": "513400889789-sr2ma1ppmmogsmsaioglvalmqfka0uaa.apps.googleusercontent.com",
           "client_type": 1,

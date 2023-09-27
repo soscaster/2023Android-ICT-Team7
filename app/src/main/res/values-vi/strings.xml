@@ -83,6 +83,9 @@
     <string name="register_title">Đăng ký</string>
     <string name="pwd_re_hint">Nhập lại Mật khẩu</string>
     <string name="email_reset_pwd">Gửi e-mail Đặt lại Mật khẩu</string>
+    <string name="no_change">Không có sự thay đổi nào.</string>
+    <string name="capture_failed">Chụp ảnh thất bại</string>
+    <string name="database_error">Lỗi truy cập Cơ sở dữ liệu!</string>
 
 
 </resources>
