@@ -69,17 +69,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(), "Please enter password!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.pwd_null), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
             if (password.length() < 6) {
-                Toast.makeText(getApplicationContext(),"The password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.pwd_char_miss), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
             if (TextUtils.isEmpty(re_password) || !re_password.equals(password)) {
-                Toast.makeText(getApplicationContext(), "Please match passwords!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.pwd_not_match), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
@@ -93,13 +93,13 @@ public class RegistrationActivity extends AppCompatActivity {
                         user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(RegistrationActivity.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistrationActivity.this, getString(R.string.email_verify_sent) + user.getEmail(), Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@androidx.annotation.NonNull Exception e) {
                                 Log.e(TAG, "sendEmailVerification", task.getException());
-                                Toast.makeText(RegistrationActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistrationActivity.this, getString(R.string.email_verify_sent_failed), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -110,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         // Registration failed
-                        Toast.makeText(getApplicationContext(), "Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.reg_failed), Toast.LENGTH_SHORT).show();
                         // hide the progress bar
                         progressbar.setVisibility(View.GONE);
                     }
@@ -118,7 +118,7 @@ public class RegistrationActivity extends AppCompatActivity {
             });
         } else {
             progressbar.setVisibility(View.GONE);
-            Toast.makeText(this, "Enter valid Email address !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.email_not_valid), Toast.LENGTH_SHORT).show();
         }
     }
 }

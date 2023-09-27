@@ -102,17 +102,17 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getApplicationContext(),"Please enter email!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.email_null), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(),"Please enter password!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.pwd_null), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
             if (password.length() < 6) {
-                Toast.makeText(getApplicationContext(),"The password needs to be at least 6 characters", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.pwd_char_miss), Toast.LENGTH_SHORT).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
@@ -123,21 +123,21 @@ public class LoginActivity extends AppCompatActivity {
                         progressbar.setVisibility(View.GONE);
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser.isEmailVerified()) {
-                            Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getApplicationContext(), "You need to verify the account first. Please check the inbox/spam.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),getString(R.string.user_not_yet_verify), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         progressbar.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Login failed!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         } else {
             progressbar.setVisibility(View.GONE);
-            Toast.makeText(this, "Enter valid Email address !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.email_not_valid), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign-In failed
-                Toast.makeText(this, "Google Sign-In failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.google_sign_in_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(getApplicationContext(), "Google Sign-In successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.google_sign_in_success), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     // Add flags to clear all other activities and start a new task
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                     recreate();
                 } else {
                     // If sign-in fails, display a message to the user.
-                    Toast.makeText(getApplicationContext(), "Google Sign-In failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.google_sign_in_failed), Toast.LENGTH_SHORT).show();
                 }
             }
         });

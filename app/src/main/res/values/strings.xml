@@ -58,5 +58,31 @@
     <string name="account">Account</string>
     <string name="need_help">Need help?</string>
     <string name="reset_pwd_title">Reset password by E-mail</string>
+    <string name="notLoggedIn">Not logged in yet</string>
+    <string name="pref_login_summary">Using your E-mail or Google Account</string>
+    <string name="logout_pref">Logout</string>
+    <string name="pref_logout_summary">Click to log out</string>
+    <string name="email_null">The E-mail address must not empty</string>
+    <string name="pwd_null">The Password must not be empty</string>
+    <string name="pwd_char_miss">The password needs to be at least 6 characters</string>
+    <string name="pwd_not_match">The passwords are not matched</string>
+    <string name="email_verify_sent">"Verification e-mail sent to: "</string>
+    <string name="email_verify_sent_failed">Failed to send verification e-mail</string>
+    <string name="reg_failed">Registration failed! Please try again later</string>
+    <string name="email_not_valid">Enter valid E-mail address!</string>
+    <string name="login_success">Login successfully!</string>
+    <string name="user_not_yet_verify">You need to verify the account first. Please check the inbox/spam</string>
+    <string name="login_failed">Login failed!</string>
+    <string name="google_sign_in_failed">"Google Sign-In failed: "</string>
+    <string name="google_sign_in_success">Google Sign-In successful!</string>
+    <string name="email_hint">E-mail Address</string>
+    <string name="pwd_hint">Password</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="reg_btn">REGISTER NEW ACCOUNT</string>
+    <string name="forgot_pwd_txt">Forgot password?</string>
+    <string name="google_txtview">or sign in with</string>
+    <string name="register_title">Register</string>
+    <string name="pwd_re_hint">Re-enter Password</string>
+    <string name="email_reset_pwd">Send Reset Password e-mail</string>
 
 </resources>

@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    android:padding="15dp"
     tools:context=".RegistrationActivity"
     android:background="@drawable/background"    >
 
@@ -19,18 +18,18 @@
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:gravity="center"
-        android:text="Register"
+        android:text="@string/register_title"
         android:textColor="@color/white"
         android:textSize="35dp"
         android:textStyle="bold" />
 
     <EditText
-        android:hint="Enter your Email"
+        android:hint="@string/email_hint"
         android:id="@+id/reg_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +47,7 @@
 
     <!-- Edit text for password -->
     <EditText
-        android:hint="Enter password"
+        android:hint="@string/pwd_hint"
         android:id="@+id/reg_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +65,7 @@
         android:inputType="textPassword"/>
 
     <EditText
-        android:hint="Re-enter password"
+        android:hint="@string/pwd_re_hint"
         android:id="@+id/reg_re_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="Register Account" />
+        android:text="@string/reg_btn" />
 
 
     <!-- ProgressBar for loading time -->
@@ -109,6 +108,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/need_help"/>
+        android:text="@string/need_help"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
 </LinearLayout>
 

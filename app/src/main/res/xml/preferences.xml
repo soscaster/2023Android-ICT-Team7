@@ -8,60 +8,17 @@
         <Preference
             android:key="pref_login"
             android:title="@string/login_pref"
-            android:summary="Using your Email or Google Account" />
+            android:summary="@string/pref_login_summary" />
 
         <Preference
             android:key="pref_logout"
-            android:title="Logout"
-            android:summary="Click to log out." />
+            android:title="@string/logout_pref"
+            android:summary="@string/pref_logout_summary" />
 
         <Preference
             android:key="pref_logged"
             android:title="@string/logged_as"
-            android:summary="Not logged in yet." />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/general_settings"
-        android:key="general_settings">
-
-        <!-- Switch preference for motion detection -->
-        <SwitchPreferenceCompat
-            android:key="pref_motion_detection"
-            android:title="@string/motionDetection"
-            android:summary="@string/motion_detection_summary"
-            android:defaultValue="true" />
-
-        <!-- List preference for video quality -->
-        <ListPreference
-            android:key="pref_video_quality"
-            android:title="@string/video_quality"
-            android:summary="@string/video_quality_summary"
-            android:entries="@array/video_quality_options"
-            android:entryValues="@array/video_quality_values"
-            android:defaultValue="high" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/audio_settings"
-        android:key="audio_settings">
-
-        <!-- SeekBar preference for audio volume -->
-        <SeekBarPreference
-            android:key="pref_audio_volume"
-            android:title="@string/audio_volume"
-            android:summary="@string/audio_volume_summary"
-            android:max="100"
-            android:defaultValue="50" />
-
-        <!-- Switch preference for night vision -->
-        <SwitchPreferenceCompat
-            android:key="pref_night_vision"
-            android:title="@string/night_vision"
-            android:summary="@string/night_vision_summary"
-            android:defaultValue="true" />
-
+            android:summary="@string/notLoggedIn" />
     </PreferenceCategory>
 
     <PreferenceCategory

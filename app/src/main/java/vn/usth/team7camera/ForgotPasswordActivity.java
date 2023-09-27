@@ -43,7 +43,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getApplicationContext(),"Please enter email!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.email_null), Toast.LENGTH_SHORT).show();
                 return;
             }
             
@@ -60,7 +60,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     }
             });
         } else {
-            Toast.makeText(this, "Enter valid E-mail address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.email_not_valid), Toast.LENGTH_SHORT).show();
         }
     }
 }

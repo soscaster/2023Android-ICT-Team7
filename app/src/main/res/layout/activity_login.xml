@@ -8,15 +8,18 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/signin"
-        android:text="Sign in"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="@string/login_pref"
         android:textColor="@color/white"
         android:textSize="35dp"
-        android:textStyle="bold"
-        android:layout_margin="50dp"
-        android:gravity="center"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/username"
@@ -30,7 +33,7 @@
         android:background="#30ffffff"
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
-        android:hint="Email Address"
+        android:hint="@string/email_hint"
         android:padding="20dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
@@ -41,7 +44,7 @@
         android:id="@+id/password"
         android:layout_below="@id/username"
         android:background="#30ffffff"
-        android:hint="Password"
+        android:hint="@string/pwd_hint"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:layout_margin="10dp"
@@ -61,7 +64,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="LOGIN" />
+        android:text="@string/login_btn" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/regnew"
@@ -72,7 +75,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="REGISTER NEW USER" />
+        android:text="@string/reg_btn" />
 
     <TextView
         android:id="@+id/forgotpass"
@@ -84,7 +87,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Forgot password?"
+        android:text="@string/forgot_pwd_txt"
         android:textColor="@color/white" />
 
     <ProgressBar
@@ -100,7 +103,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/others"
         android:layout_above="@id/socialicons"
-        android:text="or sign in with"
+        android:text="@string/google_txtview"
         android:layout_centerHorizontal="true"
         android:textColor="@color/black"/>
 

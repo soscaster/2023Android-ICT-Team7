@@ -42,10 +42,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                 accPreference.setSummary(email);
                             }
                         } else {
-                            accPreference.setSummary("Not logged in yet.");                        }
+                            accPreference.setSummary(getString(R.string.notLoggedIn));                        }
                     } else {
                         // If the user is not logged in, set the summary to "Not logged in yet."
-                        accPreference.setSummary("Not logged in yet.");
+                        accPreference.setSummary(getString(R.string.notLoggedIn));
                     }
                 }
             };
@@ -182,7 +182,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             requireActivity().recreate();
         }
     }
-
 
     private String getCurrentLanguage() {
         Configuration configuration = getResources().getConfiguration();

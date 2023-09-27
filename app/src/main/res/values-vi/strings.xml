@@ -55,7 +55,34 @@
     <string name="login_pref">Đăng nhập</string>
     <string name="logged_as">Đã đăng nhập bằng:</string>
     <string name="account">Tài khoản</string>
-    <string name="need_help">Cần hỗ trợ ?</string>
+    <string name="need_help">Cần hỗ trợ?</string>
+    <string name="reset_pwd_title">Đặt lại mật khẩu bằng E-mail</string>
+    <string name="notLoggedIn">Chưa đăng nhập</string>
+    <string name="pref_login_summary">Sử dụng E-mail hoặc Tài khoản Google</string>
+    <string name="logout_pref">Đăng xuất</string>
+    <string name="pref_logout_summary">Bấm để đăng xuất</string>
+    <string name="email_null">Tài khoản E-mail không được để trống</string>
+    <string name="pwd_null">Mật khẩu không được để trống</string>
+    <string name="pwd_char_miss">Mật khẩu cần có ít nhất 6 ký tự</string>
+    <string name="pwd_not_match">Các mật khẩu không trùng khớp</string>
+    <string name="email_verify_sent">"Đã gửi e-mail xác thực đến: "</string>
+    <string name="email_verify_sent_failed">Gửi e-mail xác thực thất bại</string>
+    <string name="reg_failed">Đăng ký thất bại! Hãy thử lại sau</string>
+    <string name="email_not_valid">Vui lòng nhập E-mail hợp lệ!</string>
+    <string name="login_success">Đăng nhập thành công!</string>
+    <string name="user_not_yet_verify">Bạn cần xác thực tài khoản. Hãy kiểm tra hộp thư đến/thư rác</string>
+    <string name="login_failed">Đăng nhập thất bại!</string>
+    <string name="google_sign_in_failed">"Đăng nhập bằng Google thất bại: "</string>
+    <string name="google_sign_in_success">Đăng nhập bằng Google thành công!</string>
+    <string name="email_hint">Tài khoản E-mail</string>
+    <string name="pwd_hint">Mật khẩu</string>
+    <string name="login_btn">ĐĂNG NHẬP</string>
+    <string name="reg_btn">ĐĂNG KÝ TÀI KHOẢN MỚI</string>
+    <string name="forgot_pwd_txt">Quên mật khẩu?</string>
+    <string name="google_txtview">hoặc đăng nhập với</string>
+    <string name="register_title">Đăng ký</string>
+    <string name="pwd_re_hint">Nhập lại Mật khẩu</string>
+    <string name="email_reset_pwd">Gửi e-mail Đặt lại Mật khẩu</string>
 
 
 </resources>
