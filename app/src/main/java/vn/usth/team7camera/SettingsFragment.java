@@ -35,11 +35,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     if (firebaseUser != null) {
-                        String email = firebaseUser.getEmail();
-                        if (email != null) {
-                            // Update the summary text of pref_logged to the email string
-                            accPreference.setSummary(email);
-                        }
+                        if (firebaseUser.isEmailVerified()) {
+                            String email = firebaseUser.getEmail();
+                            if (email != null) {
+                                // Update the summary text of pref_logged to the email string
+                                accPreference.setSummary(email);
+                            }
+                        } else {
+                            accPreference.setSummary("Not logged in yet.");                        }
                     } else {
                         // If the user is not logged in, set the summary to "Not logged in yet."
                         accPreference.setSummary("Not logged in yet.");
@@ -70,12 +73,21 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser != null) {
-            // User is logged in, show logout preference and hide login preference
-            if (loginPreference != null) {
-                loginPreference.setVisible(false);
-            }
-            if (logoutPreference != null) {
-                logoutPreference.setVisible(true);
+            if (currentUser.isEmailVerified()) {
+                // User is logged in, show logout preference and hide login preference
+                if (loginPreference != null) {
+                    loginPreference.setVisible(false);
+                }
+                if (logoutPreference != null) {
+                    logoutPreference.setVisible(true);
+                }
+            } else {
+                if (loginPreference != null) {
+                    loginPreference.setVisible(true);
+                }
+                if (logoutPreference != null) {
+                    logoutPreference.setVisible(false);
+                }
             }
         } else {
             // User is not logged in, show login preference and hide logout preference

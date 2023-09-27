@@ -69,10 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(),
-                                "Please enter password!!",
-                                Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(getApplicationContext(), "Please enter password!!", Toast.LENGTH_LONG).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
@@ -82,22 +79,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 return;
             }
             if (TextUtils.isEmpty(re_password) || !re_password.equals(password)) {
-                Toast.makeText(getApplicationContext(),
-                            "Please match passwords!!",
-                            Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(getApplicationContext(), "Please match passwords!!", Toast.LENGTH_LONG).show();
                 progressbar.setVisibility(View.GONE);
                 return;
             }
-
 
             // create new user or register new user
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-
-
                         final FirebaseUser user = mAuth.getCurrentUser();
                         user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
