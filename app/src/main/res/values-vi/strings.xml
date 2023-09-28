@@ -86,6 +86,8 @@
     <string name="no_change">Không có sự thay đổi nào.</string>
     <string name="capture_failed">Chụp ảnh thất bại</string>
     <string name="database_error">Lỗi truy cập Cơ sở dữ liệu!</string>
+    <string name="upload_success">Ảnh chụp đã được lưu trên Đám mây!</string>
+    <string name="upload_failed">Lưu ảnh chụp trên Đám mây thất bại!</string>
 
 
 </resources>

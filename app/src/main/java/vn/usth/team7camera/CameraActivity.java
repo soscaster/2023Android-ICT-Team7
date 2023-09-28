@@ -24,15 +24,22 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import vn.usth.team7camera.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +49,9 @@ public class CameraActivity extends AppCompatActivity {
     private ExoPlayer player;
     private PlayerView playerView;
     private String videoPath;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,8 @@ public class CameraActivity extends AppCompatActivity {
         player.setMediaItem(MediaItem.fromUri(videoPath));
         player.prepare();
         player.play();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
     }
 
     @Override
@@ -297,6 +309,7 @@ public class CameraActivity extends AppCompatActivity {
                     });
                     return;
                 }
+
                 String cameraName = getIntent().getStringExtra("cameraIndex");
                 String fileName = "snapshot_" + cameraName + "_" + System.currentTimeMillis() + ".jpg";
                 File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Team7Camera");
@@ -327,9 +340,43 @@ public class CameraActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+                // Get the user's UID (assuming you have Firebase Authentication set up)
+                String userUid = currentUser.getUid();
+
+                // Create a reference to the user's folder and file
+                StorageReference userFolderRef = storageReference.child(userUid);
+                StorageReference imageRef = userFolderRef.child(fileName);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                // Upload the image to Firebase Storage
+                UploadTask uploadTask = imageRef.putBytes(data);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CameraActivity.this, getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CameraActivity.this, getString(R.string.upload_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
     }
-
 }
 

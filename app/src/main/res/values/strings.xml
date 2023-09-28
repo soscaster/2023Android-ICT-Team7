@@ -87,5 +87,7 @@
     <string name="no_change">No changes were made.</string>
     <string name="capture_failed">Failed to capture bitmap</string>
     <string name="database_error">Database Access Error!</string>
+    <string name="upload_success">Snapshot saved to the Cloud!</string>
+    <string name="upload_failed">Snapshot failed to save to the Cloud!</string>
 
 </resources>
