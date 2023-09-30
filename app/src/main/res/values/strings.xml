@@ -89,5 +89,13 @@
     <string name="database_error">Database Access Error!</string>
     <string name="upload_success">Snapshot saved to the Cloud!</string>
     <string name="upload_failed">Snapshot failed to save to the Cloud!</string>
+    <string name="change_pwd">Change Password</string>
+    <string name="delete_acc">Delete Account</string>
+    <string name="registered_since">Registered since</string>
+    <string name="current_pwd">Enter current password</string>
+    <string name="new_pwd">Enter new password</string>
+    <string name="confirm">Confirm</string>
+    <string name="pwd_not_correct">The password you entered is not correct.</string>
+    <string name="pwd_updated">Password updated successfully!</string>
 
 </resources>

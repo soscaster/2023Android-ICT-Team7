@@ -56,6 +56,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             auth.addAuthStateListener(authListener);
         }
 
+        accPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+
 
         // Find and handle the "About" preference
         Preference aboutPreference = findPreference("pref_about");
