@@ -152,6 +152,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
         }
+
+        Preference guidePreference = findPreference("pref_guide");
+        guidePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), GuideActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     private void showAboutDialog() {

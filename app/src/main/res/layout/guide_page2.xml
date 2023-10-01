@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="@mipmap/ic_launcher"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="18dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textColor="@color/white">
+    </TextView>
+
+    <TextView
+        android:id="@+id/app_copyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:text="@string/copyright_text"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:textSize="15dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/app_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_copyright"
+        android:layout_margin="20dp"
+        android:layout_marginTop="28dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/welcome_config"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:textColor="@color/white">
+    </TextView>
+
+    <!-- Add a new TextView for permissions message -->
+    <TextView
+        android:id="@+id/permissions_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="Please allow the following permissions:\n- Internet\n- Read/Write to External Drive"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:textColor="@color/white">
+    </TextView>
+
+</RelativeLayout>

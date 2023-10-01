@@ -40,7 +40,11 @@
         android:title="@string/about"
         android:key="about_section">
 
-        <!-- Clickable Preference for About -->
+        <Preference
+            android:key="pref_guide"
+            android:title="@string/guide_trigger"
+            android:summary="@string/guide_summary" />
+
         <Preference
             android:key="pref_about"
             android:title="@string/about"

@@ -97,5 +97,23 @@
     <string name="confirm">Confirm</string>
     <string name="pwd_not_correct">The password you entered is not correct.</string>
     <string name="pwd_updated">Password updated successfully!</string>
-
+    <string name="guide_trigger">Open Guide Screen</string>
+    <string name="guide_summary">Feel lost? Open the Guide screen again!</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="play_again_desc">You can always rewatch this screen in the Settings tab.</string>
+    <string name="play_again">Play Again</string>
+    <string name="welcome_config">Welcome to CamSeeCamXa!\n\nIs this the first time you have installed this app on this device?\n\nWe\'ll walk you through some configurations.\n\nPress NEXT to continue the next step!</string>
+    <string name="copyright_text" translatable="false">© BI12 - ICT - Team 7</string>
+    <string name="name_hint">Full Name</string>
+    <string name="name_null">The user must have a name!</string>
+    <string name="avatar_description">Avatar of user</string>
+    <string name="profile_title">User Profile</string>
+    <string name="full_name">"Full Name: "</string>
+    <string name="not_available">Not Available</string>
+    <string name="current_empty">Current password field must not be empty!</string>
+    <string name="new_pwd_empty">New password field must not be empty!</string>
+    <string name="new_old_same">New password cannot match with old password!</string>
 </resources>

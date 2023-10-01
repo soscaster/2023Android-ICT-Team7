@@ -23,7 +23,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private TextView currentPassword;
     private TextView newPassword;
-
     private MaterialButton confirmBtn;
     private FirebaseAuth mAuth;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -52,46 +51,42 @@ public class ChangePasswordActivity extends AppCompatActivity {
         String newPwd = newPassword.getText().toString();
 
         if (oldPwd.isEmpty()) {
-            Toast.makeText(ChangePasswordActivity.this, "Current password field is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this, R.string.current_empty, Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (newPwd.isEmpty()) {
-            Toast.makeText(ChangePasswordActivity.this, "New password field is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this, R.string.new_pwd_empty, Toast.LENGTH_SHORT).show();
             return;
         }
         if (oldPwd.equals(newPwd)) {
-            Toast.makeText(ChangePasswordActivity.this, "New password cannot match with old password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this, R.string.new_old_same, Toast.LENGTH_SHORT).show();
             return;
         }
         else {
             AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPwd);
 
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                user.updatePassword(newPwd)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.pwd_updated), Toast.LENGTH_SHORT).show();
+            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        user.updatePassword(newPwd).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.pwd_updated), Toast.LENGTH_SHORT).show();
 
-                                                    Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
-                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        });
-                            } else {
-                                Toast.makeText(ChangePasswordActivity.this, getString(R.string.pwd_not_correct), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    finish();
+                                    startActivity(intent);
+                                }
                             }
-                        }
-                    });
-
+                        });
+                    } else {
+                        Toast.makeText(ChangePasswordActivity.this, getString(R.string.pwd_not_correct), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
-
     }
 }

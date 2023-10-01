@@ -88,6 +88,32 @@
     <string name="database_error">Lỗi truy cập Cơ sở dữ liệu!</string>
     <string name="upload_success">Ảnh chụp đã được lưu trên Đám mây!</string>
     <string name="upload_failed">Lưu ảnh chụp trên Đám mây thất bại!</string>
+    <string name="change_pwd">Đổi Mật khẩu</string>
+    <string name="delete_acc">Xoá Tài khoản</string>
+    <string name="registered_since">Đăng ký từ</string>
+    <string name="current_pwd">Nhập mật khẩu hiện tại</string>
+    <string name="new_pwd">Nhập mật khẩu mới</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="pwd_not_correct">Mật khẩu đã nhập không chính xác.</string>
+    <string name="pwd_updated">Cập nhật mật khẩu thành công!</string>
+    <string name="guide_trigger">Mở Màn hình chỉ dẫn</string>
+    <string name="guide_summary">Cảm thấy lạc lõng sao? Mở Màn hình chỉ dẫn lại thôi!</string>
+    <string name="title_activity_welcome">Màn hình Chính</string>
+    <string name="next">TIẾP TỤC</string>
+    <string name="skip">BỎ QUA</string>
+    <string name="start">ĐÃ HIỂU</string>
+    <string name="play_again_desc">Bạn luôn có thể xem lại màn hình này trong mục Cài đặt.</string>
+    <string name="play_again">Chạy lại</string>
+    <string name="welcome_config">Chào mừng đến với CamSeeCam Xa!\n\nĐây có phải là lần đầu bạn cài đặt phần mềm này trên thiết bị này?\n\nChúng tôi sẽ dẫn bạn trải qua một số thiết lập.\n\nBấm TIẾP TỤC để sang bước tiếp theo!</string>
+    <string name="name_hint">Tên đầy đủ</string>
+    <string name="name_null">Người dùng bắt buộc phải có tên!</string>
+    <string name="avatar_description">Avatar của người dùng</string>
+    <string name="profile_title">Hồ sơ Người dùng</string>
+    <string name="full_name">"Tên đầy đủ: "</string>
+    <string name="not_available">Không khả dụng</string>
+    <string name="current_empty">Mật khẩu hiện tại không được để trống!</string>
+    <string name="new_pwd_empty">Mật khẩu mới không được để trống!</string>
+    <string name="new_old_same">Mật khẩu mới không được trùng với mật khẩu cũ!</string>
 
 
 </resources>

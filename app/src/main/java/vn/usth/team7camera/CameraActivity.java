@@ -169,7 +169,6 @@ public class CameraActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle error if database read fails
                     }
                 });
             }
@@ -217,14 +216,12 @@ public class CameraActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Update the camera name and link in Firebase Database
                 DatabaseReference camerasRef = FirebaseDatabase.getInstance().getReference("camseecamxa");
                 String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 camerasRef.child(currentUserUid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Find the existing camera node by its name and update its values
                         for (DataSnapshot cameraSnapshot : dataSnapshot.getChildren()) {
                             String existingCameraName = cameraSnapshot.child("cameraName").getValue(String.class);
                             String existingCameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
@@ -247,8 +244,6 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
     }
-
-    // Check if the camera name already exists in Firebase Database
     private boolean isCameraNameExist(final String cameraName) {
         DatabaseReference camerasRef = FirebaseDatabase.getInstance().getReference("camseecamxa");
         String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -340,19 +335,14 @@ public class CameraActivity extends AppCompatActivity {
                         }
                     });
                 }
-
-                // Get the user's UID (assuming you have Firebase Authentication set up)
                 String userUid = currentUser.getUid();
-
-                // Create a reference to the user's folder and file
-                StorageReference userFolderRef = storageReference.child(userUid);
+                StorageReference userFolderRef = storageReference.child("snapshots").child(userUid);
                 StorageReference imageRef = userFolderRef.child(fileName);
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] data = baos.toByteArray();
 
-                // Upload the image to Firebase Storage
                 UploadTask uploadTask = imageRef.putBytes(data);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

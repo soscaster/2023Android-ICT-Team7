@@ -81,49 +81,60 @@ public class MainActivity extends AppCompatActivity {
             selectedLanguage = getCurrentLanguage();
         }
         setLocale(selectedLanguage);
-        setContentView(R.layout.activity_main);
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
-        requestRuntimePermission();
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        }
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
         if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
-            titles = getResources().getStringArray(R.array.tab_titles);
-            PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
-            ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-            pager.setOffscreenPageLimit(1);
-            pager.setAdapter(adapter);
+            // Check if the welcome screen should be shown
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            boolean welcomeScreenShown = preferences.getBoolean("welcome_screen_shown", false);
 
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-            tabLayout.setupWithViewPager(pager);
+            if (!welcomeScreenShown) {
+                Intent intent = new Intent(this, GuideActivity.class);
+                startActivity(intent);
+            }
 
-            int[] tabIcons = { R.drawable.baseline_videocam_24, R.drawable.baseline_event_24,
-                    R.drawable.baseline_image_24, R.drawable.baseline_settings_24 };
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            for (int i = 0; i < tabLayout.getTabCount(); i++) {
-                TabLayout.Tab tab = tabLayout.getTabAt(i);
-                if (tab != null) {
-                    tab.setCustomView(R.layout.custom_tab);
-                    ImageView tabIcon = tab.getCustomView().findViewById(R.id.tabIcon);
-                    TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
-
-                    // Set icon and text for the tab
-                    tabIcon.setImageResource(tabIcons[i]);
-                    tabText.setText(titles[i]); // titles is an array of your tab text
+            if (currentUser != null && currentUser.isEmailVerified()) {
+                requestRuntimePermission();
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
+                setContentView(R.layout.activity_main);
+
+                titles = getResources().getStringArray(R.array.tab_titles);
+                PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), titles);
+                ViewPager pager = findViewById(R.id.viewPager);
+                pager.setOffscreenPageLimit(1);
+                pager.setAdapter(adapter);
+
+                TabLayout tabLayout = findViewById(R.id.tabLayout);
+                tabLayout.setupWithViewPager(pager);
+
+                int[] tabIcons = { R.drawable.baseline_videocam_24, R.drawable.baseline_event_24,
+                        R.drawable.baseline_image_24, R.drawable.baseline_settings_24 };
+
+                for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                    TabLayout.Tab tab = tabLayout.getTabAt(i);
+                    if (tab != null) {
+                        tab.setCustomView(R.layout.custom_tab);
+                        ImageView tabIcon = tab.getCustomView().findViewById(R.id.tabIcon);
+                        TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
+
+                        tabIcon.setImageResource(tabIcons[i]);
+                        tabText.setText(titles[i]);
+                    }
+                }
+            } else {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return;
             }
         } else {
+            // No internet connection
             TextView textView = new TextView(this);
             textView.setText(R.string.check_Internet);
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -131,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Save last language configuration
     private String getSavedLanguagePreference() {
         SharedPreferences sharedPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
         Log.d("language", getSystemLanguage());
@@ -148,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
         return configuration.locale.getLanguage();
     }
 
-    //set language
     private void setLocale(String languageCode) {
         if (!getCurrentLanguage().equals(languageCode)) {
             saveLanguagePreference(languageCode);
@@ -164,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Get the system language
     private String getSystemLanguage() {
         Configuration configuration = Resources.getSystem().getConfiguration();
         return configuration.locale.getLanguage();

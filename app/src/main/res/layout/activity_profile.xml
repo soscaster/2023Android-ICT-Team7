@@ -6,35 +6,37 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <TextView
+        android:id="@+id/profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        android:text="@string/profile_title"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/avatar_image"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile"
+        android:src="@drawable/def_user"
+        android:clickable="true"
+        android:contentDescription="@string/avatar_description"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"/>
 
     <LinearLayout
+        android:layout_below="@+id/avatar_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            android:padding="16dp"-->
-<!--            android:background="@color/white">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/profile_picture"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:src="@drawable/twitter"-->
-<!--                android:scaleType="centerCrop"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/username"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Username"-->
-<!--                android:textSize="32sp"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:layout_marginTop="8dp"/>-->
-<!--        </LinearLayout>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,11 +44,48 @@
             android:padding="15dp"
             android:layout_marginTop="-0dp"
             android:layout_marginBottom="15dp"
-            android:background="@color/white">
+            android:background="@color/black">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/RL_name"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/ic_name"
+                    android:contentDescription="name"
+                    android:background="@drawable/ic_baseline_person_outline_24" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@id/ic_name"
+                    android:layout_marginStart="50dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider_name"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/RL_name"
+                android:background="@android:color/darker_gray"/>
+
+            <RelativeLayout
+                android:layout_below="@id/divider_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:id="@+id/RL_email"
                 android:clickable="true"
@@ -58,7 +97,7 @@
                     android:layout_centerVertical="true"
                     android:id="@+id/ic_profile"
                     android:contentDescription="name"
-                    android:background="@drawable/ic_baseline_person_outline_24" />
+                    android:background="@drawable/ic_mail" />
 
                 <TextView
                     android:id="@+id/user_email"
@@ -67,11 +106,13 @@
                     android:layout_centerVertical="true"
                     android:layout_alignStart="@id/ic_profile"
                     android:layout_marginStart="50dp"
-                    android:textColor="@color/black"/>
+                    android:text="E-mail: "
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
             </RelativeLayout>
 
             <View
-                android:id="@+id/divider_name"
+                android:id="@+id/divider_mail"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/RL_email"
@@ -83,7 +124,7 @@
                 android:id="@+id/RL_reset_pwd"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@id/divider_name"
+                android:layout_below="@id/divider_mail"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -94,7 +135,7 @@
                     android:id="@+id/ic_pwd"
                     android:contentDescription="reset_password"
                     android:layout_centerVertical="true"
-                    android:background="@color/white"/>
+                    android:background="@drawable/ic_pwd"/>
 
                 <TextView
                     android:id="@+id/reset_password"
@@ -104,7 +145,9 @@
                     android:layout_marginStart="50dp"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/black"/>
+                    android:text="@string/change_pwd"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"/>
             </RelativeLayout>
 
             <View
@@ -130,7 +173,7 @@
                     android:layout_centerVertical="true"
                     android:id="@+id/ic_del"
                     android:contentDescription="dob"
-                    android:background="@color/white"/>
+                    android:background="@drawable/ic_delete"/>
 
                 <TextView
                     android:id="@+id/del_acc"
@@ -140,7 +183,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/red"/>
+                    android:text="@string/delete_acc"
+                    android:textColor="@color/red"
+                    android:textSize="20dp"/>
             </RelativeLayout>
 
 <!--            <View-->
@@ -222,31 +267,5 @@
                 android:elevation="10dp"
                 android:visibility="gone" />
         </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp">
-
-            <TextView
-                android:id="@+id/textView_show_register_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="date--month--year"
-                android:textAlignment="center"
-                android:layout_alignParentBottom="true"/>
-
-            <TextView
-                android:id="@+id/textView_registered_since"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="@string/registered_since"
-                android:layout_above="@id/textView_show_register_date"/>
-        </RelativeLayout>
-
-
     </LinearLayout>
-
 </RelativeLayout>
