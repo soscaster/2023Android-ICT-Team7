@@ -4,11 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,13 +39,20 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private ImageView avatarImageView;
     private TextView userNameTextView;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private DatabaseReference databaseReference;
+    private EditText nameTextView;
+    private Uri avatarUri;
+    private Bitmap avatarBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +104,38 @@ public class ProfileActivity extends AppCompatActivity {
                     showDeleteConfirmationDialog();
                 }
             });
-
+            avatarImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                }
+            });
         } else {
             // Nothing yet
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                avatarUri = data.getData();
+                if (avatarUri != null) {
+                    try {
+                        avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), avatarUri);
+                        avatarBitmap = cropImage(avatarBitmap);
+                        avatarBitmap = resizeImage(avatarBitmap, 256, 256);
+                        avatarImageView.setImageBitmap(avatarBitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
     private void loadAvatar() {
         if (currentUser != null) {
             String userUid = currentUser.getUid();
@@ -107,6 +146,70 @@ public class ProfileActivity extends AppCompatActivity {
             }).addOnFailureListener(exception -> {
                 avatarImageView.setImageResource(R.drawable.def_user);
             });
+        }
+    }
+
+    private Bitmap cropImage(Bitmap source) {
+        int size = Math.min(source.getWidth(), source.getHeight());
+        return Bitmap.createBitmap(source, 0, 0, size, size);
+    }
+
+    private Bitmap resizeImage(Bitmap source, int targetWidth, int targetHeight) {
+        return Bitmap.createScaledBitmap(source, targetWidth, targetHeight, true);
+    }
+
+    private void uploadAvatar() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userUid = user.getUid();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("userdb");
+            DatabaseReference userTableReference = databaseReference.child(userUid);
+            String name = nameTextView.getText().toString();
+            userTableReference.child("fullName").setValue(name);
+
+            if (avatarUri != null) {
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference avatarRef = storageRef.child("users/" + userUid + "/avatar.jpg");
+
+                try {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    avatarBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+
+                    avatarRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+                        Toast.makeText(ProfileActivity.this, "Avatar uploaded", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(ProfileActivity.this, "Avatar upload failed", Toast.LENGTH_SHORT).show();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference defaultAvatarRef = storageRef.child("users/" + userUid + "/avatar.jpg");
+
+                Bitmap defaultAvatarBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.def_user);
+                defaultAvatarBitmap = cropImage(defaultAvatarBitmap);
+                defaultAvatarBitmap = resizeImage(defaultAvatarBitmap, 256, 256);
+
+                try {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    defaultAvatarBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                    byte[] data = baos.toByteArray();
+
+                    defaultAvatarRef.putBytes(data)
+                            .addOnSuccessListener(taskSnapshot -> {
+//                                Toast.makeText(RegistrationActivity.this, "Default avatar uploaded", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+//                                Toast.makeText(RegistrationActivity.this, "Default avatar upload failed", Toast.LENGTH_SHORT).show();
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
