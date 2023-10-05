@@ -12,10 +12,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText nameTextView;
     private Uri avatarUri;
     private Bitmap avatarBitmap;
+    private ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (currentUser!= null) {
             String userEmail = currentUser.getEmail();
 
-            RelativeLayout rl_email = findViewById(R.id.RL_email);
+            RelativeLayout rl_name = findViewById(R.id.RL_name);
             RelativeLayout rl_resetPwd = findViewById(R.id.RL_reset_pwd);
             RelativeLayout rl_deleteAcc = findViewById(R.id.RL_del_acc);
 
@@ -80,16 +83,19 @@ public class ProfileActivity extends AppCompatActivity {
             storageReference = FirebaseStorage.getInstance().getReference();
             avatarImageView = findViewById(R.id.avatar_image);
             userNameTextView = findViewById(R.id.user_name);
+            progressbar = findViewById(R.id.progressbar);
 
             loadAvatar();
             fetchUserNameFromDatabase();
 
-            email.setOnClickListener(new View.OnClickListener(){
+            rl_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    modifyName();
                 }
             });
+
+
             rl_resetPwd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,6 +122,58 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void modifyName() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.modifyName));
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_change_name, null);
+        builder.setView(dialogView);
+
+        final TextView editTextCameraName = dialogView.findViewById(R.id.editTextName);
+
+        builder.setPositiveButton(getResources().getString(R.string.save), null);
+
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String cameraNewName = editTextCameraName.getText().toString();
+
+                if (cameraNewName.isEmpty()) {
+                    Toast.makeText(ProfileActivity.this, R.string.antiEmpty, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                DatabaseReference camerasRef = FirebaseDatabase.getInstance().getReference("userdb");
+                String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                camerasRef.child(currentUserUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot cameraSnapshot : dataSnapshot.getChildren()) {
+                            cameraSnapshot.getRef().setValue(cameraNewName);
+                            userNameTextView.setText(getString(R.string.full_name) + cameraNewName);
+                        }
+                        Toast.makeText(getApplicationContext(), R.string.info_changed, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -133,6 +191,7 @@ public class ProfileActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                uploadAvatar();
             }
         }
     }
@@ -159,14 +218,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void uploadAvatar() {
+        progressbar.setVisibility(View.VISIBLE);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String userUid = user.getUid();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("userdb");
-            DatabaseReference userTableReference = databaseReference.child(userUid);
-            String name = nameTextView.getText().toString();
-            userTableReference.child("fullName").setValue(name);
-
             if (avatarUri != null) {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
@@ -179,10 +234,13 @@ public class ProfileActivity extends AppCompatActivity {
 
                     avatarRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
                         Toast.makeText(ProfileActivity.this, "Avatar uploaded", Toast.LENGTH_SHORT).show();
+                        progressbar.setVisibility(View.INVISIBLE);
                     }).addOnFailureListener(e -> {
                         Toast.makeText(ProfileActivity.this, "Avatar upload failed", Toast.LENGTH_SHORT).show();
+                        progressbar.setVisibility(View.INVISIBLE);
                     });
                 } catch (Exception e) {
+                    progressbar.setVisibility(View.INVISIBLE);
                     e.printStackTrace();
                 }
             } else {
@@ -201,16 +259,20 @@ public class ProfileActivity extends AppCompatActivity {
 
                     defaultAvatarRef.putBytes(data)
                             .addOnSuccessListener(taskSnapshot -> {
+                                progressbar.setVisibility(View.INVISIBLE);
 //                                Toast.makeText(RegistrationActivity.this, "Default avatar uploaded", Toast.LENGTH_SHORT).show();
                             })
                             .addOnFailureListener(e -> {
+                                progressbar.setVisibility(View.INVISIBLE);
 //                                Toast.makeText(RegistrationActivity.this, "Default avatar upload failed", Toast.LENGTH_SHORT).show();
                             });
                 } catch (Exception e) {
+                    progressbar.setVisibility(View.INVISIBLE);
                     e.printStackTrace();
                 }
             }
         }
+        progressbar.setVisibility(View.INVISIBLE);
     }
 
     private void fetchUserNameFromDatabase() {

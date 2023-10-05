@@ -114,6 +114,9 @@
     <string name="current_empty">Mật khẩu hiện tại không được để trống!</string>
     <string name="new_pwd_empty">Mật khẩu mới không được để trống!</string>
     <string name="new_old_same">Mật khẩu mới không được trùng với mật khẩu cũ!</string>
+    <string name="modifyName">Đổi Họ và tên Người dùng</string>
+    <string name="userName">Họ và tên Người dùng</string>
+    <string name="info_changed">Đã cập nhật thông tin cá nhân!</string>
 
 
 </resources>

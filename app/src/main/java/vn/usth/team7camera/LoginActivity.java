@@ -3,6 +3,9 @@ package vn.usth.team7camera;
 import static android.app.PendingIntent.getActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -36,8 +39,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView emailTextView, passwordTextView, forgotPasswordTextView;
@@ -163,6 +170,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap cropImage(Bitmap source) {
+        int size = Math.min(source.getWidth(), source.getHeight());
+        return Bitmap.createBitmap(source, 0, 0, size, size);
+    }
+
+    private Bitmap resizeImage(Bitmap source, int targetWidth, int targetHeight) {
+        return Bitmap.createScaledBitmap(source, targetWidth, targetHeight, true);
+    }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -175,6 +191,36 @@ public class LoginActivity extends AppCompatActivity {
                     DatabaseReference userTableReference = databaseReference.child(userUid);
                     DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("userdb");
                     DatabaseReference userTableReference2 = databaseReference2.child(userUid);
+
+                    // Check if the user already exists in the authentication database
+                    boolean isNewUser = task.getResult().getAdditionalUserInfo().isNewUser();
+
+                    if (isNewUser) {
+                        // User is a new user, upload default avatar
+                        Bitmap defaultAvatarBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.def_user);
+                        defaultAvatarBitmap = cropImage(defaultAvatarBitmap);
+                        defaultAvatarBitmap = resizeImage(defaultAvatarBitmap, 256, 256);
+
+                        try {
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            defaultAvatarBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                            byte[] data = baos.toByteArray();
+
+                            FirebaseStorage storage = FirebaseStorage.getInstance();
+                            StorageReference storageRef = storage.getReference();
+                            StorageReference defaultAvatarRef = storageRef.child("users/" + userUid + "/avatar.jpg");
+
+                            defaultAvatarRef.putBytes(data)
+                                    .addOnSuccessListener(taskSnapshot -> {
+                                        // Default avatar uploaded successfully
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Default avatar upload failed
+                                    });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     userTableReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

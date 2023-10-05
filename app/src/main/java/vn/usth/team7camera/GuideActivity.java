@@ -2,6 +2,8 @@ package vn.usth.team7camera;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class GuideActivity extends AppCompatActivity {
 
@@ -40,7 +44,16 @@ public class GuideActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(currentItem + 1);
                 } else {
                     saveWelcomeScreenShownFlag();
-                    finish();
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null && currentUser.isEmailVerified()) {
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        finish();
+                        startActivity(intent);
+                        recreate();
+                    }
                 }
             }
         });

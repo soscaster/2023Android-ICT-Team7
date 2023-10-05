@@ -116,4 +116,7 @@
     <string name="current_empty">Current password field must not be empty!</string>
     <string name="new_pwd_empty">New password field must not be empty!</string>
     <string name="new_old_same">New password cannot match with old password!</string>
+    <string name="modifyName">Change User Full Name</string>
+    <string name="userName">User Full Name</string>
+    <string name="info_changed">Personal information updated!</string>
 </resources>

@@ -93,6 +93,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
                 if (logoutPreference != null) {
                     logoutPreference.setVisible(true);
+
                 }
             } else {
                 if (loginPreference != null) {

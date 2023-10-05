@@ -13,8 +13,7 @@
         <Preference
             android:key="pref_logout"
             android:title="@string/logout_pref"
-            android:summary="@string/pref_logout_summary" />
-
+            android:summary="@string/pref_logout_summary"/>
         <Preference
             android:key="pref_logged"
             android:title="@string/logged_as"
