@@ -41,6 +41,9 @@ public class EventsFragment extends Fragment {
     private CameraAdapter cameraAdapter; // Declare cameraAdapter
     private static final int REQUEST_CODE_DATE_TIME_PICKER = 123;
 
+    private String cameraName1;
+    private String cameraLink1;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -51,6 +54,15 @@ public class EventsFragment extends Fragment {
             if (isInvalidTime) {
                 // Handle the invalid time condition here, e.g., show a toast
                 Toast.makeText(requireContext(), getResources().getString(R.string.invalidTime), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                long selectedDateTimeMillis = data.getLongExtra("selectedDateTime", 0);
+                Log.d("selected", String.valueOf(selectedDateTimeMillis));
+                Intent intent = new Intent(requireContext(), CameraActivity2.class);
+                intent.putExtra("selectedDateTime", selectedDateTimeMillis);
+                intent.putExtra("cameraIndex", cameraName1);
+                intent.putExtra("videoPath", cameraLink1);
+                startActivity(intent);
             }
         }
     }
@@ -93,20 +105,25 @@ public class EventsFragment extends Fragment {
                         noCameraIcon.setVisibility(View.GONE);
 
                         List<String> cameraNamesList = new ArrayList<>();
+                        List<String> cameraLinksList = new ArrayList<>();
 
                         for (DataSnapshot cameraSnapshot : snapshot.getChildren()) {
                             String cameraName = cameraSnapshot.child("cameraName").getValue(String.class);
+                            String cameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
                             cameraNamesList.add(cameraName);
+                            cameraLinksList.add(cameraLink);
                         }
 
-                        cameraAdapter = new CameraAdapter(cameraNamesList, getChildFragmentManager());
+                        cameraAdapter = new CameraAdapter(cameraNamesList, cameraLinksList, getChildFragmentManager());
                         recyclerView.setAdapter(cameraAdapter);
 
                         // Set item click listener for the RecyclerView
                         cameraAdapter.setOnCameraItemClickListener(new CameraAdapter.OnCameraItemClickListener() {
                             @Override
-                            public void onCameraItemClick(String cameraName) {
+                            public void onCameraItemClick(String cameraName, String cameraLink) {
                                 // Display the date and time picker dialog
+                                cameraName1 = cameraName;
+                                cameraLink1 = cameraLink;
                                 DateTimePickerDialogFragment dateTimePickerDialogFragment = new DateTimePickerDialogFragment();
                                 dateTimePickerDialogFragment.setTargetFragment(EventsFragment.this, REQUEST_CODE_DATE_TIME_PICKER);
                                 dateTimePickerDialogFragment.show(getFragmentManager(), "DateTimePicker");

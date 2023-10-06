@@ -58,6 +58,10 @@
             android:name=".CameraActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CameraActivity2"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

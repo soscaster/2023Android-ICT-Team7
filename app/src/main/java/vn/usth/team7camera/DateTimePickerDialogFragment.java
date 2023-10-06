@@ -96,11 +96,18 @@ public class DateTimePickerDialogFragment extends DialogFragment
             if (getTargetFragment() != null) {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
+        }
+        else {
+            Intent intent = new Intent();
+            intent.putExtra("selectedDateTime", selectedDateTime.getTimeInMillis()); // Pass selected date/time as millis
+            if (getTargetFragment() != null) {
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            }
 
-            // Dismiss the dialog
-            dismiss();
         }
 
-        // Now you can use the selectedDateTime object to get both date and time.
+        // Dismiss the dialog
+        dismiss();
+
     }
 }

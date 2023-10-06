@@ -14,16 +14,18 @@ import java.util.List;
 
 public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder> {
     private List<String> cameraNames;
+    private List<String> cameraLinks;
     private OnCameraItemClickListener listener;
     private FragmentManager fragmentManager;
 
-    public CameraAdapter(List<String> cameraNames, FragmentManager fragmentManager) {
+    public CameraAdapter(List<String> cameraNames,List<String> cameraLinks, FragmentManager fragmentManager) {
         this.cameraNames = cameraNames;
+        this.cameraLinks = cameraLinks;
         this.fragmentManager = fragmentManager;
     }
 
     public interface OnCameraItemClickListener {
-        void onCameraItemClick(String cameraName);
+        void onCameraItemClick(String cameraName, String cameraLink);
     }
 
     public void setOnCameraItemClickListener(OnCameraItemClickListener listener) {
@@ -43,6 +45,7 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
         String cameraName = cameraNames.get(position);
         holder.textCameraName.setText(cameraName);
         holder.underlineImageView.setVisibility(View.VISIBLE);
+
         // Set an item click listener for the text view
         holder.textCameraName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +54,8 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
                     int adapterPosition = holder.getAdapterPosition();
                     if (adapterPosition != RecyclerView.NO_POSITION) {
                         String cameraName = cameraNames.get(adapterPosition);
-                        listener.onCameraItemClick(cameraName);
+                        String cameraLink = cameraLinks.get(adapterPosition);
+                        listener.onCameraItemClick(cameraName, cameraLink);
                     }
                 }
             }
