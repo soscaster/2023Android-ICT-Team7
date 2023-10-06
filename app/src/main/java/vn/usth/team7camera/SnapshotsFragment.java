@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,11 +30,20 @@ import vn.usth.team7camera.R;
 public class SnapshotsFragment extends Fragment {
     private ArrayList<String> imagePaths = new ArrayList<>();
     private GridView gridView;
+    private Button cloudSnap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_snapshots, container, false);
         gridView = view.findViewById(R.id.gridView);
+        cloudSnap = view.findViewById(R.id.cloudSnap);
+        cloudSnap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent urlOpen = new Intent(Intent.ACTION_VIEW, Uri.parse("https://camseecamxa.quangminh.name.vn"));
+                startActivity(urlOpen);
+            }
+        });
 
         imagePaths.clear();
 

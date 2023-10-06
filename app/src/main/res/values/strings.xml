@@ -120,4 +120,5 @@
     <string name="userName">User Full Name</string>
     <string name="info_changed">Personal information updated!</string>
     <string name="invalidTime">Please set an event before current time</string>
+    <string name="cloudSnapBrowse">Browse Cloud Snapshots</string>
 </resources>

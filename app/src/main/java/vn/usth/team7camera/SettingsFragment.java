@@ -14,6 +14,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,11 +24,15 @@ import java.util.Locale;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+    private GoogleSignInClient mGoogleSignInClient;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load your preferences from XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey);
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
         Preference accPreference = findPreference("pref_logged");
 
@@ -131,6 +138,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceClick(Preference preference) {
                     // Log out the user here using Firebase Authentication
                     FirebaseAuth.getInstance().signOut();
+                    mGoogleSignInClient.signOut();
                     Intent intent = getActivity().getIntent();
                     getActivity().finish();
                     startActivity(intent);

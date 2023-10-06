@@ -76,9 +76,6 @@ public class CamerasFragment extends Fragment {
 
         ImageView noCameraIcon = view.findViewById(R.id.noCameraIcon);
         noCameraIcon.setImageResource(R.drawable.baseline_add_2);
-        addCamera1.setVisibility(View.GONE);
-        addCamera2.setVisibility(View.GONE);
-        noCameraIcon.setVisibility(View.GONE);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

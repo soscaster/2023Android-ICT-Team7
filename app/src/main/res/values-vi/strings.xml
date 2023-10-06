@@ -118,5 +118,6 @@
     <string name="userName">Họ và tên Người dùng</string>
     <string name="info_changed">Đã cập nhật thông tin cá nhân!</string>
     <string name="invalidTime">Xin vui lòng chọn một thời điểm xảy ra trước hiện tại</string>
+    <string name="cloudSnapBrowse">Duyệt Ảnh chụp trên Đám mây</string>
 
 </resources>
