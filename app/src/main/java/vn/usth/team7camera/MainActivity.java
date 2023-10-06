@@ -230,22 +230,22 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 DatabaseReference camerasRef = FirebaseDatabase.getInstance().getReference("camseecamxa");
-                camerasRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference userCamerasRef = camerasRef.child(currentUserUid);
+                userCamerasRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            for (DataSnapshot cameraSnapshot : userSnapshot.getChildren()) {
-                                String existingCameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
-                                String existingCameraName = cameraSnapshot.child("cameraName").getValue(String.class);
+                        for (DataSnapshot cameraSnapshot : dataSnapshot.getChildren()) {
+                            String existingCameraLink = cameraSnapshot.child("cameraLink").getValue(String.class);
+                            String existingCameraName = cameraSnapshot.child("cameraName").getValue(String.class);
 
-                                if (existingCameraLink != null && existingCameraLink.equals(cameraLink)) {
-                                    Toast.makeText(MainActivity.this, getString(R.string.camPortIPExist), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                if (existingCameraName != null && existingCameraName.equals(cameraName)) {
-                                    Toast.makeText(MainActivity.this, getString(R.string.camNameExist), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
+                            if (existingCameraLink != null && existingCameraLink.equals(cameraLink)) {
+                                Toast.makeText(MainActivity.this, getString(R.string.camPortIPExist), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (existingCameraName != null && existingCameraName.equals(cameraName)) {
+                                Toast.makeText(MainActivity.this, getString(R.string.camNameExist), Toast.LENGTH_SHORT).show();
+                                return;
                             }
                         }
 
