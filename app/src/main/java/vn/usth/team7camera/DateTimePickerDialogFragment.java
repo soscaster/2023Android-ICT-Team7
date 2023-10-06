@@ -1,7 +1,9 @@
 package vn.usth.team7camera;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.DatePicker;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
 
@@ -86,10 +89,16 @@ public class DateTimePickerDialogFragment extends DialogFragment
 
         // Check if the selected time is later than the maximum time
         if (selectedDateTime.after(maxDateTime)) {
-            // Display an error message or prevent selection
-            // You can customize this behavior according to your requirements
-            // For example:
-            //Toast.makeText(requireContext(),getResources().getString(R.string.invalidTime), Toast.LENGTH_SHORT).show();
+            boolean isInvalidTime = true;
+            Intent intent = new Intent();
+            intent.putExtra("invalidTime", isInvalidTime);
+            // Set the result for EventsFragment
+            if (getTargetFragment() != null) {
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            }
+
+            // Dismiss the dialog
+            dismiss();
         }
 
         // Now you can use the selectedDateTime object to get both date and time.

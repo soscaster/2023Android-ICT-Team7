@@ -1,12 +1,16 @@
 package vn.usth.team7camera;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,21 @@ public class EventsFragment extends Fragment {
 
     private RecyclerView recyclerView; // Declare recyclerView
     private CameraAdapter cameraAdapter; // Declare cameraAdapter
+    private static final int REQUEST_CODE_DATE_TIME_PICKER = 123;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_DATE_TIME_PICKER && resultCode == Activity.RESULT_OK) {
+            boolean isInvalidTime = data.getBooleanExtra("invalidTime", false);
+
+            if (isInvalidTime) {
+                // Handle the invalid time condition here, e.g., show a toast
+                Toast.makeText(requireContext(), getResources().getString(R.string.invalidTime), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +108,7 @@ public class EventsFragment extends Fragment {
                             public void onCameraItemClick(String cameraName) {
                                 // Display the date and time picker dialog
                                 DateTimePickerDialogFragment dateTimePickerDialogFragment = new DateTimePickerDialogFragment();
+                                dateTimePickerDialogFragment.setTargetFragment(EventsFragment.this, REQUEST_CODE_DATE_TIME_PICKER);
                                 dateTimePickerDialogFragment.show(getFragmentManager(), "DateTimePicker");
                             }
                         });
