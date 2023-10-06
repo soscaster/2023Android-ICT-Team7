@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.List;
 public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder> {
     private List<String> cameraNames;
     private OnCameraItemClickListener listener;
+    private FragmentManager fragmentManager;
 
-    public CameraAdapter(List<String> cameraNames) {
+    public CameraAdapter(List<String> cameraNames, FragmentManager fragmentManager) {
         this.cameraNames = cameraNames;
+        this.fragmentManager = fragmentManager;
     }
 
     public interface OnCameraItemClickListener {
@@ -40,6 +43,19 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
         String cameraName = cameraNames.get(position);
         holder.textCameraName.setText(cameraName);
         holder.underlineImageView.setVisibility(View.VISIBLE);
+        // Set an item click listener for the text view
+        holder.textCameraName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int adapterPosition = holder.getAdapterPosition();
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        String cameraName = cameraNames.get(adapterPosition);
+                        listener.onCameraItemClick(cameraName);
+                    }
+                }
+            }
+        });
     }
 
     @Override

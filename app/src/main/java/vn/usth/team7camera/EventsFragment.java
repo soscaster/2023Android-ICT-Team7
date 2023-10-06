@@ -78,17 +78,16 @@ public class EventsFragment extends Fragment {
                             cameraNamesList.add(cameraName);
                         }
 
-                        cameraAdapter = new CameraAdapter(cameraNamesList);
+                        cameraAdapter = new CameraAdapter(cameraNamesList, getChildFragmentManager());
                         recyclerView.setAdapter(cameraAdapter);
 
                         // Set item click listener for the RecyclerView
                         cameraAdapter.setOnCameraItemClickListener(new CameraAdapter.OnCameraItemClickListener() {
                             @Override
                             public void onCameraItemClick(String cameraName) {
-                                // Handle camera item click here
-                                // Example: Show events related to the selected camera
-                                // You can call a method to load events based on the selected camera
-                                // loadEventsForCamera(cameraName);
+                                // Display the date and time picker dialog
+                                DateTimePickerDialogFragment dateTimePickerDialogFragment = new DateTimePickerDialogFragment();
+                                dateTimePickerDialogFragment.show(getFragmentManager(), "DateTimePicker");
                             }
                         });
                     }

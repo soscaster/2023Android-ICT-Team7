@@ -13,8 +13,7 @@
         android:textSize="18sp"
         android:clickable="true"
         android:focusable="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:onClick="onCameraItemClick" />
+        android:background="?android:attr/selectableItemBackground" />
     <ImageView
         android:id="@+id/underlineImageView"
         android:layout_width="match_parent"
