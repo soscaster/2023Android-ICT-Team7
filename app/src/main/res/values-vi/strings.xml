@@ -121,5 +121,7 @@
     <string name="cloudSnapBrowse">Duyệt Ảnh chụp trên Đám mây</string>
     <string name="guide_per">Xin hãy cấp phép các quyền truy cập sau đây\nđể có trải nghiệm tốt nhất:\n\n- Internet\n- Đọc/Ghi dữ liệu vào bộ nhớ\n\nPhần mềm vẫn đang trong giai đoạn phát triển,\nvậy nên có thể sẽ có bug trong quá trình sử dụng.\nXin hãy báo cáo cho chúng tôi\nbằng cách bấm \'Báo cáo Bug\' trong trang Cài đặt.</string>
     <string name="guide_names">Đội ngũ phát triển DMVM:\n\n\nTrưởng nhóm: Nguyễn Quang Minh\n\nNghiên cứu: Đặng Vũ Minh - Nguyễn Nhật Minh\n\nThiết kế: Nguyễn Vũ Bách - Ngô Thế Long\n\nKiểm thử và Ý kiến: Trịnh Tiến Minh\n\nLập trình: Đội ngũ DMVM\n\n\nMọi thông tin chi tiết, xin liên hệ:\nmain@quangminh.name.vn</string>
+    <string name="bug_report">Báo cáo Bug</string>
+    <string name="bug_hint">Gặp bug? Báo cho chúng tôi ngay!</string>
 
 </resources>

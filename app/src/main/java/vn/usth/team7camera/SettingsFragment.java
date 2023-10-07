@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -83,6 +84,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     // Handle the "About" preference click event here
                     // For example, show an About dialog
                     showAboutDialog();
+                    return true;
+                }
+            });
+        }
+
+        // Find and handle the "About" preference
+        Preference bugPreference = findPreference("pref_bug");
+        if (bugPreference != null) {
+            bugPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent urlOpen = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/soscaster/2023Android-ICT-Team7/issues/new"));
+                    startActivity(urlOpen);
                     return true;
                 }
             });

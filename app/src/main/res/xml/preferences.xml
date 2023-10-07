@@ -48,6 +48,10 @@
             android:key="pref_about"
             android:title="@string/about"
             android:summary="@string/about_summary" />
+        <Preference
+            android:key="pref_bug"
+            android:title="@string/bug_report"
+            android:summary="@string/bug_hint" />
     </PreferenceCategory>
 
 </PreferenceScreen>
