@@ -122,7 +122,7 @@
     <string name="invalidTime">Please set an event before current time</string>
     <string name="cloudSnapBrowse">Browse Cloud Snapshots</string>
     <string name="guide_per">Please allow the following permissions for the best experience:\n\n- Internet\n- Read/Write to External Drive\n\nThe app is still in development stage,\nso you may catch some bugs.\nKindly report it for us by using \'Bug Report\'\nin the Settings tab.</string>
-    <string name="guide_names">DMVM Developer Team:\n\n\nLeader: Nguyen Quang Minh\n\nResearch: Dang Vu Minh - Nguyen Nhat Minh\n\nDesign: Nguyen Vu Bach - Ngo The Long\n\nTest \'n Recommend: Trinh Tien Minh\n\nCode: DMVM Coders\n\n\nFor more information, please contact:\nmain@quangminh.name.vn</string>
+    <string name="guide_names">DMVM Developer Team:\n\n\nLeader: Nguyen Quang Minh\n\nResearch: Dang Vu Minh - Nguyen Nhat Minh\n\nDesign: Nguyen Vu Bach - Ngo The Long\n\nTest \'n Recommend: Trinh Tien Minh\n\nCode: DMVM Coders</string>
     <string name="bug_report">Bug Report</string>
     <string name="bug_hint">Experienced bug? Report for us!</string>
 </resources>
